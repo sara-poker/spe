@@ -1,0 +1,1290 @@
+[
+  {
+    "name": "Afghanistan",
+    "persian_name": "افغانستان",
+    "country_id": "AF",
+    "continent": "asia",
+    "population": 33397058
+  },
+  {
+    "name": "Albania",
+    "persian_name": "آلبانی",
+    "country_id": "AL",
+    "continent": "europe",
+    "population": 3227373
+  },
+  {
+    "name": "Algeria",
+    "persian_name": "الجزایر",
+    "country_id": "DZ",
+    "continent": "africa",
+    "population": 36485828
+  },
+  {
+    "name": "Angola",
+    "persian_name": "آنگولا",
+    "country_id": "AO",
+    "continent": "africa",
+    "population": 20162517
+  },
+  {
+    "name": "Argentina",
+    "persian_name": "آرژانتین",
+    "country_id": "AR",
+    "continent": "south_america",
+    "population": 41118986
+  },
+  {
+    "name": "Armenia",
+    "persian_name": "ارمنستان",
+    "country_id": "AM",
+    "continent": "europe",
+    "population": 3108972
+  },
+  {
+    "name": "Australia",
+    "persian_name": "استرالیا",
+    "country_id": "AU",
+    "continent": "australia",
+    "population": 22918688
+  },
+  {
+    "name": "Austria",
+    "persian_name": "اتریش",
+    "country_id": "AT",
+    "continent": "europe",
+    "population": 8428915
+  },
+  {
+    "name": "Azerbaijan",
+    "persian_name": "آذربایجان",
+    "country_id": "AZ",
+    "continent": "europe",
+    "population": 9421233
+  },
+  {
+    "name": "Bahrain",
+    "persian_name": "بحرین",
+    "country_id": "BH",
+    "continent": "asia",
+    "population": 1359485
+  },
+  {
+    "name": "Bangladesh",
+    "persian_name": "بنگلادش",
+    "country_id": "BD",
+    "continent": "asia",
+    "population": 152408774
+  },
+  {
+    "name": "Belarus",
+    "persian_name": "بلاروس",
+    "country_id": "BY",
+    "continent": "europe",
+    "population": 9527498
+  },
+  {
+    "name": "Belgium",
+    "persian_name": "بلژیک",
+    "country_id": "BE",
+    "continent": "europe",
+    "population": 10787788
+  },
+  {
+    "name": "Benin",
+    "persian_name": "بنین",
+    "country_id": "BJ",
+    "continent": "africa",
+    "population": 9351838
+  },
+  {
+    "name": "Bhutan",
+    "persian_name": "بوتان",
+    "country_id": "BT",
+    "continent": "asia",
+    "population": 750443
+  },
+  {
+    "name": "Bolivia",
+    "persian_name": "بولیوی",
+    "country_id": "BO",
+    "continent": "south_america",
+    "population": 10248042
+  },
+  {
+    "name": "Bosnia and Herzegovina",
+    "persian_name": "بوسنی و هرزگوین",
+    "country_id": "BA",
+    "continent": "europe",
+    "population": 3744235
+  },
+  {
+    "name": "Botswana",
+    "persian_name": "بوتسوانا",
+    "country_id": "BW",
+    "continent": "africa",
+    "population": 2053237
+  },
+  {
+    "name": "Brazil",
+    "persian_name": "برزیل",
+    "country_id": "BR",
+    "continent": "south_america",
+    "population": 198360943
+  },
+  {
+    "name": "Brunei",
+    "persian_name": "برونئی",
+    "country_id": "BN",
+    "continent": "asia",
+    "population": 412892
+  },
+  {
+    "name": "Bulgaria",
+    "persian_name": "بلغارستان",
+    "country_id": "BG",
+    "continent": "europe",
+    "population": 7397873
+  },
+  {
+    "name": "Burkina Faso",
+    "persian_name": "بورکینافاسو",
+    "country_id": "BF",
+    "continent": "africa",
+    "population": 17481984
+  },
+  {
+    "name": "Burundi",
+    "persian_name": "بوروندی",
+    "country_id": "BI",
+    "continent": "africa",
+    "population": 8749387
+  },
+  {
+    "name": "Cambodia",
+    "persian_name": "کامبوج",
+    "country_id": "KH",
+    "continent": "asia",
+    "population": 14478320
+  },
+  {
+    "name": "Cameroon",
+    "persian_name": "کامرون",
+    "country_id": "CM",
+    "continent": "africa",
+    "population": 20468943
+  },
+  {
+    "name": "Canada",
+    "persian_name": "کانادا",
+    "country_id": "CA",
+    "continent": "north_america",
+    "population": 34483975
+  },
+  {
+    "name": "Central African Republic",
+    "persian_name": "جمهوری آفریقای مرکزی",
+    "country_id": "CF",
+    "continent": "africa",
+    "population": 4486837
+  },
+  {
+    "name": "Chad",
+    "persian_name": "چاد",
+    "country_id": "TD",
+    "continent": "africa",
+    "population": 11525496
+  },
+  {
+    "name": "Chile",
+    "persian_name": "شیلی",
+    "country_id": "CL",
+    "continent": "south_america",
+    "population": 17269525
+  },
+  {
+    "name": "China",
+    "persian_name": "چین",
+    "country_id": "CN",
+    "continent": "asia",
+    "population": 1347565324
+  },
+  {
+    "name": "Colombia",
+    "persian_name": "کلمبیا",
+    "country_id": "CO",
+    "continent": "south_america",
+    "population": 46927125
+  },
+  {
+    "name": "Congo",
+    "persian_name": "کنگو",
+    "country_id": "CG",
+    "continent": "africa",
+    "population": 4139748
+  },
+  {
+    "name": "Congo, Dem. Rep.",
+    "persian_name": "جمهوری دموکراتیک کنگو",
+    "country_id": "CD",
+    "continent": "africa",
+    "population": 67757577
+  },
+  {
+    "name": "Costa Rica",
+    "persian_name": "کاستاریکا",
+    "country_id": "CR",
+    "continent": "north_america",
+    "population": 4726575
+  },
+  {
+    "name": "Croatia",
+    "persian_name": "کرواسی",
+    "country_id": "HR",
+    "continent": "europe",
+    "population": 4395560
+  },
+  {
+    "name": "Cuba",
+    "persian_name": "کوبا",
+    "country_id": "CU",
+    "continent": "north_america",
+    "population": 11253665
+  },
+  {
+    "name": "Cyprus",
+    "persian_name": "قبرس",
+    "country_id": "CY",
+    "continent": "europe",
+    "population": 1116564
+  },
+  {
+    "name": "Czech Republic",
+    "persian_name": "جمهوری چک",
+    "country_id": "CZ",
+    "continent": "europe",
+    "population": 10534293
+  },
+  {
+    "name": "Denmark",
+    "persian_name": "دانمارک",
+    "country_id": "DK",
+    "continent": "europe",
+    "population": 5570572
+  },
+  {
+    "name": "Djibouti",
+    "persian_name": "جیبوتی",
+    "country_id": "DJ",
+    "continent": "africa",
+    "population": 905564
+  },
+  {
+    "name": "Dominican Republic",
+    "persian_name": "جمهوری دومینیکن",
+    "country_id": "DO",
+    "continent": "north_america",
+    "population": 10183339
+  },
+  {
+    "name": "Ecuador",
+    "persian_name": "اکوادور",
+    "country_id": "EC",
+    "continent": "south_america",
+    "population": 14666055
+  },
+  {
+    "name": "Egypt",
+    "persian_name": "مصر",
+    "country_id": "EG",
+    "continent": "africa",
+    "population": 82536770
+  },
+  {
+    "name": "El Salvador",
+    "persian_name": "السالوادور",
+    "country_id": "SV",
+    "continent": "north_america",
+    "population": 6270775
+  },
+  {
+    "name": "Equatorial Guinea",
+    "persian_name": "گینه استوایی",
+    "country_id": "GQ",
+    "continent": "africa",
+    "population": 720213
+  },
+  {
+    "name": "Eritrea",
+    "persian_name": "اریتره",
+    "country_id": "ER",
+    "continent": "africa",
+    "population": 5415280
+  },
+  {
+    "name": "Estonia",
+    "persian_name": "استونی",
+    "country_id": "EE",
+    "continent": "europe",
+    "population": 1340537
+  },
+  {
+    "name": "Ethiopia",
+    "persian_name": "اتیوپی",
+    "country_id": "ET",
+    "continent": "africa",
+    "population": 84734262
+  },
+  {
+    "name": "Fiji",
+    "persian_name": "فیجی",
+    "country_id": "FJ",
+    "continent": "australia",
+    "population": 868406
+  },
+  {
+    "name": "Finland",
+    "persian_name": "فنلاند",
+    "country_id": "FI",
+    "continent": "europe",
+    "population": 5388272
+  },
+  {
+    "name": "France",
+    "persian_name": "فرانسه",
+    "country_id": "FR",
+    "continent": "europe",
+    "population": 63125894
+  },
+  {
+    "name": "Gabon",
+    "persian_name": "گابن",
+    "country_id": "GA",
+    "continent": "africa",
+    "population": 1563873
+  },
+  {
+    "name": "Gambia",
+    "persian_name": "گامبیا",
+    "country_id": "GM",
+    "continent": "africa",
+    "population": 1824777
+  },
+  {
+    "name": "Georgia",
+    "persian_name": "گرجستان",
+    "country_id": "GE",
+    "continent": "europe",
+    "population": 4304363
+  },
+  {
+    "name": "Germany",
+    "persian_name": "آلمان",
+    "country_id": "DE",
+    "continent": "europe",
+    "population": 81990837
+  },
+  {
+    "name": "Ghana",
+    "persian_name": "غنا",
+    "country_id": "GH",
+    "continent": "africa",
+    "population": 25545939
+  },
+  {
+    "name": "Greece",
+    "persian_name": "یونان",
+    "country_id": "GR",
+    "continent": "europe",
+    "population": 11418878
+  },
+  {
+    "name": "Guatemala",
+    "persian_name": "گواتمالا",
+    "country_id": "GT",
+    "continent": "north_america",
+    "population": 15137569
+  },
+  {
+    "name": "Guinea",
+    "persian_name": "گینه",
+    "country_id": "GN",
+    "continent": "africa",
+    "population": 10480710
+  },
+  {
+    "name": "Guinea-Bissau",
+    "persian_name": "گینه بیسائو",
+    "country_id": "GW",
+    "continent": "africa",
+    "population": 1579632
+  },
+  {
+    "name": "Guyana",
+    "persian_name": "گویان",
+    "country_id": "GY",
+    "continent": "south_america",
+    "population": 757623
+  },
+  {
+    "name": "Haiti",
+    "persian_name": "هائیتی",
+    "country_id": "HT",
+    "continent": "north_america",
+    "population": 10255644
+  },
+  {
+    "name": "Honduras",
+    "persian_name": "هندوراس",
+    "country_id": "HN",
+    "continent": "north_america",
+    "population": 7912032
+  },
+  {
+    "name": "Hong Kong, China",
+    "persian_name": "هنگ کنگ، چین",
+    "country_id": "HK",
+    "continent": "asia",
+    "population": 7196450
+  },
+  {
+    "name": "Hungary",
+    "persian_name": "مجارستان",
+    "country_id": "HU",
+    "continent": "europe",
+    "population": 9949589
+  },
+  {
+    "name": "Iceland",
+    "persian_name": "ایسلند",
+    "country_id": "IS",
+    "continent": "europe",
+    "population": 328290
+  },
+  {
+    "name": "India",
+    "persian_name": "هند",
+    "country_id": "IN",
+    "continent": "asia",
+    "population": 1258350971
+  },
+  {
+    "name": "Indonesia",
+    "persian_name": "اندونزی",
+    "country_id": "ID",
+    "continent": "asia",
+    "population": 244769110
+  },
+  {
+    "name": "Iran",
+    "persian_name": "ایران",
+    "country_id": "IR",
+    "continent": "asia",
+    "population": 75611798
+  },
+  {
+    "name": "Iraq",
+    "persian_name": "عراق",
+    "country_id": "IQ",
+    "continent": "asia",
+    "population": 33703068
+  },
+  {
+    "name": "Ireland",
+    "persian_name": "ایرلند",
+    "country_id": "IE",
+    "continent": "europe",
+    "population": 4579498
+  },
+  {
+    "name": "Israel",
+    "persian_name": "رژیم صهیونیستی",
+    "country_id": "IL",
+    "continent": "asia",
+    "population": 7694670
+  },
+  {
+    "name": "Italy",
+    "persian_name": "ایتالیا",
+    "country_id": "IT",
+    "continent": "europe",
+    "population": 60964145
+  },
+  {
+    "name": "Jamaica",
+    "persian_name": "جامائیکا",
+    "country_id": "JM",
+    "continent": "north_america",
+    "population": 2761331
+  },
+  {
+    "name": "Japan",
+    "persian_name": "ژاپن",
+    "country_id": "JP",
+    "continent": "asia",
+    "population": 126434653
+  },
+  {
+    "name": "Jordan",
+    "persian_name": "اردن",
+    "country_id": "JO",
+    "continent": "asia",
+    "population": 6457260
+  },
+  {
+    "name": "Kazakhstan",
+    "persian_name": "قزاقستان",
+    "country_id": "KZ",
+    "continent": "asia",
+    "population": 16381297
+  },
+  {
+    "name": "Kenya",
+    "persian_name": "کنیا",
+    "country_id": "KE",
+    "continent": "africa",
+    "population": 42749418
+  },
+  {
+    "name": "Korea, Dem. Rep.",
+    "persian_name": "کره شمالی",
+    "country_id": "KP",
+    "continent": "asia",
+    "population": 24553672
+  },
+  {
+    "name": "Korea, Rep.",
+    "persian_name": "کره جنوبی",
+    "country_id": "KR",
+    "continent": "asia",
+    "population": 48588326
+  },
+  {
+    "name": "Kuwait",
+    "persian_name": "کویت",
+    "country_id": "KW",
+    "continent": "asia",
+    "population": 2891553
+  },
+  {
+    "name": "Kyrgyzstan",
+    "persian_name": "قرقیزستان",
+    "country_id": "KG",
+    "continent": "asia",
+    "population": 5448085
+  },
+  {
+    "name": "Laos",
+    "persian_name": "لائوس",
+    "country_id": "LA",
+    "continent": "asia",
+    "population": 6373934
+  },
+  {
+    "name": "Latvia",
+    "persian_name": "لتونی",
+    "country_id": "LV",
+    "continent": "europe",
+    "population": 2234572
+  },
+  {
+    "name": "Lebanon",
+    "persian_name": "لبنان",
+    "country_id": "LB",
+    "continent": "asia",
+    "population": 4291719
+  },
+  {
+    "name": "Lesotho",
+    "persian_name": "لسوتو",
+    "country_id": "LS",
+    "continent": "africa",
+    "population": 2216850
+  },
+  {
+    "name": "Liberia",
+    "persian_name": "لیبریا",
+    "country_id": "LR",
+    "continent": "africa",
+    "population": 4244684
+  },
+  {
+    "name": "Libya",
+    "persian_name": "لیبی",
+    "country_id": "LY",
+    "continent": "africa",
+    "population": 6469497
+  },
+  {
+    "name": "Lithuania",
+    "persian_name": "لیتوانی",
+    "country_id": "LT",
+    "continent": "europe",
+    "population": 3292454
+  },
+  {
+    "name": "Macedonia, FYR",
+    "persian_name": "مقدونیه، جمهوری سابق یوگسلاو",
+    "country_id": "MK",
+    "continent": "europe",
+    "population": 2066785
+  },
+  {
+    "name": "Madagascar",
+    "persian_name": "ماداگاسکار",
+    "country_id": "MG",
+    "continent": "africa",
+    "population": 21928518
+  },
+  {
+    "name": "Malawi",
+    "persian_name": "مالاوی",
+    "country_id": "MW",
+    "continent": "africa",
+    "population": 15882815
+  },
+  {
+    "name": "Malaysia",
+    "persian_name": "مالزی",
+    "country_id": "MY",
+    "continent": "asia",
+    "population": 29321798
+  },
+  {
+    "name": "Mali",
+    "persian_name": "مالی",
+    "country_id": "ML",
+    "continent": "africa",
+    "population": 16318897
+  },
+  {
+    "name": "Mauritania",
+    "persian_name": "موریتانی",
+    "country_id": "MR",
+    "continent": "africa",
+    "population": 3622961
+  },
+  {
+    "name": "Mauritius",
+    "persian_name": "موریتیوس",
+    "country_id": "MU",
+    "continent": "africa",
+    "population": 1313803
+  },
+  {
+    "name": "Mexico",
+    "persian_name": "مکزیک",
+    "country_id": "MX",
+    "continent": "north_america",
+    "population": 116146768
+  },
+  {
+    "name": "Moldova",
+    "persian_name": "مولداوی",
+    "country_id": "MD",
+    "continent": "europe",
+    "population": 3519266
+  },
+  {
+    "name": "Mongolia",
+    "persian_name": "مغولستان",
+    "country_id": "MN",
+    "continent": "asia",
+    "population": 2844081
+  },
+  {
+    "name": "Montenegro",
+    "persian_name": "مونته\u200Cنگرو",
+    "country_id": "ME",
+    "continent": "europe",
+    "population": 632796
+  },
+  {
+    "name": "Morocco",
+    "persian_name": "مراکش",
+    "country_id": "MA",
+    "continent": "africa",
+    "population": 32598536
+  },
+  {
+    "name": "Mozambique",
+    "persian_name": "موزامبیک",
+    "country_id": "MZ",
+    "continent": "africa",
+    "population": 24475186
+  },
+  {
+    "name": "Myanmar",
+    "persian_name": "میانمار",
+    "country_id": "MM",
+    "continent": "asia",
+    "population": 48724387
+  },
+  {
+    "name": "Namibia",
+    "persian_name": "نامیبیا",
+    "country_id": "NA",
+    "continent": "africa",
+    "population": 2364433
+  },
+  {
+    "name": "Nepal",
+    "persian_name": "نپال",
+    "country_id": "NP",
+    "continent": "asia",
+    "population": 31011137
+  },
+  {
+    "name": "Netherlands",
+    "persian_name": "هلند",
+    "country_id": "NL",
+    "continent": "europe",
+    "population": 16714228
+  },
+  {
+    "name": "New Zealand",
+    "persian_name": "نیوزیلند",
+    "country_id": "NZ",
+    "continent": "australia",
+    "population": 4461257
+  },
+  {
+    "name": "Nicaragua",
+    "persian_name": "نیکاراگوئه",
+    "country_id": "NI",
+    "continent": "north_america",
+    "population": 5954898
+  },
+  {
+    "name": "Niger",
+    "persian_name": "نیجر",
+    "country_id": "NE",
+    "continent": "africa",
+    "population": 16644339
+  },
+  {
+    "name": "Nigeria",
+    "persian_name": "نیجریه",
+    "country_id": "NG",
+    "continent": "africa",
+    "population": 166629383
+  },
+  {
+    "name": "Norway",
+    "persian_name": "نروژ",
+    "country_id": "NO",
+    "continent": "europe",
+    "population": 4960482
+  },
+  {
+    "name": "Oman",
+    "persian_name": "عمان",
+    "country_id": "OM",
+    "continent": "asia",
+    "population": 2904037
+  },
+  {
+    "name": "Pakistan",
+    "persian_name": "پاکستان",
+    "country_id": "PK",
+    "continent": "asia",
+    "population": 179951140
+  },
+  {
+    "name": "Panama",
+    "persian_name": "پاناما",
+    "country_id": "PA",
+    "continent": "north_america",
+    "population": 3624991
+  },
+  {
+    "name": "Papua New Guinea",
+    "persian_name": "پاپوآ گینه نو",
+    "country_id": "PG",
+    "continent": "australia",
+    "population": 7170112
+  },
+  {
+    "name": "Paraguay",
+    "persian_name": "پاراگوئه",
+    "country_id": "PY",
+    "continent": "south_america",
+    "population": 6682943
+  },
+  {
+    "name": "Peru",
+    "persian_name": "پرو",
+    "country_id": "PE",
+    "continent": "south_america",
+    "population": 29733829
+  },
+  {
+    "name": "Philippines",
+    "persian_name": "فیلیپین",
+    "country_id": "PH",
+    "continent": "asia",
+    "population": 96471461
+  },
+  {
+    "name": "Poland",
+    "persian_name": "لهستان",
+    "country_id": "PL",
+    "continent": "europe",
+    "population": 38317090
+  },
+  {
+    "name": "Portugal",
+    "persian_name": "پرتغال",
+    "country_id": "PT",
+    "continent": "europe",
+    "population": 10699333
+  },
+  {
+    "name": "Romania",
+    "persian_name": "رومانی",
+    "country_id": "RO",
+    "continent": "europe",
+    "population": 21387517
+  },
+  {
+    "name": "Russia",
+    "persian_name": "روسیه",
+    "country_id": "RU",
+    "continent": "europe",
+    "population": 142703181
+  },
+  {
+    "name": "Rwanda",
+    "persian_name": "رواندا",
+    "country_id": "RW",
+    "continent": "africa",
+    "population": 11271786
+  },
+  {
+    "name": "Saudi Arabia",
+    "persian_name": "عربستان سعودی",
+    "country_id": "SA",
+    "continent": "asia",
+    "population": 28705133
+  },
+  {
+    "name": "Senegal",
+    "persian_name": "سنگال",
+    "country_id": "SN",
+    "continent": "africa",
+    "population": 13107945
+  },
+  {
+    "name": "Serbia",
+    "persian_name": "صربستان",
+    "country_id": "RS",
+    "continent": "europe",
+    "population": 9846582
+  },
+  {
+    "name": "Sierra Leone",
+    "persian_name": "سیرالئون",
+    "country_id": "SL",
+    "continent": "africa",
+    "population": 6126450
+  },
+  {
+    "name": "Singapore",
+    "persian_name": "سنگاپور",
+    "country_id": "SG",
+    "continent": "asia",
+    "population": 5256278
+  },
+  {
+    "name": "Slovak Republic",
+    "persian_name": "اسلواکی",
+    "country_id": "SK",
+    "continent": "europe",
+    "population": 5480332
+  },
+  {
+    "name": "Slovenia",
+    "persian_name": "اسلوونی",
+    "country_id": "SI",
+    "continent": "europe",
+    "population": 2040057
+  },
+  {
+    "name": "Solomon Islands",
+    "persian_name": "جزایر سلیمان",
+    "country_id": "SB",
+    "continent": "australia",
+    "population": 566481
+  },
+  {
+    "name": "Somalia",
+    "persian_name": "سومالی",
+    "country_id": "SO",
+    "continent": "africa",
+    "population": 9797445
+  },
+  {
+    "name": "South Africa",
+    "persian_name": "آفریقای جنوبی",
+    "country_id": "ZA",
+    "continent": "africa",
+    "population": 50738255
+  },
+  {
+    "name": "South Sudan",
+    "persian_name": "سودان جنوبی",
+    "country_id": "SS",
+    "continent": "africa",
+    "population": 10386101
+  },
+  {
+    "name": "Spain",
+    "persian_name": "اسپانیا",
+    "country_id": "ES",
+    "continent": "europe",
+    "population": 46771596
+  },
+  {
+    "name": "Sri Lanka",
+    "persian_name": "سریلانکا",
+    "country_id": "LK",
+    "continent": "asia",
+    "population": 21223550
+  },
+  {
+    "name": "Sudan",
+    "persian_name": "سودان",
+    "country_id": "SD",
+    "continent": "africa",
+    "population": 35335982
+  },
+  {
+    "name": "Suriname",
+    "persian_name": "سورینام",
+    "country_id": "SR",
+    "continent": "south_america",
+    "population": 534175
+  },
+  {
+    "name": "Swaziland",
+    "persian_name": "سوازیلند",
+    "country_id": "SZ",
+    "continent": "africa",
+    "population": 1220408
+  },
+  {
+    "name": "Sweden",
+    "persian_name": "سوئد",
+    "country_id": "SE",
+    "continent": "europe",
+    "population": 9495392
+  },
+  {
+    "name": "Switzerland",
+    "persian_name": "سوئیس",
+    "country_id": "CH",
+    "continent": "europe",
+    "population": 7733709
+  },
+  {
+    "name": "Syria",
+    "persian_name": "سوریه",
+    "country_id": "SY",
+    "continent": "asia",
+    "population": 21117690
+  },
+  {
+    "name": "Taiwan",
+    "persian_name": "تایوان",
+    "country_id": "TW",
+    "continent": "asia",
+    "population": 23114000
+  },
+  {
+    "name": "Tajikistan",
+    "persian_name": "تاجیکستان",
+    "country_id": "TJ",
+    "continent": "asia",
+    "population": 7078755
+  },
+  {
+    "name": "Tanzania",
+    "persian_name": "تانزانیا",
+    "country_id": "TZ",
+    "continent": "africa",
+    "population": 47656367
+  },
+  {
+    "name": "Thailand",
+    "persian_name": "تایلند",
+    "country_id": "TH",
+    "continent": "asia",
+    "population": 69892142
+  },
+  {
+    "name": "Timor-Leste",
+    "persian_name": "تیمور شرقی",
+    "country_id": "TL",
+    "continent": "asia",
+    "population": 1187194
+  },
+  {
+    "name": "Togo",
+    "persian_name": "توگو",
+    "country_id": "TG",
+    "continent": "africa",
+    "population": 6283092
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "persian_name": "ترینیداد و توباگو",
+    "country_id": "TT",
+    "continent": "north_america",
+    "population": 1350999
+  },
+  {
+    "name": "Tunisia",
+    "persian_name": "تونس",
+    "country_id": "TN",
+    "continent": "africa",
+    "population": 10704948
+  },
+  {
+    "name": "Türkiye",
+    "persian_name": "ترکیه",
+    "country_id": "TR",
+    "continent": "europe",
+    "population": 74508771
+  },
+  {
+    "name": "Turkmenistan",
+    "persian_name": "ترکمنستان",
+    "country_id": "TM",
+    "continent": "asia",
+    "population": 5169660
+  },
+  {
+    "name": "Uganda",
+    "persian_name": "اوگاندا",
+    "country_id": "UG",
+    "continent": "africa",
+    "population": 35620977
+  },
+  {
+    "name": "Ukraine",
+    "persian_name": "اوکراین",
+    "country_id": "UA",
+    "continent": "europe",
+    "population": 44940268
+  },
+  {
+    "name": "United Arab Emirates",
+    "persian_name": "امارات متحده عربی",
+    "country_id": "AE",
+    "continent": "asia",
+    "population": 8105873
+  },
+  {
+    "name": "United Kingdom",
+    "persian_name": "انگلیس",
+    "country_id": "GB",
+    "continent": "europe",
+    "population": 62798099
+  },
+  {
+    "name": "United States",
+    "persian_name": "ایالات متحده",
+    "country_id": "US",
+    "continent": "north_america",
+    "population": 315791284
+  },
+  {
+    "name": "Uruguay",
+    "persian_name": "اروگوئه",
+    "country_id": "UY",
+    "continent": "south_america",
+    "population": 3391428
+  },
+  {
+    "name": "Uzbekistan",
+    "persian_name": "ازبکستان",
+    "country_id": "UZ",
+    "continent": "asia",
+    "population": 28077486
+  },
+  {
+    "name": "Venezuela",
+    "persian_name": "ونزوئلا",
+    "country_id": "VE",
+    "continent": "south_america",
+    "population": 29890694
+  },
+  {
+    "name": "West Bank and Gaza",
+    "persian_name": "فلسطین",
+    "country_id": "PS",
+    "continent": "asia",
+    "population": 4270791
+  },
+  {
+    "name": "Vietnam",
+    "persian_name": "ویتنام",
+    "country_id": "VN",
+    "continent": "asia",
+    "population": 89730274
+  },
+  {
+    "name": "Yemen, Rep.",
+    "persian_name": "یمن",
+    "country_id": "YE",
+    "continent": "asia",
+    "population": 25569263
+  },
+  {
+    "name": "Zambia",
+    "persian_name": "زامبیا",
+    "country_id": "ZM",
+    "continent": "africa",
+    "population": 13883577
+  },
+  {
+    "name": "Zimbabwe",
+    "persian_name": "زیمبابوه",
+    "country_id": "ZW",
+    "continent": "africa",
+    "population": 13013678
+  },
+  {
+    "name": "Hong Kong",
+    "persian_name": "هنگ کنگ",
+    "country_id": "HK",
+    "continent": "asia",
+    "population": 7482500
+  },
+  {
+    "name": "Singapur",
+    "persian_name": "سنگاپور",
+    "country_id": "SG",
+    "continent": "asia",
+    "population": 5900000
+  },
+  {
+    "name": "Andorra",
+    "persian_name": "آندورا",
+    "country_id": "AD",
+    "continent": "europe",
+    "population": 79000
+  },
+  {
+    "name": "Isle of Man",
+    "persian_name": "جزیره من",
+    "country_id": "IM",
+    "continent": "europe",
+    "population": 85000
+  },
+  {
+    "name": "Belize",
+    "persian_name": "بلیز",
+    "country_id": "BZ",
+    "continent": "north america",
+    "population": 441000
+  },
+  {
+    "name": "Luxembourg",
+    "persian_name": "لوکزامبورگ",
+    "country_id": "LU",
+    "continent": "europe",
+    "population": 660000
+  },
+  {
+    "name": "Greenland",
+    "persian_name": "گرینلند",
+    "country_id": "GL",
+    "continent": "north america",
+    "population": 56000
+  },
+  {
+    "name": "British Virgin Islands",
+    "persian_name": "جزایر ویرجین بریتانیا",
+    "country_id": "VG",
+    "continent": "north america",
+    "population": 31000
+  },
+  {
+    "name": "Monaco",
+    "persian_name": "موناکو",
+    "country_id": "MC",
+    "continent": "europe",
+    "population": 39000
+  },
+  {
+    "name": "Turkey",
+    "persian_name": "ترکیه",
+    "country_id": "TR",
+    "continent": "asia",
+    "population": 85300000
+  },
+  {
+    "name": "The Netherlands",
+    "persian_name": "هلند",
+    "country_id": "NL",
+    "continent": "europe",
+    "population": 17400000
+  },
+  {
+    "name": "South Korea",
+    "persian_name": "کره جنوبی",
+    "country_id": "KR",
+    "continent": "asia",
+    "population": 51600000
+  },
+  {
+    "name": "Slovakia",
+    "persian_name": "اسلواکی",
+    "country_id": "SK",
+    "continent": "europe",
+    "population": 5450000
+  },
+  {
+    "name": "Liechtenstein",
+    "persian_name": "لیختن اشتاین",
+    "country_id": "LI",
+    "continent": "europe",
+    "population": 39000
+  },
+  {
+    "name": "Mayotte",
+    "persian_name": "مایوت",
+    "country_id": "YT",
+    "continent": "africa",
+    "population": 310000
+  },
+  {
+    "name": "Puerto Rico",
+    "persian_name": "پورتوریکو",
+    "country_id": "PR",
+    "continent": "north america",
+    "population": 3200000
+  },
+  {
+    "name": "Seychelles",
+    "persian_name": "سیشل",
+    "country_id": "SC",
+    "continent": "africa",
+    "population": 99000
+  },
+  {
+    "name": "Czechia",
+    "persian_name": "جمهوری چک",
+    "country_id": "CZ",
+    "continent": "europe",
+    "population": 10700000
+  },
+  {
+    "name": "Bahamas",
+    "persian_name": "باهاما",
+    "country_id": "BS",
+    "continent": "north america",
+    "population": 400000
+  }
+]

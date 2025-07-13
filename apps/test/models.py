@@ -41,3 +41,15 @@ class Operator(models.Model):
     def __str__(self):
         return self.name
 
+class ServerTest(models.Model):
+    class Meta:
+        verbose_name = 'سرور تست'
+        verbose_name_plural = 'سرور های تست'
+
+    name = models.CharField(max_length=80, verbose_name='اسم')
+    url = models.URLField(max_length=200, verbose_name='آدرس وب‌سایت', blank=True, null=True)
+    isp = models.ForeignKey(Isp, verbose_name='ارائه دهنده خدمات',on_delete=models.PROTECT, blank=True, null=True)
+    country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
+
+    def __str__(self):
+        return self.name

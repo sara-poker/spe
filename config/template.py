@@ -37,7 +37,7 @@ TEMPLATE_CONFIG = {
 # Theme Variables
 # ? Personalize template by changing theme variables (For ex: Name, URL Version etc...)
 THEME_VARIABLES = {
-    "creator_name": "سدید",
+    "creator_name": "گروه سدید",
     "creator_url": "",
     "template_name": "نت کاو",
     "template_suffix": "",

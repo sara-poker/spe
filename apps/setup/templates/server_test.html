@@ -1,0 +1,161 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}سرور های تست{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/umd/styles/index.min.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+  <script src="{% static 'vendor/libs/moment/moment.js' %}"></script>
+  <script src="{% static 'libs/jdate/jdate.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/flatpickr/flatpickr.js' %}"></script>
+  <script src="{% static 'libs/flatpickr/flatpickr-jdate.js' %}"></script>
+  <script src="{% static 'libs/flatpickr-jalali/dist/l10n/fa.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/bundle/popular.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="{% static 'js/tables-datatables-basic.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+
+  <!-- DataTable direct html : by byteMaster at 2024-02-01 -->
+  <div class="card">
+    <h5 class="card-header">لیست سرور های تست</h5>
+    <div class="card-datatable table-responsive pt-0">
+      <table class="datatables-direct-basic table">
+        <thead>
+        <tr>
+          <th>پرچم</th>
+          <th>نام سرور</th>
+          <th>کشور</th>
+          <th>آیپی</th>
+          <th>ارائه دهنده</th>
+          <th>وضعیت</th>
+          <th>عملیات</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <img alt="User" class="" src="{% static 'img/flag/Germanypng.png' %}" width="32">
+          </td>
+          <td>سرور یک</td>
+                    <td>
+            آلمان
+          </td>
+          <td>
+            1.1.1.1
+          </td>
+          <td>
+            Hetzner
+          </td>
+          <td>
+            <span class="badge  bg-label-success">فعال</span>
+          </td>
+          <td>
+            <div class="d-inline-block">
+              <a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-bs-toggle="dropdown"><i
+                class="text-primary ti ti-trash-filled"></i></a>
+            </div>
+            <a href="javascript:;" class="btn btn-sm btn-icon item-edit"><i class="text-primary ti ti-pencil"></i></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img alt="User" class="" src="{% static 'img/flag/iran.png' %}" width="32">
+          </td>
+          <td>سرور دو</td>
+          <td>
+            ایران
+          </td>
+          <td>
+            1.1.1.1
+          </td>
+          <td>
+            ابر آروان
+          </td>
+          <td>
+            <span class="badge  bg-label-danger">غیر فعال</span>
+          </td>
+          <td>
+            <div class="d-inline-block">
+              <a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-bs-toggle="dropdown"><i
+                class="text-primary ti ti-trash-filled"></i></a>
+            </div>
+            <a href="javascript:;" class="btn btn-sm btn-icon item-edit"><i class="text-primary ti ti-pencil"></i></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img alt="User" class="" src="{% static 'img/flag/iran.png' %}" width="32">
+          </td>
+          <td>سرور سه</td>
+          <td>
+            ایران
+          </td>
+          <td>
+            1.1.1.1
+          </td>
+          <td>
+            هاستیران
+          </td>
+          <td>
+            <span class="badge  bg-label-success">فعال</span>
+          </td>
+          <td>
+            <div class="d-inline-block">
+              <a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-bs-toggle="dropdown"><i
+                class="text-primary ti ti-trash-filled"></i></a>
+            </div>
+            <a href="javascript:;" class="btn btn-sm btn-icon item-edit"><i class="text-primary ti ti-pencil"></i></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img alt="User" class="" src="{% static 'img/flag/United States.png' %}" width="32">
+          </td>
+          <td>سرور چهار</td>
+          <td>
+            ایالات متحده
+          </td>
+          <td>
+            1.1.1.1
+          </td>
+          <td>
+            OVH
+          </td>
+          <td>
+            <span class="badge  bg-label-success">فعال</span>
+          </td>
+          <td>
+            <div class="d-inline-block">
+              <a href="javascript:;" class="btn btn-sm btn-icon item-edit" data-bs-toggle="dropdown"><i
+                class="text-primary ti ti-trash-filled"></i></a>
+            </div>
+            <a href="javascript:;" class="btn btn-sm btn-icon item-edit"><i class="text-primary ti ti-pencil"></i></a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% endblock %}

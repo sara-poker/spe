@@ -16,10 +16,21 @@ menu_file = {
                     "slug": "dashboard-analytics"
                 }
             ]
+        },
+        {
+            "name": "تنظیمات",
+            "icon": "menu-icon tf-icons ti ti-settings",
+            "slug": "setting",
+            "submenu": [
+                {
+                    "url": "serverTest",
+                    "name": "سرور های تست",
+                    "slug": "server-test"
+                }
+            ]
         }
     ]
 }
-
 
 """
 This is an entry and Bootstrap class for the theme level.

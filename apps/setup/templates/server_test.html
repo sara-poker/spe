@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
   <link rel="stylesheet" href="{% static 'vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css' %}" />
   <link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/umd/styles/index.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
 {% endblock vendor_css %}
 
 {% block vendor_js %}
@@ -27,16 +29,73 @@
   <script src="{% static 'vendor/libs/@form-validation/umd/bundle/popular.min.js' %}"></script>
   <script src="{% static 'vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js' %}"></script>
   <script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js' %}"></script>
+
+  <script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+
+
 {% endblock vendor_js %}
 
 {% block page_js %}
   {{ block.super }}
   <script src="{% static 'js/tables-datatables-basic.js' %}"></script>
+  <script src="{% static 'js/form-layouts.js' %}"></script>
 {% endblock page_js %}
 
 {% block content %}
 
   <!-- DataTable direct html : by byteMaster at 2024-02-01 -->
+  <div class="card mb-4">
+    <h5 class="card-header">اضافه کردن سرور</h5>
+    <form class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="multicol-username">نام سرور</label>
+          <input class="form-control" id="multicol-username" placeholder="سرور یک" type="text" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="multicol-ip">آیپی</label>
+          <input class="form-control" id="multicol-ip" placeholder="192.168.1.1" type="text" />
+        </div>
+
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="select2Basic">کشور سرور:</label>
+          <select class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic"
+                  name="country_server">
+            <option label="انتخاب کشور" value="0">انتخاب کشور</option>
+            {% for item in country %}
+              <option label="{{ item.persian_name }}" value="{{ item.id }}">{{ item.persian_name }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="select2Basic2">ارائه دهنده خدمات سرور:</label>
+          <select class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"
+                  name="country_server">
+            <option label="انتخاب ارائه دهنده" value="0">انتخاب ارائه دهنده</option>
+            {% for item in isp %}
+              <option label="{{ item.name }}" value="{{ item.id }}">{{ item.name }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="form-check form-switch mb-2 ps-5">
+          <label class="form-check-label" for="flexSwitchCheckChecked">فعال بودن سرور</label>
+          <input checked name="is_active" class="form-check-input" id="flexSwitchCheckChecked" type="checkbox" />
+
+        </div>
+      </div>
+      <hr class="my-4 mx-n4" />
+      <button class="btn btn-primary me-sm-3 me-1" type="submit">ارسال</button>
+      <button class="btn btn-label-secondary" type="reset">لغو</button>
+    </form>
+  </div>
   <div class="card">
     <h5 class="card-header">لیست سرور های تست</h5>
     <div class="card-datatable table-responsive pt-0">
@@ -58,7 +117,7 @@
             <img alt="User" class="" src="{% static 'img/flag/Germanypng.png' %}" width="32">
           </td>
           <td>سرور یک</td>
-                    <td>
+          <td>
             آلمان
           </td>
           <td>

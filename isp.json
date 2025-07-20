@@ -27,5 +27,24 @@
     "name": "M247",
     "url": "https://www.m247.com",
     "cloud": true,
-    "country": "United Kingdom"  }
+    "country": "United Kingdom"
+  },
+  {
+    "name": "M247",
+    "url": "https://www.m247.com",
+    "cloud": true,
+    "country": "United Kingdom"
+  },
+  {
+    "name": "ابر آروان",
+    "url": "https://www.arvancloud.ir/",
+    "cloud": true,
+    "country": "Iran"
+  },
+  {
+    "name": "هاستیران",
+    "url": "https://hostiran.net/",
+    "cloud": false,
+    "country": "Iran"
+  }
 ]

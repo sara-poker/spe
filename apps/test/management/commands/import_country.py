@@ -7,7 +7,7 @@ from apps.setup.models import Country
 
 
 class Command(BaseCommand):
-    help = 'Your help message for this command'
+    help = 'ایمپورت  اطلاعات کشور ها به دیتابیس'
 
     def handle(self, *args, **options):
         json_file_path = BASE_DIR / 'countries.json'

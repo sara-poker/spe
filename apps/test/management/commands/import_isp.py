@@ -8,7 +8,7 @@ from apps.test.models import Isp
 
 
 class Command(BaseCommand):
-    help = 'Your help message for this command'
+    help = 'وارد کردن اطلاعات ISP ها به دیتابیس'
 
     def handle(self, *args, **options):
         json_file_path = BASE_DIR / 'isp.json'

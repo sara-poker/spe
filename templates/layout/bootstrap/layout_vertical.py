@@ -23,6 +23,11 @@ menu_file = {
             "slug": "setting",
             "submenu": [
                 {
+                    "url": "profile",
+                    "name": "پروفایل",
+                    "slug": "profile"
+                },
+                {
                     "url": "serverTest",
                     "name": "سرور های تست",
                     "slug": "server-test"

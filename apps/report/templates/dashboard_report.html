@@ -35,6 +35,13 @@
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+      perspective: 1000px;
     }
 
     h5 {
@@ -99,6 +106,102 @@
       right: 30px;
       border: 1.5px solid #1ab8cc;
       z-index: 5000;
+    }
+
+    .button-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .test-button {
+      width: 100%;
+      height: 100%;
+      background-color: #e0e0e0; /* نقره‌ای روشن */
+      border: none;
+      border-radius: 50%; /* کاملاً دایره‌ای */
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2),
+      0 4px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      outline: none;
+      transform-style: preserve-3d;
+    }
+
+    .button-text {
+      color: #333;
+      font-size: 1.5em;
+      font-weight: bold;
+      z-index: 2;
+      transition: color 0.2s ease-out;
+    }
+
+    .button-lines {
+      position: absolute;
+      width: 80%; /* اندازه SVG دایره داخلی نسبت به دکمه */
+      height: 80%;
+      top: 10%;
+      left: 10%;
+      z-index: 1;
+    }
+
+    .button-lines .inner-circle {
+      stroke: #aaa; /* رنگ پیش‌فرض دایره داخلی (طوسی روشن) */
+      transition: stroke 0.2s ease-out;
+    }
+
+    /* حالت فعال (Active State) برای چرخش و ظاهر فشرده */
+    .test-button.active {
+      transform: translateY(4px) scale(0.98);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2),
+      0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-button.active .button-text {
+      color: #ef6808;
+    }
+
+    .test-button.active .button-lines .inner-circle {
+      stroke: #ef6808;
+    }
+
+    /* دایره چرخشی خارجی */
+    .rotating-circle {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+      pointer-events: none;
+    }
+
+    /* نمایش و چرخش دایره فقط وقتی دکمه active است */
+    .test-button.active + .rotating-circle {
+      opacity: 1;
+      animation: rotateCircle 1.5s linear infinite;
+    }
+
+    .card-mz{
+      border-bottom: 7.5px solid #ef7512 !important;
+      padding: 20px 0px 30px;
+    }
+
+    @keyframes rotateCircle {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
   </style>
@@ -372,110 +475,19 @@
   </script>
 
   <script>
-    async function fetchData() {
-      try {
-        const response = await fetch(`${window.location.origin}/api/getAllRecord`);
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error('Error fetching data:', error);
+    const testButton = document.getElementById('testButton');
+    let isRotationActive = false; // وضعیت چرخش
+
+    testButton.addEventListener('click', function() {
+      isRotationActive = !isRotationActive; // تغییر وضعیت چرخش
+
+      if (isRotationActive) {
+        this.classList.add('active'); // اضافه کردن کلاس active برای فعال شدن چرخش و ظاهر فشرده
+      } else {
+        this.classList.remove('active'); // حذف کلاس active برای توقف چرخش و بازگشت به حالت عادی
       }
-    }
-
-    async function populateTable() {
-      const data = await fetchData();
-      const tableBody = document.querySelector('table.datatables-direct-basic tbody');
-      tableBody.innerHTML = ''; // پاک کردن محتواهای قبلی
-
-      // برعکس کردن ترتیب داده‌ها
-      data.slice(0, 12).reverse().forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td><img alt="User" class="rounded-circle" src="static/img/vpnIcon/${item.name2}.png" width="32" onerror="this.onerror=null; this.src=\'' + assetsPath + 'img/vpnIcon/default.png\';" ></td>
-          <td>${item.vpn_name.substring(0, 23)}</td>
-          <td>${translateOperator(item.oprator)}</td>
-          <td>${item.city}</td>
-          <td>${translateStatus(item.status)}</td>
-          <td>${item.date}</td>
-        `;
-        tableBody.appendChild(row);
-      });
-    }
-
-    function translateOperator(operator) {
-      switch (operator) {
-        case 'Irancell':
-          return 'ایرانسل';
-        case 'MCI':
-          return 'همراه اول';
-        case 'TCI':
-          return 'مخابرات';
-        case 'RighTel':
-          return 'رایتل';
-        default:
-          return '';
-      }
-    }
-
-    function translateStatus(status) {
-      switch (status) {
-        case 'Filter':
-          return '<span class="badge bg-label-success">فیلتر</span>';
-        case 'Without Filter':
-          return '<span class="badge bg-label-danger">بدون فیلتر</span>';
-        default:
-          return '';
-      }
-    }
-
-    async function updateTablePeriodically() {
-      let data = await fetchData();
-      let index = 12; // شروع از رکورد سیزدهم
-
-      function updateTable() {
-        if (index >= data.length) index = 0; // اگر به انتهای داده‌ها رسیدیم، برگرد به اول
-
-        const tableBody = document.querySelector('table.datatables-direct-basic tbody');
-        const newRow = document.createElement('tr');
-        const item = data[index];
-
-        // نمایش لودینگ
-        $('.mzloading').show();
-
-        newRow.innerHTML = `
-          <td><img alt="User" class="rounded-circle" src="static/img/vpnIcon/${item.name2}.png" width="32" onerror="this.onerror=null; this.src=\'' + assetsPath + 'img/vpnIcon/default.png\';"></td>
-          <td>${item.vpn_name.substring(0, 23)}</td>
-          <td>${translateOperator(item.oprator)}</td>
-          <td>${item.city}</td>
-          <td>${translateStatus(item.status)}</td>
-          <td>${item.date}</td>
-        `;
-
-        tableBody.insertBefore(newRow, tableBody.firstChild); // رکورد جدید رو به اول اضافه کن
-        if (tableBody.rows.length > 12) {
-          tableBody.deleteRow(tableBody.rows.length - 1); // اگر بیش از ۱۲ رکورد شد، آخری رو حذف کن
-        }
-
-        // پنهان کردن لودینگ بعد از نیم ثانیه
-        setTimeout(function() {
-          $('.mzloading').hide();
-        }, 700);
-
-        index++; // برو به رکورد بعدی
-        const randomInterval = Math.floor(Math.random() * (12000 - 9000 + 1)) + 9000;
-        setTimeout(updateTable, randomInterval); // به‌روزرسانی بعدی با زمان تصادفی
-      }
-
-      updateTable(); // اولین بار اجرا
-    }
-
-    $(document).ready(function() {
-      $('.mzloading').hide(); // مخفی کردن لودینگ در ابتدا
-      populateTable(); // اولین بار جدول رو پر می‌کنیم
-      updateTablePeriodically();
     });
   </script>
-
 
 
 {% endblock page_js %}
@@ -514,120 +526,27 @@
     </div>
 
     <div class="col-xl-5 col-lg-12 mb-4">
-      <div
-        class="swiper-container swiper-container-horizontal swiper swiper-card-advance-bg"
-        id="swiper-with-pagination-cards">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="row">
-              <div class="col-12">
-                <h5 class="text-white mb-1 mt-2">آمار کلی</h5>
-                <small>آماری از تعداد فیلتر شکن های تست شده</small>
-              </div>
-
-              <div class="col-lg-7 col-md-9 col-12 order-2 order-md-1">
-                <h6 class="text-white mt-0 mt-md-3 mb-3">موارد تست </h6>
-                <div class="row">
-                  <div class="col-6">
-                    <ul class="list-unstyled mb-0">
-                      <li class="d-flex mb-4 align-items-center">
-                        <p class="mb-0 fw-medium me-2 website-analytics-text-bg">100</p>
-                        <p class="mb-0">فیلتر شکن</p>
-                      </li>
-                      <li class="d-flex align-items-center mb-2">
-                        <p class="mb-0 fw-medium me-2 website-analytics-text-bg">80</p>
-                        <p class="mb-0">پروکسی تلگرام</p>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-6">
-                    <ul class="list-unstyled mb-0">
-                      <li class="d-flex mb-4 align-items-center">
-                        <p class="mb-0 fw-medium me-2 website-analytics-text-bg">90%</p>
-                        <p class="mb-0">دقت</p>
-                      </li>
-                      {#                      <li class="d-flex align-items-center mb-2">#}
-                      {#                        <p class="mb-0 fw-medium me-2 website-analytics-text-bg">12%</p>#}
-                      {#                        <p class="mb-0">تبدیل ها</p>#}
-                      {#                      </li>#}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-5 col-md-3 col-12 order-1 order-md-2 my-4 my-md-0 text-center">
-                <img
-                  src="{% static 'img/illustrations/card-website-analytics-1.png' %}"
-                  alt="تجزیه و تحلیل وب سایت"
-                  width="170"
-                  class="card-website-analytics-img" />
-              </div>
-
-            </div>
+      <div class=" col-12 h-100  mb-3">
+        <div class="card card-mz">
+          <div class="card-header-mz  d-flex justify-content-center">
+            <h5>برای شروع تست روی دکمه فشار دهید</h5>
           </div>
-          <div class="swiper-slide">
-            <div class="row">
-              <div class="col-12">
-                <h5 class="text-white mb-1 mt-2">آمار کلی</h5>
-                <small>آمار از استان هایی که تست در آن انجام می شود</small>
-              </div>
-              <div class="col-lg-7 col-md-9 col-12 order-2 order-md-1">
-                <h6 class="text-white mt-0 mt-md-3 mb-3">اطلاعات استان ها</h6>
-                <div class="row">
-                  <div class="col-6">
-                    <ul class="list-unstyled mb-0">
-                      <li class="d-flex mb-4 align-items-center">
-                        <p class="mb-0 fw-medium me-2 website-analytics-text-bg">8</p>
-                        <p class="mb-0">استان</p>
-                      </li>
-                      <li class="d-flex align-items-center mb-2">
-                        <p class="mb-0 fw-medium me-2 website-analytics-text-bg">5</p>
-                        <p class="mb-0">اپراتور</p>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-6">
-                    <ul class="list-unstyled mb-0">
-                      <li class="d-flex mb-4 align-items-center">
-                        <p class="mb-0 fw-medium me-2 website-analytics-text-bg">95%</p>
-                        <p class="mb-0">دقت</p>
-                      </li>
-                      {#                    <li class="d-flex align-items-center mb-2">#}
-                      {#                      <p class="mb-0 fw-medium me-2 website-analytics-text-bg">2.3K</p>#}
-                      {#                      <p class="mb-0">اقلام</p>#}
-                      {#                    </li>#}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-5 col-md-3 col-12 order-1 order-md-2 my-4 my-md-0 text-center">
-                <img
-                  src="{% static 'img/illustrations/card-website-analytics-2.png' %}"
-                  alt="تجزیه و تحلیل وب سایت"
-                  width="170"
-                  class="card-website-analytics-img" />
-              </div>
-            </div>
+          <div class="p-3 d-flex justify-content-center">
+            <div class="button-container">
+            <button class="test-button" id="testButton">
+              <span class="button-text">شروع تست</span>
+              <svg class="button-lines" viewBox="0 0 100 100">
+                <circle class="inner-circle" cx="50" cy="50" r="54" fill="none" stroke-width="2" />
+              </svg>
+            </button>
+            <svg class="rotating-circle" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="48" fill="none" stroke="#ef6808" stroke-width="3" stroke-dasharray="75 225"
+                      stroke-linecap="round" />
+            </svg>
           </div>
-
-        </div>
-        <div class="swiper-pagination"></div>
-
-      </div>
-
-      <div class=" col-12 h-100  mt-3">
-        <div class="card">
-          <div class="card-header-mz">
-            <h5>ارائه دهندگان اینترنتی بررسی شده</h5>
-          </div>
-          <div>
-            <div id="chartdiv"></div>
           </div>
         </div>
       </div>
-      <!--/ Sales Overview -->
-
-      <!-- item - province -->
-
     </div>
   </div>
 

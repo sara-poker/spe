@@ -18,6 +18,18 @@ menu_file = {
             ]
         },
         {
+            "name": "تست سرعت",
+            "icon": "menu-icon tf-icons ti ti-gauge",
+            "slug": "dashboard",
+            "submenu": [
+                {
+                    "url": "speed_test",
+                    "name": "تست سرعت",
+                    "slug": "speed_test"
+                }
+            ]
+        },
+        {
             "name": "تنظیمات",
             "icon": "menu-icon tf-icons ti ti-settings",
             "slug": "setting",

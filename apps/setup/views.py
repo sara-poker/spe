@@ -3,6 +3,12 @@ from web_project import TemplateLayout
 from apps.setup.models import Country
 from apps.test.models import Isp, ServerTest
 from django.shortcuts import redirect
+
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from apps.setup.serializers import ServerTestSerializer
+from rest_framework.response import Response
+
 import re
 
 
@@ -67,3 +73,13 @@ class ServerTestView(TemplateView):
         )
 
         return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت ثبت شد")
+
+
+class GetAllIsp(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        server_test = ServerTest.objects.all().order_by("name")
+
+        serializer = ServerTestSerializer(server_test, many=True)
+        return Response(serializer.data)

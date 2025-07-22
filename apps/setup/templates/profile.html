@@ -54,15 +54,15 @@
         <div class="card-body">
           <div class="user-avatar-section">
             <div class=" d-flex align-items-center flex-column">
-              <img class="img-fluid rounded mb-3 pt-1 mt-4" src="{% static 'img/avatars/' %}{{ user.username }}.png"
+              <img class="img-fluid rounded mb-3 pt-1 mt-4" src="{% static 'img/avatars/' %}{{ request.user.username }}.png"
                    height="100" width="100" alt="User avatar" />
               <div class="user-info text-center">
-                <h4 class="mb-2">{{ user.name }}</h4>
-                {% if user.role == "manager" %}
+                <h4 class="mb-2">{{ request.user.name }}</h4>
+                {% if request.user.role == "manager" %}
                   <span class="badge bg-label-secondary mt-1">مدیر کل</span>
-                {% elif user.role == "admin" %}
+                {% elif request.user.role == "admin" %}
                   <span class="badge bg-label-secondary mt-1">ادمین</span>
-                {% elif user.role == "user" %}
+                {% elif request.user.role == "user" %}
                   <span class="badge bg-label-secondary mt-1">کاربر عادی</span>
                 {% endif %}
               </div>
@@ -89,11 +89,11 @@
             <ul class="list-unstyled">
               <li class="mb-2">
                 <span class="fw-medium me-1">نام کاربری:</span>
-                <span>{{ user.username }}</span>
+                <span>{{ request.user.username }}</span>
               </li>
               <li class="mb-2 pt-1">
                 <span class="fw-medium me-1">وضعیت:</span>
-                {% if user.is_active %}
+                {% if request.user.is_active %}
                   <span class="badge bg-label-success">فعال</span>
                 {% else %}
                   <span class="badge bg-label-danger"> غیر فعال</span>
@@ -101,11 +101,11 @@
               </li>
               <li class="mb-2 pt-1">
                 <span class="fw-medium me-1">نقش:</span>
-                {% if user.role == "manager" %}
+                {% if request.user.role == "manager" %}
                   <span>مدیرکل</span>
-                {% elif user.role == "admin" %}
+                {% elif request.user.role == "admin" %}
                   <span>ادمین</span>
-                {% elif user.role == "user" %}
+                {% elif request.user.role == "user" %}
                   <span>کاربر عادی</span>
                 {% endif %}
 
@@ -113,7 +113,7 @@
               <li class="mb-2 pt-1">
                 <span class="fw-medium me-1">شماره موبایل:</span>
                 <span>
-                <bdi>{{ user.phone }}</bdi>
+                <bdi>{{ request.user.phone }}</bdi>
               </span>
               </li>
             </ul>

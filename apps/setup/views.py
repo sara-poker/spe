@@ -15,9 +15,9 @@ import re
 class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
-        user = self.request.user
-
-        context['user'] = user
+        # user = self.request.user
+        #
+        # context['user'] = user
 
         return context
 

@@ -225,26 +225,26 @@
         <div class="avatar avatar-online">
 
           {% if request.user|has_group:"admin" %}
-            <img src="{% static 'img/avatars/1.png' %}" alt class="h-auto rounded-circle">
+            <img src="{% static 'img/avatars/' %}{{ user.username }}.png" alt class="h-auto rounded-circle">
           {% else %}
-            <img src="{% static 'img/avatars/3.png' %}" alt class="h-auto rounded-circle">
+            <img src="{% static 'img/avatars/' %}{{ user.username }}.png" alt class="h-auto rounded-circle">
           {% endif %}
         </div>
       </a>
       <ul class="dropdown-menu dropdown-menu-end">
         <li>
           {#                <a class="dropdown-item" href="{% url 'pages-account-settings-account' %}">#}
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item" href="/setup/profile">
             <div class="d-flex">
               <div class="flex-shrink-0 me-3">
                 {% if request.user|has_group:"admin" %}
-                  <img src="{% static 'img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                  <img src="{% static 'img/avatars/' %}{{ user.username }}.png" alt class="w-px-40 h-auto rounded-circle">
                 {% else %}
-                  <img src="{% static 'img/avatars/3.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                  <img src="{% static 'img/avatars/' %}{{ user.username }}.png" alt class="w-px-40 h-auto rounded-circle">
                 {% endif %}
               </div>
               <div class="flex-grow-1">
-                <span class="fw-medium d-block">{{ request.user.username }}</span>
+                <span class="fw-medium d-block">{{ request.user.name }}</span>
                 {% for group in request.user.groups.all %}
                   <small class="text-muted">{{ group.name }}</small>
                 {% endfor %}

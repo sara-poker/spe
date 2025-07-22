@@ -9,10 +9,9 @@ import re
 class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+        user = self.request.user
 
-        context.update({
-            "msg":"سلام"
-        })
+        context['user'] = user
 
         return context
 

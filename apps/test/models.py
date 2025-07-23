@@ -57,6 +57,10 @@ class ServerTest(models.Model):
 
 
 class NetworkInfo(models.Model):
+    class Meta:
+        verbose_name = 'اطلاعات شبکه'
+        verbose_name_plural = 'اطلاعات شبکه ها'
+
     ip = models.GenericIPAddressField(verbose_name='IP', blank=True, null=True)
     city = models.CharField(max_length=100, verbose_name='شهر', blank=True, null=True)
     country = models.ForeignKey(Country, on_delete=models.PROTECT, verbose_name='کشور', blank=True, null=True)
@@ -67,6 +71,10 @@ class NetworkInfo(models.Model):
 
 
 class DeviceInfo(models.Model):
+    class Meta:
+        verbose_name = 'اطلاعات سیستم'
+        verbose_name_plural = 'اطلاعات سیستم ها'
+
     os = models.CharField(max_length=100, verbose_name='سیستم‌عامل', blank=True, null=True)
     os_version = models.CharField(max_length=50, verbose_name='نسخه سیستم‌عامل', blank=True, null=True)
     machine = models.CharField(max_length=100, verbose_name='پردازنده / دستگاه', blank=True, null=True)
@@ -88,6 +96,10 @@ class DeviceInfo(models.Model):
 
 
 class SpeedTest(models.Model):
+    class Meta:
+        verbose_name = 'تست سرعت'
+        verbose_name_plural = 'تست های سرعت'
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='کاربر')
     network_info = models.ForeignKey(NetworkInfo, on_delete=models.PROTECT, verbose_name='اطلاعات شبکه')
     device_info = models.ForeignKey(DeviceInfo, on_delete=models.PROTECT, verbose_name='اطلاعات دستگاه')
@@ -109,6 +121,7 @@ class SpeedTest(models.Model):
     test_state = models.CharField(max_length=20, choices=[('success', 'موفق'), ('fail', 'ناموفق')],
                                   verbose_name='وضعیت تست', blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ تست', blank=True, null=True)
+    server_test = models.ForeignKey(ServerTest, on_delete=models.PROTECT, verbose_name='سرور تست')
 
     def __str__(self):
         return f"تست توسط {self.user.name} در {self.date}"

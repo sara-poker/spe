@@ -1,7 +1,7 @@
 from django.views.generic import (TemplateView)
 from web_project import TemplateLayout
 from apps.setup.models import Country
-from apps.test.models import Isp, ServerTest
+from apps.test.models import Isp, ServerTest, SpeedTest, DeviceInfo, NetworkInfo
 from django.shortcuts import redirect
 
 from rest_framework.views import APIView
@@ -15,11 +15,29 @@ import re
 class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
-        # user = self.request.user
-        #
-        # context['user'] = user
+
+        speed_test_qs = SpeedTest.objects.filter(user=self.request.user).select_related('device_info', 'network_info')
+
+        # تعداد موفق و ناموفق
+        success_count = speed_test_qs.filter(test_state='success').count()
+        fail_count = speed_test_qs.filter(test_state='fail').count()
+
+        # استخراج یونیک دستگاه‌ها
+        unique_devices = set(speed_test_qs.values_list('device_info', flat=True))
+        device_info_list = DeviceInfo.objects.filter(id__in=unique_devices)
+
+        # استخراج یونیک شبکه‌ها
+        unique_networks = set(speed_test_qs.values_list('network_info', flat=True))
+        network_info_list = NetworkInfo.objects.filter(id__in=unique_networks)
+
+        # اضافه به context
+        context['success_count'] = success_count
+        context['fail_count'] = fail_count
+        context['device_info_list'] = device_info_list
+        context['network_info_list'] = network_info_list
 
         return context
+
 
 # Create your views here.
 class ServerTestView(TemplateView):

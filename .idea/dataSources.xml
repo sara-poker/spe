@@ -8,7 +8,7 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/sadid2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="SpeedTest@localhost" uuid="a7750806-512b-4076-bde6-5d71a044ee04">
+    <data-source source="LOCAL" name="SpeedTest@localhost" uuid="0f57afc6-28ce-458e-a0a4-2d76ea9865b6">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

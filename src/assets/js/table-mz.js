@@ -77,44 +77,48 @@ $(function() {
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+
     for (const baseUrl of urls) {
-      console.log(`📡 شروع تست برای سرور: ${baseUrl}`);
+      console.log(`📡 در حال تست سرور: ${baseUrl}`);
+      const downloadUrl = `http://${baseUrl}/files/testfile.bin`;
 
-      // تست دانلود
       try {
-        const downloadUrl = `http://${baseUrl}/files/testfile.bin`;
+        const fileSizeInBits = 20971520 * 8;
         const startTime = performance.now();
-        const response = await fetch(downloadUrl);
-        const reader = response.body.getReader();
-        let downloadedSize = 0;
-        const chunkSize = 1024;
-        let done = false;
 
-        while (!done) {
-          const { done: readerDone, value } = await reader.read();
-          if (readerDone) break;
-          downloadedSize += value.length;
-        }
+        const response = await fetch(downloadUrl, { cache: 'no-store' }); // cache: 'no-store' برای جلوگیری از کش شدن فایل
+        await response.blob(); // منتظر می‌مانیم تا کل فایل دانلود شود
 
         const endTime = performance.now();
-        const totalTime = (endTime - startTime) / 1000; // seconds
-        const totalSizeMB = downloadedSize / (1024 * 1024);
-        const speedMbps = (totalSizeMB * 8) / totalTime;
+        const durationInSeconds = (endTime - startTime) / 1000; // مدت زمان به ثانیه
 
-        console.log(`⬇️ دانلود از ${baseUrl}:`);
-        console.log(`- حجم: ${totalSizeMB.toFixed(2)} MB`);
-        console.log(`- زمان: ${totalTime.toFixed(2)} ثانیه`);
-        console.log(`- سرعت: ${speedMbps.toFixed(2)} Mbps`);
+        if (durationInSeconds === 0) {
+          console.log('🚀 دانلود آنی بود! سرعت قابل محاسبه نیست.');
+          continue;
+        }
+
+        const speedBps = fileSizeInBits / durationInSeconds; // سرعت به بیت بر ثانیه
+        const speedMbps = speedBps / 1000000; // سرعت به مگابیت بر ثانیه
+        const speedMBps = speedMbps / 8;
+
+        console.log(`📥 دانلود از ${baseUrl}:`);
+        console.log(`✅ سرعت دانلود: ${speedMbps.toFixed(2)} مگابیت بر ثانیه (Mbps)`);
+        console.log(`✅ سرعت دانلود: ${speedMBps.toFixed(2)} مگابایت بر ثانیه (MBps)`);
+
       } catch (error) {
-        console.warn(`❌ خطا در دانلود از ${baseUrl}:`, error);
+        console.error(`❌ خطا در ارتباط با سرور ${baseUrl}:`, error.message);
       }
 
-      // تست آپلود
       try {
         const uploadUrl = `http://${baseUrl}/files/upload.php`;
-        const fileData = new Blob([new Uint8Array(5 * 1024 * 1024)]); // 5MB
+        const fileSizeMB = 5;
+        const fileSizeBytes = fileSizeMB * 1024 * 1024;
+        const fileSizeBits = fileSizeBytes * 8;
+
+        const fileData = new Blob([new Uint8Array(fileSizeBytes)]);
 
         const startTime = performance.now();
+
         const formData = new FormData();
         formData.append('file', fileData, 'upload_test_file.bin');
 
@@ -125,55 +129,24 @@ $(function() {
 
         const endTime = performance.now();
         const duration = (endTime - startTime) / 1000;
-        const speedMbps = (5 * 8) / duration;
+
+        const speedBps = fileSizeBits / duration;
+        const speedMbps = speedBps / 1000000;
+        const speedMBps = speedMbps / 8;
 
         console.log(`⬆️ آپلود به ${baseUrl}:`);
-        console.log(`- حجم: 5 MB`);
-        console.log(`- زمان: ${duration.toFixed(2)} ثانیه`);
-        console.log(`- سرعت: ${speedMbps.toFixed(2)} Mbps`);
+        console.log(`✅ سرعت آپلود: ${speedMbps.toFixed(2)} مگابیت بر ثانیه (Mbps)`);
+        console.log(`✅ سرعت آپلود: ${speedMBps.toFixed(2)} مگابایت بر ثانیه (MBps)`);
       } catch (error) {
         console.warn(`❌ خطا در آپلود به ${baseUrl}:`, error);
       }
 
-      // تست پینگ (شبیه‌سازی‌شده با fetch)
-      try {
-        const pingHost = 'https://www.google.com'; // شبیه‌سازی
-        const pingResults = [];
-
-        for (let i = 0; i < 5; i++) {
-          const start = performance.now();
-          await fetch(pingHost, { mode: 'no-cors' });
-          const end = performance.now();
-          pingResults.push(end - start);
-          await delay(100);
-        }
-
-        const avg = pingResults.reduce((a, b) => a + b, 0) / pingResults.length;
-        const jitter = Math.max(...pingResults) - Math.min(...pingResults);
-
-        console.log(`📶 پینگ:`);
-        console.log(`- میانگین پینگ: ${avg.toFixed(2)} ms`);
-        console.log(`- جیتر: ${jitter.toFixed(2)} ms`);
-      } catch (error) {
-        console.warn('❌ خطا در تست پینگ:', error);
-      }
-
-      // اطلاعات کاربر
-      try {
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform;
-        const language = navigator.language;
-
-        console.log(`🧠 اطلاعات سیستم:`);
-        console.log(`- User Agent: ${userAgent}`);
-        console.log(`- Platform: ${platform}`);
-        console.log(`- Language: ${language}`);
-      } catch (error) {
-        console.warn('❌ خطا در گرفتن اطلاعات سیستم:', error);
-      }
-
-      await delay(2000); // تاخیر ۲ ثانیه‌ای بین هر سرور
     }
+
+    console.log('🏁 تست به پایان رسید.');
+
+    await delay(2000); // تاخیر ۲ ثانیه‌ای بین هر سرور
+
 
     testButton.classList.remove('active');
     isRotationActive = false;

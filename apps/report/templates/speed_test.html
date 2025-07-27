@@ -3,7 +3,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}نمای کلی{% endblock %}
+{% block title %}تست سرعت{% endblock %}
 
 {% block vendor_css %}
   {{ block.super }}
@@ -33,9 +33,10 @@
   {{ block.super }}
   <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
   <style>
-  #template-customizer{
-    display: none!important;
-  }
+    #template-customizer {
+      display: none !important;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       display: flex;
@@ -201,10 +202,59 @@
 {% block content %}
   <div class="row">
     <div class="col-xl-8 col-lg-12 mb-4">
-      <div class=" col-12 h-100  mb-3">
-        <div class="card card-mz">
-          <div class="card-header-mz">
-            <h5>برای شروع تست روی دکمه فشار دهید</h5>
+      <div class=" col-12 h-100  mb-3" id="test_result">
+        <div class="col-md">
+          <small class="text-light fw-medium ">اطلاعات کاربری:</small>
+          <div class="card mt-2 mb-4">
+            <div class="card-body">
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <small class="text-light fw-medium">نتایج تست ها</small>
+          <div class="accordion mt-3 accordion-without-arrow" id="accordionIcon">
+            <div class="accordion-item card active">
+              <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                <button aria-controls="accordionIcon-1" class="accordion-button collapsed"
+                        data-bs-target="#accordionIcon-1" data-bs-toggle="collapse" type="button">
+                  <img alt="france" src="{% static 'img/flag/france.png' %}"
+                       width="32">
+                  <div class="ps-3">سرور فرانسه</div>
+                  <div class="ps-3">|</div>
+                  <div class="ps-3">51.38.13.232</div>
+                </button>
+              </h2>
+              <div class="accordion-collapse collapse show" data-bs-parent="#accordionIcon" id="accordionIcon-1">
+                <div class="accordion-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+                  طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item card">
+              <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconTwo">
+                <button aria-controls="accordionIcon-2" class="accordion-button collapsed"
+                        data-bs-target="#accordionIcon-2" data-bs-toggle="collapse" type="button"> آکاردئون شماره 2
+                </button>
+              </h2>
+              <div class="accordion-collapse collapse" data-bs-parent="#accordionIcon" id="accordionIcon-2">
+                <div class="accordion-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+                  طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item card ">
+              <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconThree">
+                <button aria-controls="accordionIcon-3" aria-expanded="true" class="accordion-button"
+                        data-bs-target="#accordionIcon-3" data-bs-toggle="collapse" type="button"> آکاردئون شماره 3
+                </button>
+              </h2>
+              <div class="accordion-collapse collapse " data-bs-parent="#accordionIcon" id="accordionIcon-3">
+                <div class="accordion-body"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+                  طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -75,6 +75,43 @@ $(function() {
     isRotationActive = true;
     testButton.classList.add('active');
 
+    try {
+      const platform = navigator.platform;                  // سیستم‌عامل کلی
+      const userAgent = navigator.userAgent;                 // مرورگر و OS
+      const language = navigator.language;                  // زبان سیستم
+
+      console.log(`سیسیتم عامل کلی:${platform}`);
+      console.log(`مرورگر :${userAgent}`);
+      console.log(`زبان سیستم:${language}`);
+      navigator.getBattery().then(function(battery) {
+        console.log('سطح شارژ: ' + battery.level * 100 + '%');
+        console.log('در حال شارژ: ' + (battery.charging ? 'بله' : 'خیر'));
+      });
+
+    } catch (error) {
+      console.error(`خطای دریافت اطلاعات سیستم`);
+    }
+
+    try {
+      const ipInfoRes = await fetch('http://ip-api.com/json');
+      const ipInfo = await ipInfoRes.json();
+      const userIp = ipInfo.query;
+
+      console.log('🧠 IP کاربر:', userIp);
+
+      const apiUrl = `http://ip-api.ir/info/${userIp}/status,country,region,regionName,city,district,isp,org,as,asname,mobile,proxy,hosting,query`;
+
+      const detailsRes = await fetch(apiUrl);
+      const details = await detailsRes.json();
+
+      console.log('📦 اطلاعات نهایی کاربر:');
+      console.log(details);
+
+
+    } catch (err) {
+      console.error('❌ خطا در دریافت اطلاعات:', err);
+    }
+
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 
@@ -86,19 +123,19 @@ $(function() {
         const fileSizeInBits = 20971520 * 8;
         const startTime = performance.now();
 
-        const response = await fetch(downloadUrl, { cache: 'no-store' }); // cache: 'no-store' برای جلوگیری از کش شدن فایل
-        await response.blob(); // منتظر می‌مانیم تا کل فایل دانلود شود
+        const response = await fetch(downloadUrl, { cache: 'no-store' });
+        await response.blob();
 
         const endTime = performance.now();
-        const durationInSeconds = (endTime - startTime) / 1000; // مدت زمان به ثانیه
+        const durationInSeconds = (endTime - startTime) / 1000;
 
         if (durationInSeconds === 0) {
           console.log('🚀 دانلود آنی بود! سرعت قابل محاسبه نیست.');
           continue;
         }
 
-        const speedBps = fileSizeInBits / durationInSeconds; // سرعت به بیت بر ثانیه
-        const speedMbps = speedBps / 1000000; // سرعت به مگابیت بر ثانیه
+        const speedBps = fileSizeInBits / durationInSeconds;
+        const speedMbps = speedBps / 1000000;
         const speedMBps = speedMbps / 8;
 
         console.log(`📥 دانلود از ${baseUrl}:`);

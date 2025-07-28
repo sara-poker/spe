@@ -1,6 +1,48 @@
-$(function() {
+$(async function() {
   const dt_basic_table = $('.datatables-basic');
   const testButton = document.getElementById('testButton');
+
+  try {
+    const parser = new UAParser();
+    const result = parser.getResult();
+
+    document.getElementById('browser').innerText = `${result.browser.name} | ${result.browser.version}`;
+    document.getElementById('os').innerText = `${result.os.name} | ${result.os.version}`;
+    document.getElementById('device').innerText = `${result.device.type || 'Desktop'} | ${result.device.vendor || 'Unknown'} | ${result.device.model || 'Unknown'}`;
+    document.getElementById('cpu').innerText = result.cpu.architecture || 'Unknown';
+
+    const ipInfoRes = await fetch('http://ip-api.com/json');
+    const ipInfo = await ipInfoRes.json();
+    const userIp = ipInfo.query;
+
+    const apiUrl = `http://ip-api.ir/info/${userIp}/status,country,city,isp,query`;
+    const detailsRes = await fetch(apiUrl);
+    const details = await detailsRes.json();
+
+    document.getElementById('ip').innerText = userIp;
+    document.getElementById('country').innerText = details.country;
+    document.getElementById('city').innerText = details.city;
+    document.getElementById('isp').innerText = details.isp;
+
+    // ست کردن پرچم
+    document.getElementById('flag').src = `/static/img/flag/${details.country}.png`;
+    // document.getElementById('flag').src = `/static/img/flag/${details.country.toLowerCase()}.png`;
+
+    // ست کردن لوگوی اپراتور
+    const ispLogoMap = {
+      'Irancell': 'irancell.png',
+      'MCI': 'mci.png',
+      'Rightel': 'rightel.png',
+      'OVH SAS': 'OVH.png'
+    };
+
+    const logoFile = ispLogoMap[details.isp] || '.png';
+    document.getElementById('isp-logo').src = `/static/img/ispLogo/RGB/${logoFile}`;
+
+  } catch (error) {
+    console.error('⚠️ خطا در دریافت اطلاعات کاربر:', error);
+  }
+
 
   let dt_basic;
   let isRunning = false;
@@ -75,51 +117,6 @@ $(function() {
     if (isRotationActive) return; // جلوگیری از اجرای مجدد
     isRotationActive = true;
     testButton.classList.add('active');
-
-    try {
-      const parser = new UAParser();
-      const result = parser.getResult();
-
-      console.log("result >>",result);
-      console.log(result.browser);  // { name: "Chrome", version: "115.0.0.0" }
-      console.log(result.os);       // { name: "Windows", version: "10" }
-      console.log(result.device);   // { model: undefined, type: undefined, vendor: undefined }
-
-      const platform = navigator.platform;                  // سیستم‌عامل کلی
-      const userAgent = navigator.userAgent;                 // مرورگر و OS
-      const language = navigator.language;                  // زبان سیستم
-
-      console.log(`سیسیتم عامل کلی:${platform}`);
-      console.log(`مرورگر :${userAgent}`);
-      console.log(`زبان سیستم:${language}`);
-      navigator.getBattery().then(function(battery) {
-        console.log('سطح شارژ: ' + battery.level * 100 + '%');
-        console.log('در حال شارژ: ' + (battery.charging ? 'بله' : 'خیر'));
-      });
-
-    } catch (error) {
-      console.error(`خطای دریافت اطلاعات سیستم`);
-    }
-
-    try {
-      const ipInfoRes = await fetch('http://ip-api.com/json');
-      const ipInfo = await ipInfoRes.json();
-      const userIp = ipInfo.query;
-
-      console.log('🧠 IP کاربر:', userIp);
-
-      const apiUrl = `http://ip-api.ir/info/${userIp}/status,country,region,regionName,city,district,isp,org,as,asname,mobile,proxy,hosting,query`;
-
-      const detailsRes = await fetch(apiUrl);
-      const details = await detailsRes.json();
-
-      console.log('📦 اطلاعات نهایی کاربر:');
-      console.log(details);
-
-
-    } catch (err) {
-      console.error('❌ خطا در دریافت اطلاعات:', err);
-    }
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 

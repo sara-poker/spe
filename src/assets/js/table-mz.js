@@ -1,6 +1,7 @@
 $(function() {
   const dt_basic_table = $('.datatables-basic');
   const testButton = document.getElementById('testButton');
+
   let dt_basic;
   let isRunning = false;
   let isRotationActive = false;
@@ -76,6 +77,14 @@ $(function() {
     testButton.classList.add('active');
 
     try {
+      const parser = new UAParser();
+      const result = parser.getResult();
+
+      console.log("result >>",result);
+      console.log(result.browser);  // { name: "Chrome", version: "115.0.0.0" }
+      console.log(result.os);       // { name: "Windows", version: "10" }
+      console.log(result.device);   // { model: undefined, type: undefined, vendor: undefined }
+
       const platform = navigator.platform;                  // سیستم‌عامل کلی
       const userAgent = navigator.userAgent;                 // مرورگر و OS
       const language = navigator.language;                  // زبان سیستم

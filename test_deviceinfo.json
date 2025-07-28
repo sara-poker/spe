@@ -1,0 +1,58 @@
+[
+  {
+    "os": "Windows 11",
+    "os_version": "10.0.22000",
+    "cpu": "AMD64",
+    "browser": "Google Chrome",
+    "network_kind": "LAN Cable",
+    "device": "Desktop"
+  },
+  {
+    "os": "Windows 10",
+    "os_version": "10.0.22000",
+    "cpu": "intel Core i7-14265",
+    "browser": "Mozilla Fire Fox",
+    "network_kind": "LAN Cable",
+    "device": "Desktop"
+  },
+  {
+    "os": "IOS 12",
+    "os_version": "10.0.22000",
+    "cpu": "Apple Iphone 16",
+    "browser": "Safari",
+    "network_kind": "WiFi",
+    "device": "Mobile"
+  },
+  {
+    "os": "Android",
+    "os_version": "13",
+    "cpu": "ARMv8-A",
+    "browser": "Chrome Mobile",
+    "network_kind": "5G",
+    "device": "Mobile"
+  },
+  {
+    "os": "iOS",
+    "os_version": "17.3",
+    "cpu": "Apple A16 Bionic",
+    "browser": "Safari",
+    "network_kind": "3G",
+    "device": "Mobile"
+  },
+  {
+    "os": "macOS",
+    "os_version": "14.2 (Sonoma)",
+    "cpu": "Apple M1",
+    "browser": "Safari",
+    "network_kind": "WiFi",
+    "device": "Laptop"
+  },
+  {
+    "os": "Android",
+    "os_version": "12",
+    "cpu": "Qualcomm Snapdragon 720G",
+    "browser": "Firefox",
+    "network_kind": "4G",
+    "device": "Mobile"
+  }
+]

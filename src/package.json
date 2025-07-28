@@ -17,7 +17,6 @@
     "serve": "npx gulp serve"
   },
   "dependencies": {
-    "@neshan-maps-platform/mapbox-gl": "1.1.1",
     "@fortawesome/fontawesome-free": "6.4.0",
     "@fullcalendar/core": "6.1.9",
     "@fullcalendar/daygrid": "6.1.9",
@@ -25,6 +24,7 @@
     "@fullcalendar/list": "6.1.9",
     "@fullcalendar/timegrid": "6.1.9",
     "@fullcalendar/timeline": "6.1.9",
+    "@neshan-maps-platform/mapbox-gl": "1.1.1",
     "@popperjs/core": "2.11.8",
     "@simonwep/pickr": "1.8.2",
     "@yaireo/tagify": "4.17.8",
@@ -88,7 +88,8 @@
     "swiper": "9.4.1",
     "timepicker": "1.14.0",
     "toastr": "2.1.4",
-    "typeahead.js": "0.11.1"
+    "typeahead.js": "0.11.1",
+    "ua-parser-js": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "7.22.5",

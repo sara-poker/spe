@@ -1,31 +1,26 @@
-from django.core.management import BaseCommand
 import json
-
-from config.settings import BASE_DIR
-from apps.setup.models import Country
-from apps.test.models import Isp
-
-
+from django.core.management.base import BaseCommand
+from apps.test.models import Isp  # 👈 اسم دقیق اپت رو بذار اینجا
 
 class Command(BaseCommand):
-    help = 'وارد کردن اطلاعات ISP ها به دیتابیس'
+    help = "Import ISP data from JSON"
 
-    def handle(self, *args, **options):
-        json_file_path = BASE_DIR / 'isp.json'
+    def handle(self, *args, **kwargs):
+        with open('test_isp.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
 
-        with open(json_file_path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-
-        for isp_data in data:
-            isp, created = Isp.objects.get_or_create(
-                name=isp_data['name'],
+        for item in data:
+            isp_obj, created = Isp.objects.update_or_create(
+                name=item['name'],
                 defaults={
-                    'url': isp_data['url'],
-                    'cloud': isp_data['cloud'],
-                    'country': Country.objects.get_or_create(name=isp_data['country'])[0] if isp_data['country'] else None
+                    'url': item.get('url', ''),
+                    'isp': item['isp'],
+                    'org': item['org'],
+                    'as_number': item['as_number'],
+                    'asname': item['asname'],
+                    'cloud': item['cloud'].lower() == 'true',
+                    'country_id': item['country_id']
                 }
             )
-            if created:
-                self.stdout.write(self.style.SUCCESS(f'Successfully added ISP `{isp.name}`'))
-            else:
-                self.stdout.write(self.style.WARNING(f'ISP `{isp.name}` already exists'))
+            status = "Created" if created else "Updated"
+            print(f"{status}: {isp_obj.name}")

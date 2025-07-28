@@ -212,10 +212,10 @@
             <table class="datatables-direct-basic table">
               <thead>
               <tr>
-                <th>مک آدرس</th>
+                <th>دستگاه</th>
                 <th>سیستم عامل</th>
                 <th>ورژن</th>
-                <th>نوع دستگاه</th>
+                <th>پردازنده</th>
                 <th>مرورگر</th>
                 <th>نوع اتصال</th>
                 {#                <th>عملیات</th>#}
@@ -228,7 +228,7 @@
                   {#                    <img alt="{{ server.country.name }}" src="{% static 'img/flag/' %}{{ server.country.name }}.png"#}
                   {#                         width="32">#}
                   {#                  </td>#}
-                  <td>{{ item.mac_address }}</td>
+                  <td>{{ item.device }}</td>
                   <td>
                     {{ item.os }}
                   </td>
@@ -237,7 +237,7 @@
                     {{ item.os_version }}
                   </td>
                   <td>
-                    {{ item.machine }}
+                    {{ item.cpu }}
                   </td>
                   <td>
                     {{ item.browser }}
@@ -279,7 +279,7 @@
                     {{ item.city }}
                   </td>
                   <td>
-                    {{ item.operator.name }}
+                    {{ item.isp.name }}
                   </td>
                   <td>
                     {{ item.ip }}

@@ -1,16 +1,18 @@
 from django.views.generic import (TemplateView)
-from web_project import TemplateLayout
-from apps.setup.models import Country
-from apps.test.models import Isp, ServerTest, SpeedTest, DeviceInfo, NetworkInfo
+from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
+
+from web_project import TemplateLayout
+
+from apps.setup.models import Country , CustomUser
+from apps.test.models import Isp, ServerTest, SpeedTest, DeviceInfo, NetworkInfo
+from apps.setup.serializers import ServerTestSerializer
 
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from apps.setup.serializers import ServerTestSerializer
 from rest_framework.response import Response
 
 import re
-
 
 class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
@@ -38,8 +40,46 @@ class ProfileView(TemplateView):
 
         return context
 
+class UserDetail(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
-# Create your views here.
+        User = get_user_model()
+        user = User.objects.filter(id=self.kwargs['pk'])
+
+        speed_test_qs = SpeedTest.objects.filter(user=self.kwargs['pk']).select_related('device_info', 'network_info')
+
+        # تعداد موفق و ناموفق
+        success_count = speed_test_qs.filter(test_state='success').count()
+        fail_count = speed_test_qs.filter(test_state='fail').count()
+
+        # استخراج یونیک دستگاه‌ها
+        unique_devices = set(speed_test_qs.values_list('device_info', flat=True))
+        device_info_list = DeviceInfo.objects.filter(id__in=unique_devices)
+
+        # استخراج یونیک شبکه‌ها
+        unique_networks = set(speed_test_qs.values_list('network_info', flat=True))
+        network_info_list = NetworkInfo.objects.filter(id__in=unique_networks)
+
+        # اضافه به context
+        context['user'] = user[0]
+        context['success_count'] = success_count
+        context['fail_count'] = fail_count
+        context['device_info_list'] = device_info_list
+        context['network_info_list'] = network_info_list
+
+        return context
+
+class UsersTable(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+
+        User = get_user_model()
+        users = User.objects.exclude(id=self.request.user.id)
+
+        context['users'] = users
+        return context
+
 class ServerTestView(TemplateView):
 
     def get_context_data(self, **kwargs):
@@ -91,7 +131,6 @@ class ServerTestView(TemplateView):
         )
 
         return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت ثبت شد")
-
 
 class GetAllIsp(APIView):
     permission_classes = [AllowAny]

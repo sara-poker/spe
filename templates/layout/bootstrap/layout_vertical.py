@@ -40,10 +40,15 @@ menu_file = {
                     "slug": "profile"
                 },
                 {
+                    "url": "usersTable",
+                    "name": "جدول کاربران",
+                    "slug": "users_table"
+                },
+                {
                     "url": "serverTest",
                     "name": "سرور های تست",
                     "slug": "server-test"
-                }
+                },
             ]
         }
     ]

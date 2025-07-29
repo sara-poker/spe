@@ -1,0 +1,305 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}اطلاعات {{ user.name }}{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/animate-css/animate.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/sweetalert2/sweetalert2.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/umd/styles/index.min.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/moment/moment.js' %}"></script>
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+  <script src="{% static 'vendor/libs/sweetalert2/sweetalert2.js' %}"></script>
+  <script src="{% static 'vendor/libs/cleavejs/cleave.js' %}"></script>
+  <script src="{% static 'vendor/libs/cleavejs/cleave-phone.js' %}"></script>
+  <script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+  <script src="{% static 'libs/select2/i18n/fa.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/bundle/popular.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/page-user-view.css' %}" />
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="{% static 'js/tables-datatables-basic.js' %}"></script>
+  <script src="{% static 'js/modal-edit-user.js' %}"></script>
+  <script src="{% static 'js/app-user-view.js' %}"></script>
+  <script src="{% static 'js/app-user-view-account.js' %}"></script>
+  <script>
+    document.querySelectorAll('#infoTabs .nav-link').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs
+        document.querySelectorAll('#infoTabs .nav-link').forEach(function(el) {
+          el.classList.remove('active');
+        });
+
+        // Hide all tab panes
+        document.querySelectorAll('#tabContents .tab-pane').forEach(function(pane) {
+          pane.classList.add('d-none');
+          pane.classList.remove('active');
+        });
+
+        // Add active class to clicked tab
+        this.classList.add('active');
+
+        // Show related tab content
+        const tabId = this.getAttribute('data-tab');
+        const target = document.getElementById(tabId);
+        target.classList.remove('d-none');
+        target.classList.add('active');
+      });
+    });
+  </script>
+{% endblock page_js %}
+
+{% block content %}
+  <h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">  کاربران /</span> {{ user.name }}
+  </h4>
+  <div class="row">
+  <!-- User Sidebar -->
+  <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+    <!-- User Card -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="user-avatar-section">
+          <div class=" d-flex align-items-center flex-column">
+            <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                 src="{% static 'img/avatars/' %}{{ user.username }}.png"
+                 height="100" width="100" alt="User avatar" />
+            <div class="user-info text-center">
+              <h4 class="mb-2">{{ user.name }}</h4>
+              {% if user.role == "manager" %}
+                <span class="badge bg-label-secondary mt-1">مدیر کل</span>
+              {% elif user.role == "admin" %}
+                <span class="badge bg-label-secondary mt-1">ادمین</span>
+              {% elif user.role == "user" %}
+                <span class="badge bg-label-secondary mt-1">کاربر عادی</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
+          <div class="d-flex align-items-start me-4 mt-3 gap-2">
+            <span class="badge bg-label-success p-2 rounded"><i class='ti ti-checkbox ti-sm'></i></span>
+            <div>
+              <p class="mb-0 fw-medium">{{ success_count }}</p>
+              <small>تست موفق</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-start mt-3 gap-2">
+            <span class="badge bg-label-danger p-2 rounded"><i class='ti ti-x ti-sm'></i></span>
+            <div>
+              <p class="mb-0 fw-medium">{{ fail_count }}</p>
+              <small>تست ناموفق</small>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4 small text-uppercase text-muted">جزئیات</p>
+        <div class="info-container">
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <span class="fw-medium me-1">نام کاربری:</span>
+              <span>{{ user.username }}</span>
+            </li>
+            <li class="mb-2 pt-1">
+              <span class="fw-medium me-1">وضعیت:</span>
+              {% if user.is_active %}
+                <span class="badge bg-label-success">فعال</span>
+              {% else %}
+                <span class="badge bg-label-danger"> غیر فعال</span>
+              {% endif %}
+            </li>
+            <li class="mb-2 pt-1">
+              <span class="fw-medium me-1">نقش:</span>
+              {% if user.role == "manager" %}
+                <span>مدیرکل</span>
+              {% elif user.role == "admin" %}
+                <span>ادمین</span>
+              {% elif user.role == "user" %}
+                <span>کاربر عادی</span>
+              {% endif %}
+
+            </li>
+            <li class="mb-2 pt-1">
+              <span class="fw-medium me-1">شماره موبایل:</span>
+              <span>
+                <bdi>{{ user.phone }}</bdi>
+              </span>
+            </li>
+          </ul>
+          {#          <div class="d-flex justify-content-center">#}
+          {#            <a class="btn btn-primary me-3" data-bs-target="#editUser" data-bs-toggle="modal" href="javascript:">ویرایش</a>#}
+          {#            <a class="btn btn-label-danger suspend-user" href="javascript:">مسدود سازی</a>#}
+          {#          </div>#}
+        </div>
+      </div>
+    </div>
+    <!-- /User Card -->
+    <!-- Plan Card -->
+    {#    <div class="card mb-4">#}
+    {#      <div class="card-body">#}
+    {#        <div class="d-flex justify-content-between align-items-start">#}
+    {#          <span class="badge bg-label-primary">استاندارد</span>#}
+    {#          <div class="d-flex justify-content-center">#}
+    {#            <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary fw-normal">ءتء</sup>#}
+    {#            <h1 class="mb-0 text-primary">99</h1>#}
+    {#            <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">درماه</sub>#}
+    {#          </div>#}
+    {#        </div>#}
+    {#        <ul class="ps-3 g-2 my-3">#}
+    {#          <li class="mb-2">امکان ارسال پیشنهاد برای 30 پروژه</li>#}
+    {#          <li class="mb-2">تا 10 گیگابایت فضای ذخیره سازی</li>#}
+    {#          <li>پشتیبانی تلفنی و درخواست مشاوره</li>#}
+    {#        </ul>#}
+    {#        <div class="d-flex justify-content-between align-items-center mb-1 fw-medium text-heading">#}
+    {#          <span>روزهای باقی مانده</span>#}
+    {#          <span>65٪ استفاده شده</span>#}
+    {#        </div>#}
+    {#        <div class="progress mb-1" style="height: 8px">#}
+    {#          <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="65" class="progress-bar" role="progressbar" style="width: 65%"></div>#}
+    {#        </div>#}
+    {#        <span>4 روز</span>#}
+    {#        <div class="d-grid w-100 mt-4">#}
+    {#          <button class="btn btn-primary" data-bs-target="#upgradePlanModal" data-bs-toggle="modal"> تمدید اشتراک</button>#}
+    {#        </div>#}
+    {#      </div>#}
+    {#    </div>#}
+    <!-- /Plan Card -->
+  </div>
+  <!--/ User Sidebar -->
+
+
+  <!-- User Content -->
+  <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+    <!-- User Pills -->
+    <ul class="nav nav-pills flex-column flex-md-row mb-4" id="infoTabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-tab="system-info" href="javascript:void(0);">
+          <i class="ti ti-device-desktop ti-xs me-1"></i>اطلاعات سیستم
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-tab="network-info" href="javascript:void(0);">
+          <i class="ti ti-network ti-xs me-1"></i>اطلاعات شبکه
+        </a>
+      </li>
+    </ul>
+    <!--/ User Pills -->
+
+    <!-- Tab Content -->
+    <div id="tabContents">
+      <div id="system-info" class="tab-pane active">
+        <div class="card">
+          <h5 class="card-header">لیست دستگاه های مورد استفاده</h5>
+          <div class="card-datatable table-responsive pt-0">
+            <table class="datatables-direct-basic table">
+              <thead>
+              <tr>
+                <th>دستگاه</th>
+                <th>سیستم عامل</th>
+                <th>ورژن</th>
+                <th>پردازنده</th>
+                <th>مرورگر</th>
+                <th>نوع اتصال</th>
+                {#                <th>عملیات</th>#}
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in device_info_list %}
+                <tr>
+                  {#                  <td>#}
+                  {#                    <img alt="{{ server.country.name }}" src="{% static 'img/flag/' %}{{ server.country.name }}.png"#}
+                  {#                         width="32">#}
+                  {#                  </td>#}
+                  <td>{{ item.device }}</td>
+                  <td>
+                    {{ item.os }}
+                  </td>
+
+                  <td>
+                    {{ item.os_version }}
+                  </td>
+                  <td>
+                    {{ item.cpu }}
+                  </td>
+                  <td>
+                    {{ item.browser }}
+                  </td>
+                  <td>
+                    {{ item.network_kind }}
+                  </td>
+
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="network-info" class="tab-pane d-none">
+        <div class="card">
+          <h5 class="card-header">لیست شبکه ها</h5>
+          <div class="card-datatable table-responsive pt-0">
+            <table class="datatables-direct-basic table">
+              <thead>
+              <tr>
+                <th>پرچم</th>
+                <th>کشور</th>
+                <th>شهر</th>
+                <th>اپراتور</th>
+                <th>آیپی</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in network_info_list %}
+                <tr>
+                  <td>
+                    <img alt="{{ item.country.name }}" src="{% static 'img/flag/' %}{{ item.country.name }}.png"
+                         width="32">
+                  </td>
+                  <td>{{ item.country.persian_name }}</td>
+                  <td>
+                    {{ item.city }}
+                  </td>
+                  <td>
+                    {{ item.isp.name }}
+                  </td>
+                  <td>
+                    {{ item.ip }}
+                  </td>
+
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="{% url 'usersTable' %}" class="btn btn-primary d-grid w-100 waves-effect waves-light mt-4">
+      نمایش جدول کاربران
+    </a>
+  </div>
+
+  <!-- Modal -->
+  {% include "partials/_modals/modal_edit_user.html" %}
+  {% include "partials/_modals/modal_upgrade_plan.html" %}
+  <!-- /Modal -->
+{% endblock %}

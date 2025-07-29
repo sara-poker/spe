@@ -112,6 +112,45 @@ $(async function() {
     });
   }
 
+  /**
+   * 💡 این تابع پینگ، جیتر و پکت لاس را با ارسال درخواست‌های HTTP محاسبه می‌کند.
+   * @param {string} host - آدرس کامل سرور (مثلا http://server.com).
+   * @param {number} count - تعداد دفعات تست.
+   * @returns {Promise<object>} - یک آبجکت شامل میانگین پینگ، جیتر و درصد پکت لاس.
+   */
+  async function testMetrics(host, count = 5) {
+    const success_times = [];
+    let failed_count = 0;
+
+    // یک پارامتر رندوم به URL اضافه می‌کنیم تا از کش شدن درخواست جلوگیری شود.
+    const noCacheUrl = `${host}?t=${new Date().getTime()}`;
+
+    for (let i = 0; i < count; i++) {
+      const start = performance.now();
+      try {
+        await fetch(noCacheUrl, { method: 'HEAD', cache: 'no-store', mode: 'no-cors' });
+        const duration = performance.now() - start;
+        success_times.push(duration);
+      } catch (error) {
+        failed_count++;
+      }
+    }
+
+    if (success_times.length > 0) {
+      const avg_ping = success_times.reduce((a, b) => a + b, 0) / success_times.length;
+      const jitter = Math.max(...success_times) - Math.min(...success_times);
+      const packet_loss = (failed_count / count) * 100;
+
+      return {
+        'avg_ping': Math.round(avg_ping),
+        'jitter': Math.round(jitter),
+        'packet_loss': Math.round(packet_loss)
+      };
+    } else {
+      return { 'avg_ping': 0, 'jitter': 0, 'packet_loss': 100 };
+    }
+  }
+
 
   async function startSpeedTest(urls) {
     if (isRotationActive) return; // جلوگیری از اجرای مجدد
@@ -121,59 +160,19 @@ $(async function() {
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     try {
-      const host = 'https://www.google.com'; // یا هر سرور تست
-      const count = 5;
-      const times = [];
-      let failedCount = 0;
 
-      for (let i = 0; i < count; i++) {
-        const start = performance.now();
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 2000);
+      console.log('⏱️ در حال محاسبه پینگ و جیتر...');
+      // const metrics = await testMetrics(fullUrl, 5);
+      const metrics = await testMetrics("https://www.cloudflare.com", 5);
 
-          await fetch(host, { method: 'HEAD', signal: controller.signal });
-          clearTimeout(timeoutId);
-
-          const duration = performance.now() - start;
-          times.push(duration);
-        } catch (err) {
-          failedCount++;
-        }
-      }
-
-      if (times.length > 0) {
-        const avgPing = times.reduce((a, b) => a + b, 0) / times.length;
-        const jitter = times.length > 1 ? Math.max(...times) - Math.min(...times) : 0;
-        const packetLoss = (failedCount / count) * 100;
-
-        console.log('🎯 پینگ میانگین:', avgPing.toFixed(2), 'ms');
-        console.log('🔁 جیتر:', jitter.toFixed(2), 'ms');
-        console.log('📦 پکت لاست:', packetLoss.toFixed(2), '%');
-      } else {
-        console.log('❌ همه درخواست‌ها شکست خوردند. پکت لاست ۱۰۰٪');
-      }
+      console.log(`✅ نتیجه پینگ برای https://www.cloudflare.com:`);
+      console.log(`- Ping: ${metrics.avg_ping} ms`);
+      console.log(`- Jitter: ${metrics.jitter} ms`);
+      console.log(`- Packet Loss: ${metrics.packet_loss}%`);
 
     } catch (err) {
       console.error('⚠️ خطا در تست پینگ:', err);
     }
-
-    try {
-      const host = 'https://www.google.com'; // یا سرور مورد نظر
-      const start = performance.now();
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
-
-      await fetch(host, { method: 'HEAD', signal: controller.signal });
-      clearTimeout(timeoutId);
-
-      const latency = performance.now() - start;
-      console.log('📡 لتنسی:', latency.toFixed(2), 'ms');
-
-    } catch (err) {
-      console.warn('❌ خطا در تست لتنسی:', err);
-    }
-
 
     for (const baseUrl of urls) {
       console.log(`📡 در حال تست سرور: ${baseUrl}`);

@@ -120,6 +120,60 @@ $(async function() {
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+    try {
+      const host = 'https://www.google.com'; // یا هر سرور تست
+      const count = 5;
+      const times = [];
+      let failedCount = 0;
+
+      for (let i = 0; i < count; i++) {
+        const start = performance.now();
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+          await fetch(host, { method: 'HEAD', signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          const duration = performance.now() - start;
+          times.push(duration);
+        } catch (err) {
+          failedCount++;
+        }
+      }
+
+      if (times.length > 0) {
+        const avgPing = times.reduce((a, b) => a + b, 0) / times.length;
+        const jitter = times.length > 1 ? Math.max(...times) - Math.min(...times) : 0;
+        const packetLoss = (failedCount / count) * 100;
+
+        console.log('🎯 پینگ میانگین:', avgPing.toFixed(2), 'ms');
+        console.log('🔁 جیتر:', jitter.toFixed(2), 'ms');
+        console.log('📦 پکت لاست:', packetLoss.toFixed(2), '%');
+      } else {
+        console.log('❌ همه درخواست‌ها شکست خوردند. پکت لاست ۱۰۰٪');
+      }
+
+    } catch (err) {
+      console.error('⚠️ خطا در تست پینگ:', err);
+    }
+
+    try {
+      const host = 'https://www.google.com'; // یا سرور مورد نظر
+      const start = performance.now();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+      await fetch(host, { method: 'HEAD', signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      const latency = performance.now() - start;
+      console.log('📡 لتنسی:', latency.toFixed(2), 'ms');
+
+    } catch (err) {
+      console.warn('❌ خطا در تست لتنسی:', err);
+    }
+
 
     for (const baseUrl of urls) {
       console.log(`📡 در حال تست سرور: ${baseUrl}`);

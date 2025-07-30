@@ -1,6 +1,7 @@
 $(async function() {
   const dt_basic_table = $('.datatables-basic');
   const testButton = document.getElementById('testButton');
+  testButton.disabled = true;
 
   try {
     const parser = new UAParser();
@@ -23,26 +24,19 @@ $(async function() {
     document.getElementById('country').innerText = details.country;
     document.getElementById('city').innerText = details.city;
     document.getElementById('isp').innerText = details.isp;
-
-    // ست کردن پرچم
     document.getElementById('flag').src = `/static/img/flag/${details.country}.png`;
-    // document.getElementById('flag').src = `/static/img/flag/${details.country.toLowerCase()}.png`;
 
-    // ست کردن لوگوی اپراتور
     const ispLogoMap = {
       'Irancell': 'irancell.png',
       'MCI': 'mci.png',
       'Rightel': 'rightel.png',
       'OVH SAS': 'OVH.png'
     };
-
     const logoFile = ispLogoMap[details.isp] || '.png';
     document.getElementById('isp-logo').src = `/static/img/ispLogo/RGB/${logoFile}`;
-
   } catch (error) {
     console.error('⚠️ خطا در دریافت اطلاعات کاربر:', error);
   }
-
 
   let dt_basic;
   let isRunning = false;
@@ -67,13 +61,10 @@ $(async function() {
           data: 'country',
           title: 'کشور',
           render: function(data) {
-            return `
-              <img alt="${data}" src="/static/img/flag/${data}.png" width="32" class="me-1" style="vertical-align: middle;">
-            `;
+            return `<img alt="${data}" src="/static/img/flag/${data}.png" width="32" class="me-1" style="vertical-align: middle;">`;
           }
         },
         { data: 'name', title: 'نام سرور' },
-
         { data: 'url', title: 'IP' },
         { data: 'isp', title: 'ISP' }
       ],
@@ -88,12 +79,10 @@ $(async function() {
 
     $('div.head-label').html('<h5 class="card-title mb-0">انتخاب سرور برای تست</h5>');
 
-
     testButton.addEventListener('click', function() {
-      if (isRunning) return;
+      if (isRunning || testButton.disabled) return;
 
       const selectedServers = [];
-
       dt_basic_table.find('tbody input.dt-checkboxes:checked').each(function() {
         const index = $(this).data('index');
         const rowData = dt_basic.row(index).data();
@@ -106,23 +95,13 @@ $(async function() {
         return;
       }
 
-      const urls = selectedServers.map(server => server.url);
-
-      startSpeedTest(urls);
+      startSpeedTest(selectedServers);
     });
   }
 
-  /**
-   * 💡 این تابع پینگ، جیتر و پکت لاس را با ارسال درخواست‌های HTTP محاسبه می‌کند.
-   * @param {string} host - آدرس کامل سرور (مثلا http://server.com).
-   * @param {number} count - تعداد دفعات تست.
-   * @returns {Promise<object>} - یک آبجکت شامل میانگین پینگ، جیتر و درصد پکت لاس.
-   */
   async function testMetrics(host, count = 5) {
     const success_times = [];
     let failed_count = 0;
-
-    // یک پارامتر رندوم به URL اضافه می‌کنیم تا از کش شدن درخواست جلوگیری شود.
     const noCacheUrl = `${host}?t=${new Date().getTime()}`;
 
     for (let i = 0; i < count; i++) {
@@ -131,7 +110,7 @@ $(async function() {
         await fetch(noCacheUrl, { method: 'HEAD', cache: 'no-store', mode: 'no-cors' });
         const duration = performance.now() - start;
         success_times.push(duration);
-      } catch (error) {
+      } catch {
         failed_count++;
       }
     }
@@ -142,110 +121,149 @@ $(async function() {
       const packet_loss = (failed_count / count) * 100;
 
       return {
-        'avg_ping': Math.round(avg_ping),
-        'jitter': Math.round(jitter),
-        'packet_loss': Math.round(packet_loss)
+        avg_ping: Math.round(avg_ping),
+        jitter: Math.round(jitter),
+        packet_loss: Math.round(packet_loss)
       };
     } else {
-      return { 'avg_ping': 0, 'jitter': 0, 'packet_loss': 100 };
+      return { avg_ping: 0, jitter: 0, packet_loss: 100 };
     }
   }
 
+  try {
+    const metrics = await testMetrics('https://www.cloudflare.com', 5);
 
-  async function startSpeedTest(urls) {
-    if (isRotationActive) return; // جلوگیری از اجرای مجدد
+    document.getElementById('ping').innerText = `${metrics.avg_ping} ms`;
+    document.getElementById('jitter').innerText = `${metrics.jitter} ms`;
+    document.getElementById('packet').innerText = `${metrics.packet_loss}%`;
+    testButton.disabled = false;
+  } catch (err) {
+    console.error('⚠️ خطا در تست پینگ:', err);
+  }
+
+  function createAccordionItem({ country, ip, downloadMbps, downloadMBps, uploadMbps, uploadMBps, name, isFirst }) {
+    const flagUrl = `/static/img/flag/${country}.png`;
+    const accordionId = `accordion-${ip.replace(/\./g, '-')}`;
+
+    return `
+    <div class="accordion-item card">
+      <h2 class="accordion-header text-body d-flex justify-content-between" id="${accordionId}-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${accordionId}" aria-controls="${accordionId}">
+          <img alt="${country}" src="${flagUrl}" width="32">
+          <div class="ps-3">${name}</div>
+          <div class="ps-3">|</div>
+          <div class="ps-3">${ip}</div>
+        </button>
+      </h2>
+      <div id="${accordionId}" class="accordion-collapse collapse ${isFirst ? 'show' : ''}" data-bs-parent="#accordionIcon">
+        <div class="accordion-body">
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="p-3 rounded shadow-sm border">
+                <h5 class="fw-bold mb-3 text-primary">⬇️ دانلود</h5>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">سرعت دانلود (Mbps):</span>
+                  <span class="fw-semibold">${downloadMbps}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">سرعت دانلود (MBps):</span>
+                  <span class="fw-semibold">${downloadMBps}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="p-3 rounded shadow-sm border">
+                <h5 class="fw-bold mb-3 text-success">⬆️ آپلود</h5>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">سرعت آپلود (Mbps):</span>
+                  <span class="fw-semibold">${uploadMbps}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">سرعت آپلود (MBps):</span>
+                  <span class="fw-semibold">${uploadMBps}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `;
+  }
+
+  const accordionContainer = document.getElementById('accordionIcon');
+
+  async function startSpeedTest(selectedServers) {
+    const urls = selectedServers.map(server => server.url);
+    if (isRotationActive) return;
+
     isRotationActive = true;
     testButton.classList.add('active');
+    accordionContainer.innerHTML = '';
 
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    try {
-
-      console.log('⏱️ در حال محاسبه پینگ و جیتر...');
-      // const metrics = await testMetrics(fullUrl, 5);
-      const metrics = await testMetrics("https://www.cloudflare.com", 5);
-
-      console.log(`✅ نتیجه پینگ برای https://www.cloudflare.com:`);
-      console.log(`- Ping: ${metrics.avg_ping} ms`);
-      console.log(`- Jitter: ${metrics.jitter} ms`);
-      console.log(`- Packet Loss: ${metrics.packet_loss}%`);
-
-    } catch (err) {
-      console.error('⚠️ خطا در تست پینگ:', err);
-    }
-
-    for (const baseUrl of urls) {
-      console.log(`📡 در حال تست سرور: ${baseUrl}`);
-      const downloadUrl = `http://${baseUrl}/files/testfile.bin`;
+    for (const server of selectedServers) {
+      let baseUrl = server.url;
+      const ip = baseUrl;
+      console.log(`شروع تست ${server.name} >>`);
+      const country = server.country;
+      const name = server.name;
+      let downloadMbps = 'خطا';
+      let downloadMBps = 'خطا';
+      let uploadMbps = 'خطا';
+      let uploadMBps = 'خطا';
 
       try {
         const fileSizeInBits = 20971520 * 8;
         const startTime = performance.now();
-
-        const response = await fetch(downloadUrl, { cache: 'no-store' });
+        const response = await fetch(`http://${baseUrl}/files/testfile.bin`, { cache: 'no-store' });
         await response.blob();
-
         const endTime = performance.now();
-        const durationInSeconds = (endTime - startTime) / 1000;
+        const duration = (endTime - startTime) / 1000;
 
-        if (durationInSeconds === 0) {
-          console.log('🚀 دانلود آنی بود! سرعت قابل محاسبه نیست.');
-          continue;
-        }
-
-        const speedBps = fileSizeInBits / durationInSeconds;
-        const speedMbps = speedBps / 1000000;
-        const speedMBps = speedMbps / 8;
-
-        console.log(`📥 دانلود از ${baseUrl}:`);
-        console.log(`✅ سرعت دانلود: ${speedMbps.toFixed(2)} مگابیت بر ثانیه (Mbps)`);
-        console.log(`✅ سرعت دانلود: ${speedMBps.toFixed(2)} مگابایت بر ثانیه (MBps)`);
-
-      } catch (error) {
-        console.error(`❌ خطا در ارتباط با سرور ${baseUrl}:`, error.message);
+        downloadMbps = (fileSizeInBits / duration / 1000000).toFixed(2);
+        downloadMBps = (downloadMbps / 8).toFixed(2);
+        console.log(`پایان دانلود ${server.name} >>`);
+      } catch (err) {
+        console.error(`خطا در دانلود از ${baseUrl}:`, err);
       }
 
       try {
         const uploadUrl = `http://${baseUrl}/files/upload.php`;
-        const fileSizeMB = 5;
-        const fileSizeBytes = fileSizeMB * 1024 * 1024;
+        const fileSizeBytes = 5 * 1024 * 1024;
         const fileSizeBits = fileSizeBytes * 8;
-
         const fileData = new Blob([new Uint8Array(fileSizeBytes)]);
-
-        const startTime = performance.now();
-
         const formData = new FormData();
         formData.append('file', fileData, 'upload_test_file.bin');
 
-        const response = await fetch(uploadUrl, {
-          method: 'POST',
-          body: formData
-        });
-
+        const startTime = performance.now();
+        await fetch(uploadUrl, { method: 'POST', body: formData });
         const endTime = performance.now();
         const duration = (endTime - startTime) / 1000;
 
-        const speedBps = fileSizeBits / duration;
-        const speedMbps = speedBps / 1000000;
-        const speedMBps = speedMbps / 8;
-
-        console.log(`⬆️ آپلود به ${baseUrl}:`);
-        console.log(`✅ سرعت آپلود: ${speedMbps.toFixed(2)} مگابیت بر ثانیه (Mbps)`);
-        console.log(`✅ سرعت آپلود: ${speedMBps.toFixed(2)} مگابایت بر ثانیه (MBps)`);
-      } catch (error) {
-        console.warn(`❌ خطا در آپلود به ${baseUrl}:`, error);
+        uploadMbps = (fileSizeBits / duration / 1000000).toFixed(2);
+        uploadMBps = (uploadMbps / 8).toFixed(2);
+        console.log(`پایان آپلود ${server.name} >>`);
+      } catch (err) {
+        console.error(`خطا در آپلود به ${baseUrl}:`, err);
       }
 
+      accordionContainer.innerHTML += createAccordionItem({
+        country: country || 'france',
+        ip,
+        downloadMbps,
+        downloadMBps,
+        uploadMbps,
+        uploadMBps,
+        name,
+        isFirst: selectedServers.indexOf(server) === 0
+      });
+
+      await delay(2000);
     }
-
-    console.log('🏁 تست به پایان رسید.');
-
-    await delay(2000); // تاخیر ۲ ثانیه‌ای بین هر سرور
-
 
     testButton.classList.remove('active');
     isRotationActive = false;
   }
-
 });

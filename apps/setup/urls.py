@@ -15,7 +15,7 @@ urlpatterns = [
     ),
     path(
         "api/get_all_server_test",
-        GetAllIsp.as_view(),
+        GetAllServerTest.as_view(),
         name="get_all_server_test",
     ),
     path(

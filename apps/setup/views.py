@@ -85,7 +85,7 @@ class ServerTestView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
-        servers = ServerTest.objects.all()
+        servers = ServerTest.objects.all().order_by('-is_active','name')
         country = Country.objects.all().order_by('persian_name')
         isp = Isp.objects.all().order_by('name')
 
@@ -132,11 +132,11 @@ class ServerTestView(TemplateView):
 
         return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت ثبت شد")
 
-class GetAllIsp(APIView):
+class GetAllServerTest(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        server_test = ServerTest.objects.all().order_by("name")
+        server_test = ServerTest.objects.filter(is_active=True).order_by("name")
 
         serializer = ServerTestSerializer(server_test, many=True)
         return Response(serializer.data)

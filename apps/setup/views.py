@@ -107,7 +107,7 @@ class ServerTestView(TemplateView):
                 return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت حذف شد")
             except ProtectedError:
                 return redirect(
-                    f"{request.path}?alert_class=err_alert_mo&message=این سرور قابل حذف نیست چون در بخش‌های دیگری استفاده شده است")
+                    f"{request.path}?alert_class=err_alert_mo&message=از این سرور در تست های سرعت استفاده شده است، به همین دلیل قابل حذف کردن نیست.")
 
         # اضافه کردن سرور جدید
         name = request.POST.get('server_name', '').strip()

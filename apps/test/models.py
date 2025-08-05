@@ -11,8 +11,8 @@ class Isp(models.Model):
         verbose_name_plural = 'اپراتورها'
 
     CLOUD_CHOICE = (
-        ('True', 'True'),
-        ('False', 'False')
+        (True, 'True'),
+        (False, 'False')
     )
 
     name = models.CharField(max_length=80, verbose_name='اسم')
@@ -22,7 +22,7 @@ class Isp(models.Model):
     country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
     as_number = models.CharField(max_length=50, verbose_name='AS')
     asname = models.CharField(max_length=100, verbose_name='AS Name')
-    cloud = models.BooleanField(max_length=18, verbose_name='وضعیت', choices=CLOUD_CHOICE, blank=True, null=True)
+    cloud = models.BooleanField(max_length=18, verbose_name='وضعیت ابری بودن', choices=CLOUD_CHOICE, default=True)
 
     def __str__(self):
         return self.name
@@ -34,8 +34,8 @@ class ServerTest(models.Model):
         verbose_name_plural = 'سرور های تست'
 
     ACTIVE_CHOICE = (
-        ('True', 'True'),
-        ('False', 'False')
+        (True, 'فعال'),
+        (False, 'غیر فعال')
     )
 
 
@@ -43,7 +43,7 @@ class ServerTest(models.Model):
     url = models.URLField(max_length=200, verbose_name='آدرس وب‌سایت', blank=True, null=True, unique=True)
     isp = models.ForeignKey(Isp, verbose_name='ارائه دهنده خدمات', on_delete=models.PROTECT, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
-    is_active = models.BooleanField(max_length=18, verbose_name='وضعیت', choices=ACTIVE_CHOICE, default='True')
+    is_active = models.BooleanField(max_length=18, verbose_name='وضعیت سرور', choices=ACTIVE_CHOICE, default=True)
 
     def __str__(self):
         return self.name
@@ -89,8 +89,8 @@ class SpeedTest(models.Model):
         verbose_name_plural = 'تست های سرعت'
 
     STATE_CHOICE = (
-        ('True', 'True'),
-        ('False', 'False')
+        (True, 'موفق'),
+        (False, 'ناموفق')
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='کاربر')
@@ -113,7 +113,7 @@ class SpeedTest(models.Model):
     upload_file_size = models.FloatField(verbose_name='حجم فایل آپلودی (MB)', blank=True, null=True)
 
     latency = models.FloatField(verbose_name='لَتِنسی', blank=True, null=True)
-    test_state = models.CharField(max_length=20, choices=STATE_CHOICE, verbose_name='وضعیت تست', blank=True, null=True)
+    test_state = models.BooleanField(max_length=20, choices=STATE_CHOICE, verbose_name='وضعیت تست', default=False)
     date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ تست', blank=True, null=True)
 
     def __str__(self):

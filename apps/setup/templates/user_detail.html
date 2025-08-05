@@ -32,6 +32,15 @@
 
 {% block page_css %}
   {{ block.super }}
+  <style>
+    table th {
+      text-align: center !important;
+    }
+
+    table {
+      text-align: center;
+    }
+  </style>
   <link rel="stylesheet" href="{% static 'vendor/css/pages/page-user-view.css' %}" />
 {% endblock page_css %}
 
@@ -260,7 +269,6 @@
             <table class="datatables-direct-basic table">
               <thead>
               <tr>
-                <th>پرچم</th>
                 <th>کشور</th>
                 <th>شهر</th>
                 <th>اپراتور</th>
@@ -271,10 +279,9 @@
               {% for item in network_info_list %}
                 <tr>
                   <td>
-                    <img alt="{{ item.country.name }}" src="{% static 'img/flag/' %}{{ item.country.name }}.png"
-                         width="32">
-                  </td>
-                  <td>{{ item.country.persian_name }}</td>
+                    <img alt="{{ item.country.name }}"
+                         src="{% static 'img/flag/' %}{{ item.country.name }}.png"
+                         width="32"> {{ item.country.persian_name }}</td>
                   <td>
                     {{ item.city }}
                   </td>

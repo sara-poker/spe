@@ -1,6 +1,7 @@
 from django.views.generic import (TemplateView)
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
+from django.db.models import ProtectedError
 
 from web_project import TemplateLayout
 
@@ -21,8 +22,8 @@ class ProfileView(TemplateView):
         speed_test_qs = SpeedTest.objects.filter(user=self.request.user).select_related('device_info', 'network_info')
 
         # تعداد موفق و ناموفق
-        success_count = speed_test_qs.filter(test_state='success').count()
-        fail_count = speed_test_qs.filter(test_state='fail').count()
+        success_count = speed_test_qs.filter(test_state=True).count()
+        fail_count = speed_test_qs.filter(test_state=False).count()
 
         # استخراج یونیک دستگاه‌ها
         unique_devices = set(speed_test_qs.values_list('device_info', flat=True))
@@ -50,8 +51,8 @@ class UserDetail(TemplateView):
         speed_test_qs = SpeedTest.objects.filter(user=self.kwargs['pk']).select_related('device_info', 'network_info')
 
         # تعداد موفق و ناموفق
-        success_count = speed_test_qs.filter(test_state='success').count()
-        fail_count = speed_test_qs.filter(test_state='fail').count()
+        success_count = speed_test_qs.filter(test_state=True).count()
+        fail_count = speed_test_qs.filter(test_state=False).count()
 
         # استخراج یونیک دستگاه‌ها
         unique_devices = set(speed_test_qs.values_list('device_info', flat=True))
@@ -101,8 +102,12 @@ class ServerTestView(TemplateView):
         # حذف سرور (اگر فرم حذف ارسال شده باشه)
         if 'delete_server_id' in request.POST:
             server_id = request.POST.get('delete_server_id')
-            ServerTest.objects.filter(id=server_id).delete()
-            return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت حذف شد")
+            try:
+                ServerTest.objects.get(id=server_id).delete()
+                return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت حذف شد")
+            except ProtectedError:
+                return redirect(
+                    f"{request.path}?alert_class=err_alert_mo&message=این سرور قابل حذف نیست چون در بخش‌های دیگری استفاده شده است")
 
         # اضافه کردن سرور جدید
         name = request.POST.get('server_name', '').strip()

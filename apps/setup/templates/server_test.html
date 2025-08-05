@@ -180,7 +180,12 @@
               {{ server.isp }}
             </td>
             <td>
-              <span class="badge  bg-label-success">فعال</span>
+              {% if server.is_active %}
+                 <span class="badge  bg-label-success">فعال</span>
+              {% else %}
+                <span class="badge  bg-label-danger">غیر فعال</span>
+              {% endif %}
+
             </td>
             <td>
               <div class="d-inline-block">

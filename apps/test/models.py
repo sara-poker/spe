@@ -22,7 +22,7 @@ class Isp(models.Model):
     country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
     as_number = models.CharField(max_length=50, verbose_name='AS')
     asname = models.CharField(max_length=100, verbose_name='AS Name')
-    cloud = models.CharField(max_length=18, verbose_name='وضعیت', choices=CLOUD_CHOICE, blank=True, null=True)
+    cloud = models.BooleanField(max_length=18, verbose_name='وضعیت', choices=CLOUD_CHOICE, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -33,10 +33,17 @@ class ServerTest(models.Model):
         verbose_name = 'سرور تست'
         verbose_name_plural = 'سرور های تست'
 
+    ACTIVE_CHOICE = (
+        ('True', 'True'),
+        ('False', 'False')
+    )
+
+
     name = models.CharField(max_length=80, verbose_name='اسم', unique=True)
     url = models.URLField(max_length=200, verbose_name='آدرس وب‌سایت', blank=True, null=True, unique=True)
     isp = models.ForeignKey(Isp, verbose_name='ارائه دهنده خدمات', on_delete=models.PROTECT, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
+    is_active = models.BooleanField(max_length=18, verbose_name='وضعیت', choices=ACTIVE_CHOICE, default='True')
 
     def __str__(self):
         return self.name
@@ -89,7 +96,7 @@ class SpeedTest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='کاربر')
     network_info = models.ForeignKey(NetworkInfo, on_delete=models.PROTECT, verbose_name='اطلاعات شبکه')
     device_info = models.ForeignKey(DeviceInfo, on_delete=models.PROTECT, verbose_name='اطلاعات دستگاه')
-    server_test = models.ForeignKey(ServerTest, on_delete=models.SET_NULL, verbose_name='سرور تست', null=True,
+    server_test = models.ForeignKey(ServerTest, on_delete=models.PROTECT, verbose_name='سرور تست', null=True,
                                     blank=True)
 
     ping_avg = models.FloatField(verbose_name='پینگ (ms)', blank=True, null=True)

@@ -12,11 +12,11 @@ $(async function() {
     document.getElementById('device').innerText = `${result.device.type || 'Desktop'} | ${result.device.vendor || 'Unknown'} | ${result.device.model || 'Unknown'}`;
     document.getElementById('cpu').innerText = result.cpu.architecture || 'Unknown';
 
-    const ipInfoRes = await fetch('https://ip-api.com/json');
+    const ipInfoRes = await fetch('https://ipapi.co/json');
     const ipInfo = await ipInfoRes.json();
-    const userIp = ipInfo.query;
+    const userIp = ipInfo.ip;
 
-    const apiUrl = `http://ip-api.ir/info/${userIp}/status,country,city,isp,query`;
+    const apiUrl = `https://ip-api.ir/info/${userIp}/status,country,city,isp,query`;
     const detailsRes = await fetch(apiUrl);
     const details = await detailsRes.json();
 

@@ -108,7 +108,6 @@ class SpeedTest(models.Model):
     packet_loss = models.FloatField(verbose_name='درصد از دست رفتن پکت', blank=True, null=True)
 
     speed_mbps = models.FloatField(verbose_name='سرعت دانلود (Mbps)', blank=True, null=True)
-    speed_MBps = models.FloatField(verbose_name='سرعت دانلود (MB/s)', blank=True, null=True)
     loaded_size = models.FloatField(verbose_name='اندازه فایل دانلود شده (MB)', blank=True, null=True)
     load_time = models.FloatField(verbose_name='زمان دانلود (ثانیه)', blank=True, null=True)
 

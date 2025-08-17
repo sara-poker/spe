@@ -33,6 +33,9 @@ class ProfileView(TemplateView):
         unique_networks = set(speed_test_qs.values_list('network_info', flat=True))
         network_info_list = NetworkInfo.objects.filter(id__in=unique_networks)
 
+        avg = SpeedTest.get_average_speed(user=self.request.user)
+        print("AVG>>",avg)
+
         # اضافه به context
         context['success_count'] = success_count
         context['fail_count'] = fail_count

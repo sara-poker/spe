@@ -1,7 +1,11 @@
 from django.db import models
+from django.db.models import Avg
+
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+
 from apps.setup.models import *
+
 from config import settings
 
 
@@ -118,3 +122,10 @@ class SpeedTest(models.Model):
 
     def __str__(self):
         return f"تست توسط {self.user.name} در {self.date}"
+
+    @classmethod
+    def get_average_speed(cls, **filters):
+        return cls.objects.filter(**filters).aggregate(
+            avg_download=Avg('speed_mbps'),
+            avg_upload=Avg('upload_speed_mbps')
+        )

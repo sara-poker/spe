@@ -27,11 +27,11 @@ class PerformanceMiddleware:
         }
 
         # نمایش اطلاعات در لاگ یا سرصفحه HTTP
-        print("------------------------------")
+        # print("------------------------------")
         print(f"Request: \"{request.path}\"")
         print(f"Time: \"{elapsed_time:.3f}s\"")
         print(f"CPU: \"{cpu_usage}\"")
-        print("------------------------------")
+        # print("------------------------------")
         response["X-Request-Duration"] = f"{elapsed_time:.3f}s"
         response["X-CPU-Usage"] = str(cpu_usage)
 

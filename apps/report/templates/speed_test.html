@@ -1,0 +1,334 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}تست سرعت{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/swiper/swiper.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/spinkit/spinkit.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+  <script src="{% static 'vendor/libs/swiper/swiper.js' %}"></script>
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+
+  <script src="{% static 'amcharts5/index.js' %}"></script>
+  <script src="{% static 'amcharts5/xy.js' %}"></script>
+  <script src="{% static 'amcharts5/radar.js' %}"></script>
+  <script src="{% static 'amcharts5/plugins/exporting.js' %}"></script>
+  <script src="{% static 'amcharts5/themes/Animated.js' %}"></script>
+  <script src="{% static 'amcharts5/wc.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
+  <style>
+    #template-customizer {
+      display: none !important;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+      perspective: 1000px;
+    }
+
+    h5 {
+      color: #555 !important;
+    }
+
+    td a {
+      color: #666 !important;
+      transition: all .3s;
+    }
+
+    td a:hover {
+      color: #000 !important;
+      font-weight: bold !important;
+    }
+
+
+    .card-header-mz {
+      padding: 15px 15px 0;
+    }
+
+    .card-header-mz h5 {
+      margin: 0;
+    }
+
+    .carousel-control-prev-icon {
+      background: #555 url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.25 4.5L6.75 9L11.25 13.5' stroke='%23fff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M11.25 4.5L6.75 9L11.25 13.5' stroke='white' stroke-opacity='0.2' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A") center center no-repeat !important;
+    }
+
+    .carousel-control-next-icon {
+      background: #555 url("data:image/svg+xml,%3Csvg width='19' height='18' viewBox='0 0 19 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.25 4.5L11.75 9L7.25 13.5' stroke='%23fff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M7.25 4.5L11.75 9L7.25 13.5' stroke='white' stroke-opacity='0.2' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center center no-repeat !important;
+    }
+
+    .item-image-icon {
+      border-radius: 30px;
+    }
+
+    #alert_mo {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      border: 1.5px solid #1ab8cc;
+      z-index: 5000;
+    }
+
+    .button-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .test-button {
+      width: 100%;
+      height: 100%;
+      background-color: #e0e0e0; /* نقره‌ای روشن */
+      border: none;
+      border-radius: 50%; /* کاملاً دایره‌ای */
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2),
+      0 4px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      outline: none;
+      transform-style: preserve-3d;
+    }
+
+    .button-text {
+      color: #333;
+      font-size: 1.5em;
+      font-weight: bold;
+      z-index: 2;
+      transition: color 0.2s ease-out;
+    }
+
+    .button-lines {
+      position: absolute;
+      width: 80%; /* اندازه SVG دایره داخلی نسبت به دکمه */
+      height: 80%;
+      top: 10%;
+      left: 10%;
+      z-index: 1;
+    }
+
+    .button-lines .inner-circle {
+      stroke: #aaa; /* رنگ پیش‌فرض دایره داخلی (طوسی روشن) */
+      transition: stroke 0.2s ease-out;
+    }
+
+    /* حالت فعال (Active State) برای چرخش و ظاهر فشرده */
+    .test-button.active {
+      transform: translateY(4px) scale(0.98);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2),
+      0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-button.active .button-text {
+      color: #ef6808;
+    }
+
+    .test-button.active .button-lines .inner-circle {
+      stroke: #ef6808;
+    }
+
+    /* دایره چرخشی خارجی */
+    .rotating-circle {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+      pointer-events: none;
+    }
+
+    /* نمایش و چرخش دایره فقط وقتی دکمه active است */
+    .test-button.active + .rotating-circle {
+      opacity: 1;
+      animation: rotateCircle 1.5s linear infinite;
+    }
+
+    .card-mz {
+      padding: 20px 0px 30px;
+    }
+
+    @keyframes rotateCircle {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+  </style>
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.35/dist/ua-parser.min.js"></script>
+  <script src="{% static 'js/report-dashboard.js' %}"></script>
+  <script src="{% static 'js/table-mz.js' %}"></script>
+
+
+
+
+{% endblock page_js %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-xl-8 col-lg-12 mb-4">
+      <div class=" col-12 h-100  mb-3" id="test_result">
+        <div class="col-md">
+          <small class="text-light fw-medium ">اطلاعات کاربری:</small>
+          <div class="card mt-4 mb-4 shadow rounded">
+            <div class="card-body">
+              <div class="row">
+                <!-- بخش چپ -->
+                <div class="col-md-6 mb-3">
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">آی‌پی:</h5>
+                    <h6 class="mb-0" id="ip">...</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">کشور:</h5>
+                    <h6 class="mb-0 me-2" id="country">...</h6>
+                    <img id="flag" src="" alt="flag" height="30" class="rounded border">
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">شهر:</h5>
+                    <h6 class="mb-0" id="city">...</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">اپراتور:</h5>
+                    <h6 class="mb-0 me-2" id="isp">...</h6>
+                    <img id="isp-logo" src="" alt="isp-logo" height="30" class="rounded border">
+                  </div>
+
+                </div>
+
+                <!-- بخش راست -->
+                <div class="col-md-6 mb-3">
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">دستگاه:</h5>
+                    <h6 class="mb-0" id="device">...</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">سیستم عامل:</h5>
+                    <h6 class="mb-0" id="os">...</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">پردازنده:</h5>
+                    <h6 class="mb-0" id="cpu">...</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">مرورگر:</h5>
+                    <h6 class="mb-0" id="browser">...</h6>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row text-center">
+                <div class="col-md-4 mb-3">
+                  <div class="d-flex flex-column align-items-center border p-2 rounded">
+                    <h5 class="mb-1">پینگ:</h5>
+                    <h6 id="ping">...</h6>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <div class="d-flex flex-column align-items-center border p-2 rounded">
+                    <h5 class="mb-1">جیتر:</h5>
+                    <h6 id="jitter">...</h6>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <div class="d-flex flex-column align-items-center border p-2 rounded">
+                    <h5 class="mb-1">درصد از دست رفتن بسته:</h5>
+                    <h6 id="packet">...</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <small class="text-light fw-medium">نتایج تست ها</small>
+          <div class="accordion mt-3 accordion-without-arrow" id="accordionIcon">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-12 mb-4">
+      <div class=" col-12 h-100  mb-3">
+        <div class="card card-mz">
+          <div class="p-3 d-flex justify-content-center">
+            <div class="button-container">
+              <button class="test-button" id="testButton">
+                <span class="button-text">تست</span>
+                <svg class="button-lines" viewBox="0 0 100 100">
+                  <circle class="inner-circle" cx="50" cy="50" r="54" fill="none" stroke-width="2" />
+                </svg>
+              </button>
+              <svg class="rotating-circle" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="48" fill="none" stroke="#ef6808" stroke-width="3" stroke-dasharray="75 225"
+                        stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-datatable table-responsive pt-0">
+              <table class="datatables-basic table">
+                <thead>
+                <tr>
+                  <th></th> <!-- چک‌باکس‌ها -->
+                  <th>کشور</th>
+                  <th>نام سرور</th>
+                  <th>IP</th>
+                  <th>ISP</th>
+                </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
+

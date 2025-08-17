@@ -1,0 +1,240 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}سرور های تست{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/umd/styles/index.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/spinkit/spinkit.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+  <script src="{% static 'vendor/libs/moment/moment.js' %}"></script>
+  <script src="{% static 'libs/jdate/jdate.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/flatpickr/flatpickr.js' %}"></script>
+  <script src="{% static 'libs/flatpickr/flatpickr-jdate.js' %}"></script>
+  <script src="{% static 'libs/flatpickr-jalali/dist/l10n/fa.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/bundle/popular.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js' %}"></script>
+
+  <script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+
+
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
+  <style>
+    #alert_mo {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 5000;
+    }
+
+    .none_alert_mo {
+      display: none !important;
+    }
+
+    .success_alert_mo {
+      color: #00b300 !important;
+      background: #cfeee6 !important;
+      border: 2px solid #00b300 !important;
+    }
+
+    .err_alert_mo {
+      color: #b30000 !important;
+      background: #eecfcf !important;
+      border: 2px solid #b30000 !important;
+    }
+
+  </style>
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="{% static 'js/tables-datatables-basic.js' %}"></script>
+  <script src="{% static 'js/form-layouts.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const deleteButtons = document.querySelectorAll('.item-delete');
+      const serverNameEl = document.getElementById('serverNameInModal');
+      const serverIdInput = document.getElementById('deleteServerId');
+
+      deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const name = this.getAttribute('data-server-name');
+          const id = this.getAttribute('data-server-id');
+          serverNameEl.textContent = name;
+          serverIdInput.value = id;
+        });
+      });
+    });
+  </script>
+{% endblock page_js %}
+
+{% block content %}
+  <h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">  تنظیمات /</span> سرور های تست
+  </h4>
+  <!-- DataTable direct html : by byteMaster at 2024-02-01 -->
+  <div class="card mb-4">
+    <h5 class="card-header">اضافه کردن سرور</h5>
+    <form class="card-body" method="post">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="multicol-username">نام سرور</label>
+          <input name="server_name" class="form-control" id="multicol-username" placeholder="سرور یک" type="text" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="multicol-ip">آیپی</label>
+          <input name="ip" class="form-control" id="multicol-ip" placeholder="192.168.1.1" type="text" />
+        </div>
+
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="select2Basic">کشور سرور:</label>
+          <select class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic"
+                  name="country_server">
+            <option label="انتخاب کشور" value="0">انتخاب کشور</option>
+            {% for item in country %}
+              <option label="{{ item.persian_name }}" value="{{ item.id }}">{{ item.persian_name }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="select2Basic2">ارائه دهنده خدمات سرور:</label>
+          <select class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"
+                  name="isp_server">
+            <option label="انتخاب ارائه دهنده" value="0">انتخاب ارائه دهنده</option>
+            {% for item in isp %}
+              <option label="{{ item.name }}" value="{{ item.id }}">{{ item.name }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="form-check form-switch mb-2 ps-5">
+          <label class="form-check-label" for="flexSwitchCheckChecked">فعال بودن سرور</label>
+          <input disabled checked name="is_active" class="form-check-input" id="flexSwitchCheckChecked"
+                 type="checkbox" />
+
+        </div>
+      </div>
+      <hr class="my-4 mx-n4" />
+      <button class="btn btn-primary me-sm-3 me-1" type="submit">اضافه کردن سرور</button>
+      <button class="btn btn-label-secondary" type="reset">لغو</button>
+    </form>
+  </div>
+  <div class="card">
+    <h5 class="card-header">لیست سرور های تست</h5>
+    <div class="card-datatable table-responsive pt-0">
+      <table class="datatables-direct-basic table">
+        <thead>
+        <tr>
+          <th>پرچم</th>
+          <th>نام سرور</th>
+          <th>کشور</th>
+          <th>آیپی</th>
+          <th>ارائه دهنده</th>
+          <th>وضعیت</th>
+          <th>عملیات</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for server in servers %}
+          <tr>
+            <td>
+              <img alt="{{ server.country.name }}" src="{% static 'img/flag/' %}{{ server.country.name }}.png"
+                   width="32">
+            </td>
+            <td>{{ server.name }}</td>
+            <td>
+              {{ server.country.persian_name }}
+            </td>
+            <td>
+              {{ server.url }}
+            </td>
+            <td>
+              {{ server.isp }}
+            </td>
+            <td>
+              {% if server.is_active %}
+                <span class="badge  bg-label-success">فعال</span>
+              {% else %}
+                <span class="badge  bg-label-danger">غیر فعال</span>
+              {% endif %}
+
+            </td>
+            <td>
+              <div class="d-inline-block">
+                <a href="javascript:;" class="btn btn-sm btn-icon item-delete"
+                   data-server-name="{{ server.name }}"
+                   data-server-id="{{ server.id }}"
+                   data-bs-toggle="modal"
+                   data-bs-target="#deleteServerModal">
+                  <i class="text-danger ti ti-trash-filled"></i>
+                </a>
+              </div>
+              {#              <a href="javascript:;" class="btn btn-sm btn-icon item-edit"><i class="text-primary ti ti-pencil"></i></a>#}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div id="alert_mo" class="alert alert-dark alert-dismissible {{ class_notification }}" role="alert">{{ message }}
+    <button aria-label="بستن" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+  </div>
+
+  <div class="modal fade" id="deleteServerModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form method="post" class="modal-content">
+        {% csrf_token %}
+
+        <input type="hidden" name="delete_server_id" id="deleteServerId">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteServerModalTitle">حذف سرور</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+        </div>
+
+        <div class="modal-body">
+          <p>آیا از حذف <strong id="serverNameInModal">این سرور</strong> مطمئن هستید؟</p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">صرف نظر</button>
+          <button type="submit" class="btn btn-danger">بله، حذف کن</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+{% endblock %}

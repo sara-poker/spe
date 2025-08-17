@@ -16,10 +16,43 @@ menu_file = {
                     "slug": "dashboard-analytics"
                 }
             ]
+        },
+        {
+            "name": "تست سرعت",
+            "icon": "menu-icon tf-icons ti ti-gauge",
+            "slug": "dashboard",
+            "submenu": [
+                {
+                    "url": "speed_test",
+                    "name": "تست سرعت",
+                    "slug": "speed_test"
+                }
+            ]
+        },
+        {
+            "name": "تنظیمات",
+            "icon": "menu-icon tf-icons ti ti-settings",
+            "slug": "setting",
+            "submenu": [
+                {
+                    "url": "profile",
+                    "name": "پروفایل",
+                    "slug": "profile"
+                },
+                {
+                    "url": "usersTable",
+                    "name": "جدول کاربران",
+                    "slug": "users_table"
+                },
+                {
+                    "url": "serverTest",
+                    "name": "سرور های تست",
+                    "slug": "server-test"
+                },
+            ]
         }
     ]
 }
-
 
 """
 This is an entry and Bootstrap class for the theme level.

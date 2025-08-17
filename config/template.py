@@ -37,13 +37,13 @@ TEMPLATE_CONFIG = {
 # Theme Variables
 # ? Personalize template by changing theme variables (For ex: Name, URL Version etc...)
 THEME_VARIABLES = {
-    "creator_name": "تست سرعت",
+    "creator_name": "گروه نت کاو",
     "creator_url": "",
-    "template_name": "سامانه تست سرعت",
+    "template_name": "نت کاو",
     "template_suffix": "",
     "template_version": "1.0.0",
     "template_free": False,
-    "template_description": "سامانه تست سرعت",
+    "template_description": "سامانه نت کاو",
     "template_keyword": "django, django admin, dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5",
     "facebook_url": "https://www.facebook.com/pixinvents/",
     "twitter_url": "https://twitter.com/pixinvents",

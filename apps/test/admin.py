@@ -5,24 +5,29 @@ from django.contrib import admin
 from .models import *
 
 
-# Register your models here.
-class CustomUserAdmin(admin.ModelAdmin):
-    list_per_page = 30
-
-
-class OperatorAdmin(admin.ModelAdmin):
-    list_per_page = 30
-
-
-class CountryAdmin(admin.ModelAdmin):
-    list_per_page = 30
-
 
 class IspAdmin(admin.ModelAdmin):
     list_per_page = 30
 
 
-admin.site.register(Operator, OperatorAdmin)
-admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(Country, CountryAdmin)
+class ServerTestAdmin(admin.ModelAdmin):
+    list_per_page = 30
+
+
+class NetworkInfoAdmin(admin.ModelAdmin):
+    list_per_page = 30
+
+
+class DeviceInfoAdmin(admin.ModelAdmin):
+    list_per_page = 30
+
+
+class SpeedTestAdmin(admin.ModelAdmin):
+    list_per_page = 30
+
+
 admin.site.register(Isp, IspAdmin)
+admin.site.register(ServerTest, ServerTestAdmin)
+admin.site.register(NetworkInfo, NetworkInfoAdmin)
+admin.site.register(DeviceInfo, DeviceInfoAdmin)
+admin.site.register(SpeedTest, SpeedTestAdmin)

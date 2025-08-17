@@ -14,17 +14,17 @@ $(async function() {
 
     const ipInfoRes = await fetch('https://ipapi.co/json');
     const ipInfo = await ipInfoRes.json();
-    const userIp = ipInfo.ip;
+    // const userIp = ipInfo.ip;
+    //
+    // const apiUrl = `https://ip-api.ir/info/${userIp}/status,country,city,isp,query`;
+    // const detailsRes = await fetch(apiUrl);
+    // const details = await detailsRes.json();
 
-    const apiUrl = `https://ip-api.ir/info/${userIp}/status,country,city,isp,query`;
-    const detailsRes = await fetch(apiUrl);
-    const details = await detailsRes.json();
-
-    document.getElementById('ip').innerText = userIp;
-    document.getElementById('country').innerText = details.country;
-    document.getElementById('city').innerText = details.city;
-    document.getElementById('isp').innerText = details.isp;
-    document.getElementById('flag').src = `/static/img/flag/${details.country}.png`;
+    document.getElementById('ip').innerText = ipInfo.ip;
+    document.getElementById('country').innerText = ipInfo.country_name;
+    document.getElementById('city').innerText = ipInfo.city;
+    document.getElementById('isp').innerText = ipInfo.org;
+    document.getElementById('flag').src = `/static/img/flag/${ipInfo.country}.png`;
 
     const ispLogoMap = {
       'Irancell': 'irancell.png',

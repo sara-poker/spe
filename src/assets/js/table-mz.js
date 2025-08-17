@@ -12,7 +12,7 @@ $(async function() {
     document.getElementById('device').innerText = `${result.device.type || 'Desktop'} | ${result.device.vendor || 'Unknown'} | ${result.device.model || 'Unknown'}`;
     document.getElementById('cpu').innerText = result.cpu.architecture || 'Unknown';
 
-    const ipInfoRes = await fetch('http://ip-api.com/json');
+    const ipInfoRes = await fetch('https://ip-api.com/json');
     const ipInfo = await ipInfoRes.json();
     const userIp = ipInfo.query;
 

@@ -24,7 +24,7 @@ $(async function() {
     document.getElementById('country').innerText = ipInfo.country_name;
     document.getElementById('city').innerText = ipInfo.city;
     document.getElementById('isp').innerText = ipInfo.org;
-    document.getElementById('flag').src = `/static/img/flag/${ipInfo.country}.png`;
+    document.getElementById('flag').src = `/static/img/flag/${ipInfo.country_name}.png`;
 
     const ispLogoMap = {
       'Irancell': 'irancell.png',

@@ -28,7 +28,6 @@ class Command(BaseCommand):
                 jitter=item['jitter'],
                 packet_loss=item['packet_loss'],
                 speed_mbps=item['speed_mbps'],
-                speed_MBps=item['speed_MBps'],
                 loaded_size=item['loaded_size'],
                 load_time=item['load_time'],
                 upload_speed_mbps=item['upload_speed_mbps'],

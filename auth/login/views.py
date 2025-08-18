@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from auth.views import AuthView
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -38,7 +39,8 @@ class LoginView(AuthView):
             authenticated_user = authenticate(request, username=username, password=password)
             if authenticated_user is not None:
                 login(request, authenticated_user)
-                return redirect(request.POST.get("next", "index"))
+                next_url = request.POST.get("next") or request.GET.get("next") or reverse("index")
+                return redirect(next_url)
             else:
                 messages.error(request, "نام کاربری یا رمز ورود اشتباه است.")
                 return redirect("login")

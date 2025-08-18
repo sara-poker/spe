@@ -217,7 +217,7 @@ $(async function() {
       try {
         const fileSizeInBits = 20971520 * 8;
         const startTime = performance.now();
-        const response = await fetch(`http://${baseUrl}/files/testfile.bin`, { cache: 'no-store' });
+        const response = await fetch(`https://${baseUrl}/files/testfile.bin`, { cache: 'no-store' });
         await response.blob();
         const endTime = performance.now();
         const duration = (endTime - startTime) / 1000;
@@ -230,7 +230,7 @@ $(async function() {
       }
 
       try {
-        const uploadUrl = `http://${baseUrl}/files/upload.php`;
+        const uploadUrl = `https://${baseUrl}/files/upload.php`;
         const fileSizeBytes = 5 * 1024 * 1024;
         const fileSizeBits = fileSizeBytes * 8;
         const fileData = new Blob([new Uint8Array(fileSizeBytes)]);

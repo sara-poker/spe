@@ -2,6 +2,7 @@ from django.views.generic import (TemplateView)
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.db.models import ProtectedError
+from django.db.models import Case, When, Value, IntegerField
 
 from web_project import TemplateLayout
 
@@ -89,7 +90,14 @@ class ServerTestView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
-        servers = ServerTest.objects.all().order_by('-is_active','name')
+        servers = ServerTest.objects.annotate(
+            custom_order=Case(
+                When(is_active__isnull=True, then=Value(0)),
+                When(is_active=True, then=Value(1)),
+                When(is_active=False, then=Value(2)),  # آخر False ها
+                output_field=IntegerField(),
+            )
+        ).order_by('custom_order', 'name')
         country = Country.objects.all().order_by('persian_name')
         isp = Isp.objects.all().order_by('name')
 

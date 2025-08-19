@@ -157,6 +157,7 @@
           <th>نام سرور</th>
           <th>کشور</th>
           <th>آیپی</th>
+          <th>آدرس</th>
           <th>ارائه دهنده</th>
           <th>وضعیت</th>
           <th>عملیات</th>
@@ -174,7 +175,14 @@
               {{ server.country.persian_name }}
             </td>
             <td>
-              {{ server.url }}
+              {{ server.ip }}
+            </td>
+            <td>
+              {% if server.url %}
+                {{ server.url }}
+              {% else %}
+                ---
+              {% endif %}
             </td>
             <td>
               {{ server.isp }}
@@ -182,8 +190,10 @@
             <td>
               {% if server.is_active %}
                 <span class="badge  bg-label-success">فعال</span>
+              {% elif server.is_active == False %}
+                <span class="badge  bg-label-danger">غیرفعال</span>
               {% else %}
-                <span class="badge  bg-label-danger">غیر فعال</span>
+                <span class="badge  bg-label-warning">درحال فعالسازی</span>
               {% endif %}
 
             </td>

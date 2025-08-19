@@ -114,26 +114,26 @@ class ServerTestView(TemplateView):
 
         # اضافه کردن سرور جدید
         name = request.POST.get('server_name', '').strip()
-        url = request.POST.get('ip', '').strip()
+        ip = request.POST.get('ip', '').strip()
         country_id = request.POST.get('country_server')
         isp_id = request.POST.get('isp_server')
 
-        if not name or not url or country_id == "0" or isp_id == "0":
+        if not name or not ip or country_id == "0" or isp_id == "0":
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=لطفاً همه فیلدها را پر کنید")
 
         if ServerTest.objects.filter(name=name).exists():
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=نام سرور تکراری است")
 
-        if ServerTest.objects.filter(url=url).exists():
+        if ServerTest.objects.filter(ip=ip).exists():
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=آدرس IP تکراری است")
 
         ip_regex = r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$'
-        if not re.fullmatch(ip_regex, url):
+        if not re.fullmatch(ip_regex, ip):
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=آی‌پی وارد شده معتبر نیست")
 
         ServerTest.objects.create(
             name=name,
-            url=url,
+            ip=ip,
             country_id=country_id,
             isp_id=isp_id
         )

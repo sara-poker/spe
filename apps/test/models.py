@@ -45,9 +45,10 @@ class ServerTest(models.Model):
 
     name = models.CharField(max_length=80, verbose_name='اسم', unique=True)
     url = models.URLField(max_length=200, verbose_name='آدرس وب‌سایت', blank=True, null=True, unique=True)
+    ip = models.URLField(max_length=200, verbose_name='آیپی', blank=True, null=True, unique=True)
     isp = models.ForeignKey(Isp, verbose_name='ارائه دهنده خدمات', on_delete=models.PROTECT, blank=True, null=True)
     country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
-    is_active = models.BooleanField(max_length=18, verbose_name='وضعیت سرور', choices=ACTIVE_CHOICE, default=True)
+    is_active = models.BooleanField(max_length=18, verbose_name='وضعیت سرور', choices=ACTIVE_CHOICE, default=None, blank=True, null=True)
 
     def __str__(self):
         return self.name

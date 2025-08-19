@@ -1,7 +1,8 @@
 from django.views.generic import (TemplateView)
 from web_project import TemplateLayout
-from django.db.models import Count
 
+from django.db.models import Count
+from apps.test.models import SpeedTest
 
 def convert_date(date):
     date = date.replace(" ", "")
@@ -69,3 +70,24 @@ class ReportDashboardsView(TemplateView):
 
         return context
 
+
+class TestTable(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+
+        tests = SpeedTest.objects.all().order_by('id')
+
+        context['tests'] = tests
+        return context
+
+class TestDetail(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+
+        test = SpeedTest.objects.get(pk=self.kwargs['pk'])
+
+
+        context['test'] = test
+        context["speed_MBps"] = test.speed_mbps / 8
+        context["upload_speed_MBps"] = test.upload_speed_mbps / 8
+        return context

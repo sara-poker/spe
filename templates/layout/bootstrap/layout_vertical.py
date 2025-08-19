@@ -26,6 +26,11 @@ menu_file = {
                     "url": "speed_test",
                     "name": "تست سرعت",
                     "slug": "speed_test"
+                },
+                {
+                    "url": "tests_table",
+                    "name": "لیست تست ها",
+                    "slug": "tests_table"
                 }
             ]
         },

@@ -65,7 +65,7 @@ $(async function() {
           }
         },
         { data: 'name', title: 'نام سرور' },
-        { data: 'url', title: 'IP' },
+        { data: 'ip', title: 'IP' },
         { data: 'isp', title: 'ISP' }
       ],
       language: {

@@ -4,12 +4,16 @@ from .register.views import RegisterView
 from .login.views import LoginView
 from .forgot_password.views import ForgetPasswordView
 from .reset_password.views import ResetPasswordView
-from .verify_email.views import  VerifyEmailTokenView , VerifyEmailView, SendVerificationView
-
+from .verify_email.views import VerifyEmailTokenView, VerifyEmailView, SendVerificationView
 
 urlpatterns = [
     path(
         "login/",
+        LoginView.as_view(template_name="auth/login.html"),
+        name="login",
+    ),
+    path(
+        "",
         LoginView.as_view(template_name="auth/login.html"),
         name="login",
     ),

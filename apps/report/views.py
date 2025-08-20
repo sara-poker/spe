@@ -75,7 +75,7 @@ class TestTable(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
-        tests = SpeedTest.objects.all().order_by('id')
+        tests = SpeedTest.objects.all().order_by('-id')
 
         context['tests'] = tests
         return context

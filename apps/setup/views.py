@@ -6,15 +6,17 @@ from django.db.models import Case, When, Value, IntegerField
 
 from web_project import TemplateLayout
 
-from apps.setup.models import Country , CustomUser
+from apps.setup.models import Country, CustomUser
 from apps.test.models import Isp, ServerTest, SpeedTest, DeviceInfo, NetworkInfo
-from apps.setup.serializers import ServerTestSerializer
+from apps.setup.serializers import ServerTestSerializer, AddRecordSerializer
 
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 import re
+
 
 class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
@@ -35,7 +37,7 @@ class ProfileView(TemplateView):
         network_info_list = NetworkInfo.objects.filter(id__in=unique_networks)
 
         avg = SpeedTest.get_average_speed(user=self.request.user)
-        print("AVG>>",avg)
+        print("AVG>>", avg)
 
         # اضافه به context
         context['success_count'] = success_count
@@ -44,6 +46,7 @@ class ProfileView(TemplateView):
         context['network_info_list'] = network_info_list
 
         return context
+
 
 class UserDetail(TemplateView):
     def get_context_data(self, **kwargs):
@@ -75,6 +78,7 @@ class UserDetail(TemplateView):
 
         return context
 
+
 class UsersTable(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
@@ -84,6 +88,7 @@ class UsersTable(TemplateView):
 
         context['users'] = users
         return context
+
 
 class ServerTestView(TemplateView):
 
@@ -148,6 +153,7 @@ class ServerTestView(TemplateView):
 
         return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت ثبت شد")
 
+
 class GetAllServerTest(APIView):
     permission_classes = [AllowAny]
 
@@ -156,3 +162,9 @@ class GetAllServerTest(APIView):
 
         serializer = ServerTestSerializer(server_test, many=True)
         return Response(serializer.data)
+
+
+class AddRecord(generics.CreateAPIView):
+    queryset = SpeedTest.objects.all()
+    serializer_class = AddRecordSerializer
+    permission_classes = [AllowAny]

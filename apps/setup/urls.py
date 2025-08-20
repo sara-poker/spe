@@ -19,6 +19,11 @@ urlpatterns = [
         name="get_all_server_test",
     ),
     path(
+        "api/add_record",
+        AddRecord.as_view(),
+        name="add_record",
+    ),
+    path(
         "setup/users/table",
         login_required(UsersTable.as_view(template_name="users_table.html")),
         name="usersTable",

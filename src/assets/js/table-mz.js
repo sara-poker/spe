@@ -14,25 +14,15 @@ $(async function() {
 
     const ipInfoRes = await fetch('https://ipapi.co/json');
     const ipInfo = await ipInfoRes.json();
-    // const userIp = ipInfo.ip;
-    //
-    // const apiUrl = `https://ip-api.ir/info/${userIp}/status,country,city,isp,query`;
-    // const detailsRes = await fetch(apiUrl);
-    // const details = await detailsRes.json();
+    const countrySlug = ipInfo.country_name.toLowerCase().replace(/\s+/g, '');
 
     document.getElementById('ip').innerText = ipInfo.ip;
     document.getElementById('country').innerText = ipInfo.country_name;
     document.getElementById('city').innerText = ipInfo.city;
     document.getElementById('isp').innerText = ipInfo.org;
-    document.getElementById('flag').src = `/static/img/flag/${ipInfo.country_name}.png`;
+    document.getElementById('flag').src = `/static/img/flag/${countrySlug}.png`;
 
-    const ispLogoMap = {
-      'Irancell': 'irancell.png',
-      'MCI': 'mci.png',
-      'Rightel': 'rightel.png',
-      'OVH SAS': 'OVH.png'
-    };
-    const logoFile = ispLogoMap[details.isp] || '.png';
+    const logoFile = `${ipInfo.asn}.png`;
     document.getElementById('isp-logo').src = `/static/img/ispLogo/RGB/${logoFile}`;
   } catch (error) {
     console.error('⚠️ خطا در دریافت اطلاعات کاربر:', error);
@@ -61,7 +51,8 @@ $(async function() {
           data: 'country',
           title: 'کشور',
           render: function(data) {
-            return `<img alt="${data}" src="/static/img/flag/${data}.png" width="32" class="me-1" style="vertical-align: middle;">`;
+            const countrySlug = data.toLowerCase().replace(/\s+/g, '');
+            return `<img alt="${data}" src="/static/img/flag/${countrySlug}.png" width="32" class="me-1" style="vertical-align: middle;">`;
           }
         },
         { data: 'name', title: 'نام سرور' },
@@ -142,7 +133,8 @@ $(async function() {
   }
 
   function createAccordionItem({ country, ip, downloadMbps, downloadMBps, uploadMbps, uploadMBps, name, isFirst }) {
-    const flagUrl = `/static/img/flag/${country}.png`;
+    const countrySlug = country.toLowerCase().replace(/\s+/g, '');
+    const flagUrl = `/static/img/flag/${countrySlug}.png`;
     const accordionId = `accordion-${ip.replace(/\./g, '-')}`;
 
     return `

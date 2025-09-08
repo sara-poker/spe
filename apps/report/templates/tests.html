@@ -98,7 +98,7 @@
           </td>
           <td>
             <img class="" alt="{{ test.server_test.country.name }}"
-                 src="{% static 'img/flag/' %}{{ test.server_test.country.name }}.png"
+                 src="{% static 'img/flag/' %}{{ test.server_test.country.name|lower|cut:' ' }}.png"
                  width="22"> |
             {{ test.server_test.name }}
           </td>

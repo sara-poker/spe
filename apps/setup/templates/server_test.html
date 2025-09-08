@@ -167,8 +167,10 @@
         {% for server in servers %}
           <tr>
             <td>
-              <img alt="{{ server.country.name }}" src="{% static 'img/flag/' %}{{ server.country.name }}.png"
+              <img alt="{{ server.country.name }}"
+                   src="{% static 'img/flag/' %}{{ server.country.name|lower|cut:' ' }}.png"
                    width="32">
+
             </td>
             <td>{{ server.name }}</td>
             <td>

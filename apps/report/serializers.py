@@ -7,4 +7,4 @@ from apps.test.models import Isp
 class GetAllIspAPISerializer(serializers.ModelSerializer):
     class Meta:
         model = Isp
-        fields = ['name', 'url','isp','org','as_number','asname']
+        fields = ['id','name', 'url','isp','org','as_number','asname']

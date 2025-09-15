@@ -543,14 +543,18 @@
       <div class="sk-chase-dot"></div>
     </div>
   </div>
+
   <div class="row">
+    <h4 class="py-3 mb-4">
+      <span class="text-muted fw-light">  گزارشات /</span> اپراتور ها
+    </h4>
     <div class="col-lg-12  mb-4">
       <div class="card h-100 p-4">
         <div class="row">
           <form class="row g-3" action="{{ vpn.id }}" method="get">
             <div class="col-md-2">
               <label class="form-label" for="select2Basic">سال:</label>
-              <select class="select2 form-select form-select" data-allow-clear="true" id="select2Basic"
+              <select disabled class="select2 form-select form-select" data-allow-clear="true" id="select2Basic"
                       name="selected_date">
                 <option label="نمایش همگانی" value="0">نمایش همگانی</option>
                 <option label="1401" value="14010101">1401</option>
@@ -570,8 +574,8 @@
             {#              </div>#}
             {#            </div>#}
             <div class="col-md-3">
-              <label class="form-label" for="select2Basic">نام ابزار گریز:</label>
-              <select class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic" name="vpn">
+              <label class="form-label" for="select2Basic">اپراتور:</label>
+              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic" name="vpn">
                 <option label="singapore" value="0">نمایش همگانی</option>
                 {% for item in vpn %}
                   <option label="{{ item.name }}" value="{{ item.id }}"
@@ -581,8 +585,8 @@
 
             </div>
             <div class="col-md-3">
-              <label class="form-label" for="select2Basic2">کشور ابزار گریز:</label>
-              <select class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"
+              <label class="form-label" for="select2Basic2">استان:</label>
+              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"
                       name="country">
                 <option label="singapore" value="0">نمایش همگانی</option>
                 {% for item in country %}
@@ -592,9 +596,9 @@
               </select>
             </div>
             <div class="col-md-3">
-              <label class="form-label" for="select2Basic3">کشور سرور:</label>
+              <label class="form-label" for="select2Basic3">وضعیت:</label>
 
-              <select class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic3"
+              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic3"
                       name="server_country">
                 <option label="singapore" value="0">نمایش همگانی</option>
                 {% for item in country_server %}
@@ -607,7 +611,7 @@
             <div class="col-md-1">
               <label class="form-label" for="select2Basic3">.</label>
               <br>
-              <button class="btn btn-primary" type="submit" id="applyFilter">اعمال فیلتر</button>
+              <button disabled class="btn btn-primary" type="submit" id="applyFilter">اعمال فیلتر</button>
             </div>
           </form>
         </div>
@@ -616,33 +620,9 @@
   </div>
   <div class="row">
   <div class="col-lg-12">
-    <h6 class="text-muted">آی.اس.پی های حامی ابزار گریز</h6>
     <div class="nav-align-top mb-4">
-      <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
-        <li class="nav-item">
-          <button aria-controls="navs-pills-justified-home" aria-selected="true" class="nav-link"
-                  data-bs-target="#navs-pills-justified-home" data-bs-toggle="tab" role="tab" type="button">
-            <i class="tf-icons ti ti-table-alias ti-xs me-1"></i>
-            نمودار پراکندگی
-          </button>
-        </li>
-        <li class="nav-item">
-          <button aria-controls="navs-pills-justified-profile" aria-selected="false" class="nav-link active"
-                  data-bs-target="#navs-pills-justified-profile" data-bs-toggle="tab" role="tab" type="button">
-            <i class="tf-icons ti ti-checklist ti-xs me-1"></i>
-            لیست
-          </button>
-        </li>
-      </ul>
       <div class="tab-content">
-        <div class="tab-pane fade " id="navs-pills-justified-home" role="tabpanel">
-          <div class="ps-3 pe-3">
-            <div id="chartdiv"></div>
-          </div>
-        </div>
         <div class="tab-pane fade show active" id="navs-pills-justified-profile" role="tabpanel">
-
-
           <div class="row">
             <div class="col-lg-4 col-md-12">
               <!-- DataTable with Buttons -->
@@ -669,14 +649,14 @@
                 <div class="col-12">
                   <div class="card mb-4">
                     <div class="user-profile-header-banner">
-                      <img width="100%" src="{% static 'img/pages/profile-banner2.png' %}" alt="Banner image"
+                      <img width="100%" src="{% static 'img/pages/profile-banner4.png' %}" alt="Banner image"
                            class="rounded-top">
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                       <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                         <img src="{% static 'img/ispLogo/RGB/' %}{{ isp.name2 }}.png"
                              alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
-                             onerror="this.onerror=null; this.src='{% static 'img/vpnIcon/default.png' %}';"
+                             onerror="this.onerror=null; this.src='{% static 'img/MyFile/logo.jpg' %}';"
                         >
                       </div>
                       <div class="flex-grow-1 mt-3 mt-sm-5">
@@ -863,8 +843,6 @@
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>

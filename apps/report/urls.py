@@ -27,6 +27,11 @@ urlpatterns = [
         "report/isp/",
         login_required(IspView.as_view(template_name="isp.html")),
         name="isp",
+    ),
+    path(
+        "api/get_all_isp/",
+        GetAllIspAPIView.as_view(),
+        name="get_all_isp",
     )
 
 ]

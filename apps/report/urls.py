@@ -22,6 +22,11 @@ urlpatterns = [
         "test/<int:pk>/",
         login_required(TestDetail.as_view(template_name="test_detail.html")),
         name="test_detail",
+    ),
+    path(
+        "report/isp/",
+        login_required(TestDetail.as_view(template_name="test_detail.html")),
+        name="isp",
     )
 
 ]

@@ -6,8 +6,8 @@ from web_project.template_helpers.theme import TemplateHelper
 menu_file = {
     "menu": [
         {
-            "name": "صفحات",
-            "icon": "menu-icon tf-icons ti ti-smart-home",
+            "name": "پیشخوان",
+            "icon": "menu-icon tf-icons ti ti-layout-dashboard",
             "slug": "dashboard",
             "submenu": [
                 {
@@ -35,6 +35,18 @@ menu_file = {
             ]
         },
         {
+            "name": "گزارشات",
+            "icon": "menu-icon tf-icons ti ti-report-analytics",
+            "slug": "setting",
+            "submenu": [
+                {
+                    "url": "isp",
+                    "name": "اپراتور ها",
+                    "slug": "isp"
+                }
+            ]
+        },
+        {
             "name": "تنظیمات",
             "icon": "menu-icon tf-icons ti ti-settings",
             "slug": "setting",
@@ -51,7 +63,7 @@ menu_file = {
                 },
                 {
                     "url": "serverTest",
-                    "name": "سرور های تست",
+                    "name": "مدیریت سرور های تست",
                     "slug": "server-test"
                 },
             ]

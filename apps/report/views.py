@@ -1,7 +1,6 @@
 from django.views.generic import (TemplateView)
 from web_project import TemplateLayout
 
-from django.db.models import Count
 from apps.test.models import SpeedTest
 
 def convert_date(date):

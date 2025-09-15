@@ -151,6 +151,9 @@
                     <div class="d-flex align-items-center mb-3">
                       <h5 class="mb-0 me-2">اپراتور:</h5>
                       <h6 class="mb-0 me-2" id="isp">{{ test.network_info.isp.name }}</h6>
+                      <img class="" alt="{{ test.network_info.isp.name }}"
+                           src="{% static 'img/ispLogo/RGB/' %}{{ test.network_info.isp.as_number }}.png"
+                           height="42">
                     </div>
 
                   </div>

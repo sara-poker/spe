@@ -375,21 +375,21 @@
     <h4 class="py-3 mb-4">
       <span class="text-muted fw-light">  گزارشات /</span> اپراتور ها
     </h4>
-    <div class="col-lg-12  mb-4">
-      <div class="card h-100 p-4">
-        <div class="row">
-          <form class="row g-3" action="{{ vpn.id }}" method="get">
-            <div class="col-md-2">
-              <label class="form-label" for="select2Basic">سال:</label>
-              <select disabled class="select2 form-select form-select" data-allow-clear="true" id="select2Basic"
-                      name="selected_date">
-                <option label="نمایش همگانی" value="0">نمایش همگانی</option>
-                <option label="1401" value="14010101">1401</option>
-                <option label="1402" value="14020101">1402</option>
-                <option label="1403" value="14030101">1403</option>
-
-              </select>
-            </div>
+{#    <div class="col-lg-12  mb-4">#}
+{#      <div class="card h-100 p-4">#}
+{#        <div class="row">#}
+{#          <form class="row g-3" action="{{ vpn.id }}" method="get">#}
+{#            <div class="col-md-2">#}
+{#              <label class="form-label" for="select2Basic">سال:</label>#}
+{#              <select disabled class="select2 form-select form-select" data-allow-clear="true" id="select2Basic"#}
+{#                      name="selected_date">#}
+{#                <option label="نمایش همگانی" value="0">نمایش همگانی</option>#}
+{#                <option label="1401" value="14010101">1401</option>#}
+{#                <option label="1402" value="14020101">1402</option>#}
+{#                <option label="1403" value="14030101">1403</option>#}
+{##}
+{#              </select>#}
+{#            </div>#}
             {#            <div class="col-md-3">#}
             {#              <label class="form-label" for="select2Success">اپراتور</label>#}
             {#              <div class="select2-success">#}
@@ -400,51 +400,51 @@
             {#                </select>#}
             {#              </div>#}
             {#            </div>#}
-            <div class="col-md-3">
-              <label class="form-label" for="select2Basic">اپراتور:</label>
-              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic"
-                      name="vpn">
-                <option label="singapore" value="0">نمایش همگانی</option>
-                {% for item in vpn %}
-                  <option label="{{ item.name }}" value="{{ item.id }}"
-                          {% if selected_vpn == item.id|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>
-                {% endfor %}
-              </select>
-
-            </div>
-            <div class="col-md-3">
-              <label class="form-label" for="select2Basic2">استان:</label>
-              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"
-                      name="country">
-                <option label="singapore" value="0">نمایش همگانی</option>
-                {% for item in country %}
-                  <option label="{{ item.name }}" value="{{ item.id }}"
-                          {% if selected_country == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label" for="select2Basic3">وضعیت:</label>
-
-              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic3"
-                      name="server_country">
-                <option label="singapore" value="0">نمایش همگانی</option>
-                {% for item in country_server %}
-                  <option label="{{ item.name }}" value="{{ item.id }}"
-                          {% if selected_country_server == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>
-                {% endfor %}
-              </select>
-
-            </div>
-            <div class="col-md-1">
-              <label class="form-label" for="select2Basic3">.</label>
-              <br>
-              <button disabled class="btn btn-primary" type="submit" id="applyFilter">اعمال فیلتر</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+{#            <div class="col-md-3">#}
+{#              <label class="form-label" for="select2Basic">اپراتور:</label>#}
+{#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic"#}
+{#                      name="vpn">#}
+{#                <option label="singapore" value="0">نمایش همگانی</option>#}
+{#                {% for item in vpn %}#}
+{#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+{#                          {% if selected_vpn == item.id|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>#}
+{#                {% endfor %}#}
+{#              </select>#}
+{##}
+{#            </div>#}
+{#            <div class="col-md-3">#}
+{#              <label class="form-label" for="select2Basic2">استان:</label>#}
+{#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"#}
+{#                      name="country">#}
+{#                <option label="singapore" value="0">نمایش همگانی</option>#}
+{#                {% for item in country %}#}
+{#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+{#                          {% if selected_country == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
+{#                {% endfor %}#}
+{#              </select>#}
+{#            </div>#}
+{#            <div class="col-md-3">#}
+{#              <label class="form-label" for="select2Basic3">وضعیت:</label>#}
+{##}
+{#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic3"#}
+{#                      name="server_country">#}
+{#                <option label="singapore" value="0">نمایش همگانی</option>#}
+{#                {% for item in country_server %}#}
+{#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+{#                          {% if selected_country_server == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
+{#                {% endfor %}#}
+{#              </select>#}
+{##}
+{#            </div>#}
+{#            <div class="col-md-1">#}
+{#              <label class="form-label" for="select2Basic3">.</label>#}
+{#              <br>#}
+{#              <button disabled class="btn btn-primary" type="submit" id="applyFilter">اعمال فیلتر</button>#}
+{#            </div>#}
+{#          </form>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
   </div>
   <div class="row">
   <div class="col-lg-12">
@@ -482,7 +482,7 @@
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                       <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                        <img src="{% static 'img/ispLogo/RGB/' %}{{ isp.name2 }}.png"
+                        <img src="{% static 'img/ispLogo/RGB/' %}{{ isp.as_number }}.png"
                              alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
                              onerror="this.onerror=null; this.src='{% static 'img/MyFile/logo.jpg' %}';"
                         >
@@ -491,33 +491,31 @@
                         <div
                           class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                           <div class="user-profile-info">
-                            <h4>{{ isp }}</h4>
+                            <h4>{{ isp.name }}</h4>
                             <ul
                               class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                               <li class="list-inline-item d-flex gap-1">
 
                                 {% if isp.url %}
-                                  <i class='ti ti-unlink'></i> <a href="{{ isp.url }}">{{ isp.url }}</a>
+                                  <i class='ti ti-unlink'></i> <a href="https://{{ isp.url }}/">{{ isp.url }}</a>
                                 {% else %}
                                   <i class='ti ti-unlink'></i> دامنه نامشخص
                                 {% endif %}
                               </li>
                               <li class="list-inline-item d-flex gap-1">
                                 {% if isp.country != None %}
-                                  <i class='ti ti-map-pin'></i>{{ isp.country }}
+                                  <i class='ti ti-map-pin'></i>{{ isp.country.persian_name }}
                                 {% else %}
                                   <i class='ti ti-map-pin'></i>کشور نامشخص
                                 {% endif %}
                               </li>
 
                               <li class="list-inline-item d-flex gap-1">
-                                {% if isp.cloud == None %}
-                                  <i class='ti ti-cloud'></i>نامشخص
-                                {% elif isp.cloud == True %}
-                                  <i class='ti ti-cloud'></i>دارای خدمات ابری
-                                {% else %}
-                                  <i class='ti ti-cloud'></i>عدم خدمات ابری
-                                {% endif %}
+                                <i class='ti ti-server'></i>{{ isp.as_number }}
+                              </li>
+
+                              <li class="list-inline-item d-flex gap-1">
+                                <i class='ti ti-network'></i>{{ isp.asname }}
                               </li>
                             </ul>
                           </div>

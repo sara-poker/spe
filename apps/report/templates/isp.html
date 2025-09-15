@@ -146,28 +146,28 @@
       color: #df2b2b;
     }
 
-    #ip_number {
-      border-bottom: 8px solid #f16b08;
-    }
-
-    #ip_number h1 {
-      color: #f16b08;
-    }
+    {##ip_number {#}
+    {#  border-bottom: 8px solid #f16b08;#}
+    {#}#}
+    {##}
+    {##ip_number h1 {#}
+    {#  color: #f16b08;#}
+    {#}#}
 
     #server_number {
-      border-bottom: 8px solid #ec18bb;
+      border-bottom: 8px solid #eca31b;
     }
 
     #server_number h1 {
-      color: #ec18bb;
+      color: #eca31b;
     }
 
     #cuntry_number {
-      border-bottom: 8px solid #4620ed;
+      border-bottom: 8px solid #ec641b;
     }
 
     #cuntry_number h1 {
-      color: #4620ed;
+      color: #ec641b;
     }
 
     tbody .control {
@@ -241,20 +241,20 @@
     }(jQuery));
 
     $('#cuntry_number h1').count({
-      startValue: -40,
-      endValue: {{ count_ip }},
-      durationValue: 1800
+      startValue: {{ test_count }} - 60,
+      endValue: {{ test_count }},
+      durationValue: 1400
     });
     $('#server_number h1').count({
-      startValue: -34,
-      endValue: {{ count_country }},
-      durationValue: 1800
+      startValue: {{ ips_count }} - 80,
+      endValue: {{ ips_count }},
+      durationValue: 2000
     });
-    $('#isp_number h1').count({
-      startValue: -50,
-      endValue: {{ count_vpn }},
-      durationValue: 1800
-    });
+    {#$('#isp_number h1').count({#}
+    {#  startValue: {{ test_count }} - 100,#}
+    {#  endValue: {{ test_count }},#}
+    {#  durationValue: 1700#}
+    {#});#}
   </script>
 
   <script src="{% static 'js/forms-pickers-jalali.js' %}"></script>
@@ -528,15 +528,10 @@
               </div>
 
               <div class="row g-4">
-                <div class="col-xl-4 col-lg-6 col-md-6 ">
+                <div class="col-xl-6 col-lg-6 col-md-6 ">
                   <div class="card number_dy" id="cuntry_number">
                     <div class="card-body text-center">
                       <div class="dropdown btn-pinned">
-                        <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
-                                data-bs-target="#modalCenter1"
-                                data-bs-toggle="modal" type="button">
-                          <i class="ti ti-dots-vertical text-muted"></i>
-                        </button>
                       </div>
                       <br>
                       <br><br>
@@ -546,33 +541,13 @@
                       <br>
                       <br>
                       <br>
-                      <h5>تعداد آی.پی های شناسایی شده</h5>
+                      <h5>تعداد تست های انجام شده</h5>
                       <br>
                     </div>
-                    <div aria-hidden="true" class="modal fade" id="modalCenter1" tabindex="-1">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="modalCenterTitle">آیپی های شناسایی شده</h5>
-                            <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                          </div>
-                          <div class="modal-body">
-                            {% for item in isp_ip %}
-                              <ul>
-                                <li>{{ item.server_ip }}</li>
-                              </ul>
-                            {% endfor %}
 
-                          </div>
-                          <div class="modal-footer">
-                            <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button"> بستن</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="col-xl-6 col-lg-6 col-md-6">
                   <div class="card number_dy" id="server_number">
                     <div class="card-body text-center">
                       <div class="dropdown btn-pinned">
@@ -591,20 +566,20 @@
                       <br>
                       <br>
                       <br>
-                      <h5>کشور های شناسایی شده</h5>
+                      <h5>آیپی های شناسایی شده</h5>
                       <br>
                     </div>
                     <div aria-hidden="true" class="modal fade" id="modalCenter2" tabindex="-1">
                       <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="modalCenterTitle">کشور های شناسایی شده</h5>
+                            <h5 class="modal-title" id="modalCenterTitle">آیپی های شناسایی شده</h5>
                             <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                           </div>
                           <div class="modal-body">
-                            {% for item in isp_country %}
+                            {% for item in unique_ips %}
                               <ul>
-                                <li>{{ item.server_country__persian_name }}</li>
+                                <li>{{ item }}</li>
                               </ul>
                             {% endfor %}
 
@@ -617,7 +592,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-12 col-md-12">
+                <div class="col-xl-6 col-lg-12 col-md-12">
                   <div class="card number_dy" id="isp_number">
                     <div class="card-body text-center">
                       <div class="dropdown btn-pinned">

@@ -113,7 +113,16 @@ class IspView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
         isp = Isp.objects.filter(pk=self.kwargs['pk']).first()
+        speed_test = SpeedTest.objects.filter(network_info__isp_id=self.kwargs['pk'])
+
+        unique_ips = speed_test.values_list('network_info__ip', flat=True).distinct()
+
         context['isp'] = isp
+        context['test_count'] = speed_test.count()
+
+        context['ips_count'] = unique_ips.count()
+        context['unique_ips'] = list(unique_ips)
+
         return context
 
 

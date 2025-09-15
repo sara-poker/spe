@@ -48,7 +48,7 @@ class ProfileView(TemplateView):
         return context
 
 
-class UserDetail(TemplateView):
+class UserDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
@@ -79,7 +79,7 @@ class UserDetail(TemplateView):
         return context
 
 
-class UsersTable(TemplateView):
+class UsersTableView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
@@ -154,7 +154,7 @@ class ServerTestView(TemplateView):
         return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت ثبت شد")
 
 
-class GetAllServerTest(APIView):
+class GetAllServerTestView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
@@ -164,7 +164,7 @@ class GetAllServerTest(APIView):
         return Response(serializer.data)
 
 
-class AddRecord(generics.CreateAPIView):
+class AddRecordView(generics.CreateAPIView):
     queryset = SpeedTest.objects.all()
     serializer_class = AddRecordSerializer
     permission_classes = [AllowAny]

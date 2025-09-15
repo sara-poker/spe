@@ -15,17 +15,17 @@ urlpatterns = [
     ),
     path(
         "tests/",
-        login_required(TestTable.as_view(template_name="tests.html")),
+        login_required(TestTableView.as_view(template_name="tests.html")),
         name="tests_table",
     ),
     path(
         "test/<int:pk>/",
-        login_required(TestDetail.as_view(template_name="test_detail.html")),
+        login_required(TestDetailView.as_view(template_name="test_detail.html")),
         name="test_detail",
     ),
     path(
         "report/isp/",
-        login_required(TestDetail.as_view(template_name="test_detail.html")),
+        login_required(IspView.as_view(template_name="isp.html")),
         name="isp",
     )
 

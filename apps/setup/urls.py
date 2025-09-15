@@ -15,22 +15,22 @@ urlpatterns = [
     ),
     path(
         "api/get_all_server_test",
-        GetAllServerTest.as_view(),
+        GetAllServerTestView.as_view(),
         name="get_all_server_test",
     ),
     path(
         "api/add_record",
-        AddRecord.as_view(),
+        AddRecordView.as_view(),
         name="add_record",
     ),
     path(
         "setup/users/table",
-        login_required(UsersTable.as_view(template_name="users_table.html")),
+        login_required(UsersTableView.as_view(template_name="users_table.html")),
         name="usersTable",
     ),
     path(
         "setup/user/detail/<int:pk>/",
-        login_required(UserDetail.as_view(template_name="user_detail.html")),
+        login_required(UserDetailView.as_view(template_name="user_detail.html")),
         name="usersDetail",
     )
 ]

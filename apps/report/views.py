@@ -70,7 +70,7 @@ class ReportDashboardsView(TemplateView):
         return context
 
 
-class TestTable(TemplateView):
+class TestTableView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
@@ -79,7 +79,7 @@ class TestTable(TemplateView):
         context['tests'] = tests
         return context
 
-class TestDetail(TemplateView):
+class TestDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
@@ -89,4 +89,84 @@ class TestDetail(TemplateView):
         context['test'] = test
         context["speed_MBps"] = test.speed_mbps / 8
         context["upload_speed_MBps"] = test.upload_speed_mbps / 8
+        return context
+
+class IspView(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+
+        test = Test.objects.exclude(server_isp=None)  # فیلتر اولیه برای حذف مقادیر null
+        vpn = Vpn.objects.all()
+
+        country_server_ids = test.values_list('server_country', flat=True).distinct()
+        country_ids = vpn.values_list('vpn_country', flat=True).distinct()
+
+        country_server_ids = [item for item in country_server_ids if item != 'nan']
+        country_ids = [item for item in country_ids if item != 'nan']
+
+        country_server = Country.objects.filter(id__in=country_server_ids).order_by('persian_name')
+        country = Country.objects.filter(id__in=country_ids).order_by('persian_name')
+
+        selected_date_str = self.request.GET.get('selected_date')
+        selected_vpn = self.request.GET.get('vpn')
+        selected_country_server = self.request.GET.get('server_country')
+        selected_country = self.request.GET.get('country')
+
+        if selected_date_str:
+            test = filter_date_year(selected_date_str, test)
+
+        if selected_vpn:
+            test = filter_vpn(selected_vpn, test)
+
+        if selected_country_server:
+            test = filter_country_server(selected_country_server, test)
+
+        if selected_country:
+            test = filter_country(selected_country, test)
+
+        main_isp = Isp.objects.filter(pk=self.kwargs['pk']).first()
+        if main_isp:
+            main_isp.name2 = main_isp.name.replace(" ", "")
+
+        test_data = test.values('server_isp', 'server_country__name').annotate(server_count=Count('id')).exclude(
+            server_isp='nan')
+
+        data = {}
+        for item in test_data:
+            isp = item['server_isp']
+            country_m = item['server_country__name']
+            count = item['server_count']
+
+            if isp not in data:
+                data[isp] = {}
+            data[isp][country_m] = count
+
+        test = test.filter(server_isp=main_isp.name)
+
+        isp_ip = test.values('server_ip').distinct()
+        isp_country = test.values('server_country__persian_name').distinct()
+        isp_vpn = test.values('vpn__name').distinct()
+
+        count_ip = isp_ip.count()
+        count_country = isp_country.count()
+        count_vpn = isp_vpn.count()
+
+        context.update({
+            'vpn': vpn,
+            'country_server': country_server,
+            'country': country,
+            'data': data,
+            'isp': main_isp,
+            'isp_ip': isp_ip,
+            'isp_vpn': isp_vpn,
+            'isp_country': isp_country,
+            'count_ip': count_ip,
+            'count_country': count_country,
+            'count_vpn': count_vpn,
+            'selected_date': selected_date_str,
+            'selected_country_server': selected_country_server,
+            'selected_vpn': selected_vpn,
+            'selected_country': selected_country,
+        })
+
         return context

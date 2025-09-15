@@ -3,12 +3,13 @@ from django.db.models import Exists, OuterRef
 
 from web_project import TemplateLayout
 
-from apps.test.models import SpeedTest ,Isp
+from apps.test.models import SpeedTest, Isp
 from apps.report.serializers import GetAllIspAPISerializer
 
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+
 
 def convert_date(date):
     date = date.replace(" ", "")
@@ -111,7 +112,8 @@ class TestDetailView(TemplateView):
 class IspView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
-
+        isp = Isp.objects.filter(pk=self.kwargs['pk']).first()
+        context['isp'] = isp
         return context
 
 

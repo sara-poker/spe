@@ -13,7 +13,8 @@ menu_file = {
                 {
                     "url": "index",
                     "name": "نمای کلی",
-                    "slug": "dashboard-analytics"
+                    "slug": "dashboard-analytics",
+                    "pk": False
                 }
             ]
         },
@@ -25,12 +26,14 @@ menu_file = {
                 {
                     "url": "speed_test",
                     "name": "تست سرعت",
-                    "slug": "speed_test"
+                    "slug": "speed_test",
+                    "pk": False
                 },
                 {
                     "url": "tests_table",
                     "name": "لیست تست ها",
-                    "slug": "tests_table"
+                    "slug": "tests_table",
+                    "pk": False
                 }
             ]
         },
@@ -42,7 +45,8 @@ menu_file = {
                 {
                     "url": "isp",
                     "name": "اپراتور ها",
-                    "slug": "isp"
+                    "slug": "isp",
+                    "pk": True
                 }
             ]
         },
@@ -54,17 +58,20 @@ menu_file = {
                 {
                     "url": "profile",
                     "name": "پروفایل",
-                    "slug": "profile"
+                    "slug": "profile",
+                    "pk": False
                 },
                 {
                     "url": "usersTable",
                     "name": "جدول کاربران",
-                    "slug": "users_table"
+                    "slug": "users_table",
+                    "pk": False
                 },
                 {
                     "url": "serverTest",
                     "name": "مدیریت سرور های تست",
-                    "slug": "server-test"
+                    "slug": "server-test",
+                    "pk": False
                 },
             ]
         }

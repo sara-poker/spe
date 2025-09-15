@@ -24,7 +24,7 @@ urlpatterns = [
         name="test_detail",
     ),
     path(
-        "report/isp/",
+        "report/isp/<int:pk>/",
         login_required(IspView.as_view(template_name="isp.html")),
         name="isp",
     ),

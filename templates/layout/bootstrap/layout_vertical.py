@@ -116,8 +116,24 @@ menu_file = {
                     "slug": "server-test"
                 },
             ]
-        }
-    ]
+        },
+        {
+            "name": "پشتیبانی",
+            "icon": "menu-icon tf-icons ti ti-help",
+            "slug": "support",
+            "submenu": [
+                {
+                    "url": "support",
+                    "name": "ارسال تیکت",
+                    "slug": "support"
+                },
+                {
+                    "url": "notification",
+                    "name": "اعلان ها",
+                    "slug": "notification"
+                }
+            ]
+        }]
 }
 
 """

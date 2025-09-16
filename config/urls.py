@@ -33,6 +33,8 @@ urlpatterns = [
 
     # setup urls
     path("", include("apps.setup.urls")),
+
+    path("", include("apps.ticket.urls")),
 ]
 
 handler404 = SystemView.as_view(template_name="pages_misc_error.html", status=404)

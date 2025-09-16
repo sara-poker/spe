@@ -27,7 +27,7 @@ def get_isp_pk():
     pk = isp_qs[0].id if isp_qs.exists() else None
     print(">", pk)
 
-    cache.set("isp_pk", pk, 60 * 60 * 2)  # کش ۲ ساعته
+    cache.set("isp_pk", pk, 60 * 60 * 24)  # کش ۲ ساعته
     return pk
 
 
@@ -41,7 +41,7 @@ def get_isp_server_test_pk():
     pk = isp_qs[0].id if isp_qs.exists() else None
     print(">", pk)
 
-    cache.set("isp_server_pk", pk, 60 * 60 * 2)
+    cache.set("isp_server_pk", pk, 60 * 60 * 24)
     return pk
 
 

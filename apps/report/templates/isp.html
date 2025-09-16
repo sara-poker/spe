@@ -778,7 +778,228 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel">
-                      آمار
+                      <div class="accordion mt-3" id="accordionExample">
+                        <div class="card accordion-item active">
+                          <h2 class="accordion-header" id="headingOne">
+                            <button aria-controls="accordionOne" aria-expanded="true" class="accordion-button"
+                                    data-bs-target="#accordionOne" data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-download ti-xs me-2"></i>
+                              دانلود | Download
+                            </button>
+                          </h2>
+                          <div class="accordion-collapse collapse show" data-bs-parent="#accordionExample"
+                               id="accordionOne">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_download_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_download_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_download_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card accordion-item">
+                          <h2 class="accordion-header" id="headingTwo">
+                            <button aria-controls="accordionTwo" aria-expanded="false"
+                                    class="accordion-button collapsed" data-bs-target="#accordionTwo"
+                                    data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-upload ti-xs me-2"></i>
+                              آپلود | Upload
+                            </button>
+                          </h2>
+                          <div aria-labelledby="headingTwo" class="accordion-collapse collapse"
+                               data-bs-parent="#accordionExample" id="accordionTwo">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_upload_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_upload_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_upload_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card accordion-item">
+                          <h2 class="accordion-header" id="headingThree">
+                            <button aria-controls="accordionThree" aria-expanded="false"
+                                    class="accordion-button collapsed" data-bs-target="#accordionThree"
+                                    data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-plug ti-xs me-2"></i>
+                              پینگ | Ping
+                            </button>
+                          </h2>
+                          <div aria-labelledby="headingThree" class="accordion-collapse collapse"
+                               data-bs-parent="#accordionExample" id="accordionThree">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_ping_speed }} ms</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_ping_speed }} ms</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_ping_speed }} ms</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card accordion-item">
+                          <h2 class="accordion-header" id="headingfoure">
+                            <button aria-controls="accordionThree" aria-expanded="false"
+                                    class="accordion-button collapsed" data-bs-target="#accordionfoure"
+                                    data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-arrows-shuffle-2 ti-xs me-2"></i>
+                              جیتر | Jitter
+                            </button>
+                          </h2>
+                          <div aria-labelledby="headingThree" class="accordion-collapse collapse"
+                               data-bs-parent="#accordionExample" id="accordionfoure">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr" style="font-size: 30px;">{{ max_jitter_speed }}</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr" style="font-size: 30px;">{{ min_jitter_speed }}</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr" style="font-size: 30px;">{{ avg_jitter_speed }}</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

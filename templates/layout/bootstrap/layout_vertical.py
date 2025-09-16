@@ -1,42 +1,47 @@
 from django.conf import settings
 from django.core.cache import cache
+from django.db.models import Exists, OuterRef
+
+from apps.test.models import SpeedTest, Isp
 
 import json
 import requests
-
 
 from web_project.template_helpers.theme import TemplateHelper
 
 API_BASE = settings.BASE_URL
 
+
 def get_isp_pk():
-    # pk = cache.get("isp_pk")
-    # if pk is not None:
-    #     return pk
-    #
-    # resp = requests.get(f"{API_BASE}/api/get_all_isp/")
-    # resp.raise_for_status()
-    # data = resp.json()
-    #
-    # # 🔍 اینجا می‌تونی هر منطق انتخاب آیتم رو اعمال کنی
-    # pk = data[0]["id"] if data else None
-    #
-    # cache.set("isp_pk", pk, 60 * 60 * 2)   # کش ۲ ساعته
-    pk = 1
+    pk = cache.get("isp_pk")
+    if pk is not None:
+        return pk
+
+    resp = SpeedTest.objects.filter(network_info__isp=OuterRef('pk'))
+
+    isp_qs = Isp.objects.annotate(
+        has_test=Exists(resp)
+    ).filter(has_test=True).order_by('id')
+
+    # data[0] الان یک شیء Isp است، پس با attribute دسترسی بده
+    pk = isp_qs[0].id if isp_qs.exists() else None
+    print(">", pk)
+
+    cache.set("isp_pk", pk, 60 * 60 * 2)  # کش ۲ ساعته
     return pk
 
+
 def get_isp_server_test_pk():
-    # pk = cache.get("isp_server_pk")
-    # if pk is not None:
-    #     return pk
-    #
-    # resp = requests.get(f"{API_BASE}/api/get_all_isp_server_test/")
-    # resp.raise_for_status()
-    # data = resp.json()
-    #
-    # pk = data[0]["id"] if data else None
-    # cache.set("isp_server_pk", pk, 60 * 60 * 2)
-    pk = 9
+    resp = SpeedTest.objects.filter(server_test__isp=OuterRef('pk'))
+
+    isp_qs = Isp.objects.annotate(
+        has_test=Exists(resp)
+    ).filter(has_test=True).order_by('id')
+
+    pk = isp_qs[0].id if isp_qs.exists() else None
+    print(">", pk)
+
+    cache.set("isp_server_pk", pk, 60 * 60 * 2)
     return pk
 
 

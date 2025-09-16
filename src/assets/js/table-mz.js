@@ -35,7 +35,7 @@ $(async function() {
   if (dt_basic_table.length) {
     dt_basic = dt_basic_table.DataTable({
       ajax: {
-        url: '/api/get_all_server_test',
+        url: '/api/get_all_server_test/',
         dataSrc: ''
       },
       columns: [

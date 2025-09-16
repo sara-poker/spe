@@ -130,10 +130,14 @@ class IspView(TemplateView):
         User = get_user_model()
         unique_users = User.objects.filter(id__in=unique_users_ids)
 
-        download_speed_test = success_speed_test_list.values_list('speed_mbps',flat=True).distinct()
-        upload_speed_test = success_speed_test_list.values_list('upload_speed_mbps',flat=True).distinct()
-        ping_speed_test = success_speed_test_list.values_list('ping_avg',flat=True).distinct()
-        jitter_speed_test = success_speed_test_list.values_list('jitter',flat=True).distinct()
+        download_speed_test = success_speed_test_list.exclude(speed_mbps__isnull=True).values_list('speed_mbps',
+                                                                                                   flat=True).distinct()
+        upload_speed_test = success_speed_test_list.exclude(upload_speed_mbps__isnull=True).values_list(
+            'upload_speed_mbps', flat=True).distinct()
+        ping_speed_test = success_speed_test_list.exclude(ping_avg__isnull=True).values_list('ping_avg',
+                                                                                             flat=True).distinct()
+        jitter_speed_test = success_speed_test_list.exclude(jitter__isnull=True).values_list('jitter',
+                                                                                             flat=True).distinct()
 
         context['isp'] = isp
 
@@ -143,21 +147,46 @@ class IspView(TemplateView):
         context['success_speed_test_percent'] = success_speed_test_percent
         context['fail_speed_test_percent'] = fail_speed_test_percent
 
-        context['max_download_speed'] = max(download_speed_test)
-        context['min_download_speed'] = min(download_speed_test)
-        context['avg_download_speed'] = round((sum(download_speed_test) / len(download_speed_test)),1)
+        if download_speed_test:
+            context['max_download_speed'] = max(download_speed_test)
+            context['min_download_speed'] = min(download_speed_test)
+            context['avg_download_speed'] = round((sum(download_speed_test) / len(download_speed_test)), 1)
+        else:
+            context['max_download_speed'] = 0
+            context['min_download_speed'] = 0
+            context['avg_download_speed'] = 0
 
-        context['max_upload_speed'] = max(upload_speed_test)
-        context['min_upload_speed'] = min(upload_speed_test)
-        context['avg_upload_speed'] = round((sum(upload_speed_test) / len(upload_speed_test)), 2)
 
-        context['max_ping_speed'] = max(ping_speed_test)
-        context['min_ping_speed'] = min(ping_speed_test)
-        context['avg_ping_speed'] = round((sum(ping_speed_test) / len(ping_speed_test)), 2)
+        if upload_speed_test:
+            context['max_upload_speed'] = max(upload_speed_test)
+            context['min_upload_speed'] = min(upload_speed_test)
+            context['avg_upload_speed'] = round((sum(upload_speed_test) / len(upload_speed_test)), 2)
+        else:
+            context['max_upload_speed'] = 0
+            context['min_upload_speed'] = 0
+            context['avg_upload_speed'] = 0
 
-        context['max_jitter_speed'] = max(jitter_speed_test)
-        context['min_jitter_speed'] = min(jitter_speed_test)
-        context['avg_jitter_speed'] = round((sum(jitter_speed_test) / len(jitter_speed_test)), 2)
+
+        if ping_speed_test:
+            context['max_ping_speed'] = max(ping_speed_test)
+            context['min_ping_speed'] = min(ping_speed_test)
+            context['avg_ping_speed'] = round((sum(ping_speed_test) / len(ping_speed_test)), 2)
+        else:
+            context['max_ping_speed'] = 0
+            context['min_ping_speed'] = 0
+            context['avg_ping_speed'] = 0
+
+
+        if jitter_speed_test:
+            context['max_jitter_speed'] = max(jitter_speed_test)
+            context['min_jitter_speed'] = min(jitter_speed_test)
+            context['avg_jitter_speed'] = round((sum(jitter_speed_test) / len(jitter_speed_test)), 2)
+        else:
+            context['max_jitter_speed'] = 0
+            context['min_jitter_speed'] = 0
+            context['avg_jitter_speed'] = 0
+
+
 
         context['ips_count'] = unique_ips.count()
         context['unique_ips'] = list(unique_ips)

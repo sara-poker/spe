@@ -116,9 +116,9 @@
   <h4 class="py-3">
     <span class="text-muted fw-light">  تست سرعت /</span>نتیجه تست {{ test.date|jformat:" %Y/%m/%d" }}
   </h4>
-      <a href="{% url 'tests_table' %}" class="btn btn-primary d-grid w-100 waves-effect waves-light mt-4">
-      نمایش جدول تست ها
-    </a>
+  <a href="{% url 'tests_table' %}" class="btn btn-primary d-grid w-100 waves-effect waves-light mt-4">
+    نمایش جدول تست ها
+  </a>
   <div class="row">
 
     <div class="row d-flex">
@@ -138,9 +138,9 @@
                     <div class="d-flex align-items-center mb-3">
                       <h5 class="mb-0 me-2">کشور:</h5>
                       <h6 class="mb-0 me-2" id="country">{{ test.network_info.country.name }}</h6>
-                      <img class="" alt="{{ test.network_info.country.name }}"
-                           src="{% static 'img/flag/' %}{{ test.network_info.country.name }}.png"
-                           height="22">
+                      <img alt="{{ test.network_info.country.name }}"
+                           src="{% static 'img/flag/' %}{{ test.network_info.country.name|lower|cut:' ' }}.png"
+                           width="32">
                     </div>
 
                     <div class="d-flex align-items-center mb-3">
@@ -284,8 +284,8 @@
                   <div class="d-flex align-items-center mb-3">
                     <h5 class="mb-0 me-2">کشور:</h5>
                     <h6 class="mb-0 me-2" id="country">{{ test.server_test.country.name }}</h6>
-                    <img class="" alt="{{ test.server_test.country.name }}"
-                         src="{% static 'img/flag/' %}{{ test.server_test.country.name }}.png"
+                    <img alt="{{ test.network_info.country.name }}"
+                         src="{% static 'img/flag/' %}{{ test.network_info.country.name|lower|cut:' ' }}.png"
                          height="22">
                   </div>
 

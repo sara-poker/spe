@@ -10,33 +10,33 @@ from web_project.template_helpers.theme import TemplateHelper
 API_BASE = settings.BASE_URL
 
 def get_isp_pk():
-    # pk = cache.get("isp_pk")
-    # if pk is not None:
-    #     return pk
-    #
-    # resp = requests.get(f"{API_BASE}/api/get_all_isp/")
-    # resp.raise_for_status()
-    # data = resp.json()
-    #
-    # # 🔍 اینجا می‌تونی هر منطق انتخاب آیتم رو اعمال کنی
-    # pk = data[0]["id"] if data else None
-    #
-    # cache.set("isp_pk", pk, 60 * 60 * 2)   # کش ۲ ساعته
-    pk = 1
+    pk = cache.get("isp_pk")
+    if pk is not None:
+        return pk
+
+    resp = requests.get(f"{API_BASE}/api/get_all_isp/")
+    resp.raise_for_status()
+    data = resp.json()
+
+    # 🔍 اینجا می‌تونی هر منطق انتخاب آیتم رو اعمال کنی
+    pk = data[0]["id"] if data else None
+
+    cache.set("isp_pk", pk, 60 * 60 * 2)   # کش ۲ ساعته
+    # pk = 1
     return pk
 
 def get_isp_server_test_pk():
-    # pk = cache.get("isp_server_pk")
-    # if pk is not None:
-    #     return pk
-    #
-    # resp = requests.get(f"{API_BASE}/api/get_all_isp_server_test/")
-    # resp.raise_for_status()
-    # data = resp.json()
-    #
-    # pk = data[0]["id"] if data else None
-    # cache.set("isp_server_pk", pk, 60 * 60 * 2)
-    pk = 8
+    pk = cache.get("isp_server_pk")
+    if pk is not None:
+        return pk
+
+    resp = requests.get(f"{API_BASE}/api/get_all_isp_server_test/")
+    resp.raise_for_status()
+    data = resp.json()
+
+    pk = data[0]["id"] if data else None
+    cache.set("isp_server_pk", pk, 60 * 60 * 2)
+    # pk = 8
     return pk
 
 

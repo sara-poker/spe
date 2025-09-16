@@ -138,36 +138,32 @@
       font-size: 15px !important;
     }
 
-    #isp_number {
-      border-bottom: 8px solid #df2b2b;
+    #user_number {
+      border-right: 4px solid #df552b;
+      border-left: 4px solid #df552b;
     }
 
-    #isp_number h1 {
-      color: #df2b2b;
+    #user_number h1 {
+      color: #df552b;
     }
 
-    {##ip_number {#}
-    {#  border-bottom: 8px solid #f16b08;#}
-    {#}#}
-    {##}
-    {##ip_number h1 {#}
-    {#  color: #f16b08;#}
-    {#}#}
 
-    #server_number {
-      border-bottom: 8px solid #eca31b;
+    #ip_number {
+      border-right: 4px solid #ecb11b;
+      border-left: 4px solid #ecb11b;
     }
 
-    #server_number h1 {
-      color: #eca31b;
+    #ip_number h1 {
+      color: #ecb11b;
     }
 
-    #cuntry_number {
-      border-bottom: 8px solid #ec641b;
+    #test_number {
+      border-right: 4px solid #ec6b1b;
+      border-left: 4px solid #ec6b1b;
     }
 
-    #cuntry_number h1 {
-      color: #ec641b;
+    #test_number h1 {
+      color: #ec6b1b;
     }
 
     tbody .control {
@@ -211,51 +207,6 @@
   <script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-t' %}"></script>
 
 
-  <script>
-    (function($) {
-      $.fn.count = function(options) {
-        var $this = $(this);
-        var settings = $.extend({
-          startValue: 0,
-          endValue: 300,
-          durationValue: 2000
-        }, options);
-        $this.html(settings.startValue).attr('data-count', settings.endValue);
-        var countTo = $this.attr('data-count');
-        $({ countNum: $this.html() }).animate({
-            countNum: countTo
-          },
-          {
-            duration: settings.durationValue,
-            easing: 'swing',
-            step: function() {
-              $this.text(Math.floor(this.countNum));
-            },
-            complete: function() {
-              $this.text(this.countNum);
-              console.log('done.');
-            }
-          });
-        return this;
-      };
-    }(jQuery));
-
-    $('#cuntry_number h1').count({
-      startValue: {{ test_count }} - 60,
-      endValue: {{ test_count }},
-      durationValue: 1400
-    });
-    $('#server_number h1').count({
-      startValue: {{ ips_count }} - 80,
-      endValue: {{ ips_count }},
-      durationValue: 2000
-    });
-    {#$('#isp_number h1').count({#}
-    {#  startValue: {{ test_count }} - 100,#}
-    {#  endValue: {{ test_count }},#}
-    {#  durationValue: 1700#}
-    {#});#}
-  </script>
 
   <script src="{% static 'js/forms-pickers-jalali.js' %}"></script>
 
@@ -375,76 +326,76 @@
     <h4 class="py-3 mb-4">
       <span class="text-muted fw-light">  گزارشات /</span> اپراتور ها
     </h4>
-{#    <div class="col-lg-12  mb-4">#}
-{#      <div class="card h-100 p-4">#}
-{#        <div class="row">#}
-{#          <form class="row g-3" action="{{ vpn.id }}" method="get">#}
-{#            <div class="col-md-2">#}
-{#              <label class="form-label" for="select2Basic">سال:</label>#}
-{#              <select disabled class="select2 form-select form-select" data-allow-clear="true" id="select2Basic"#}
-{#                      name="selected_date">#}
-{#                <option label="نمایش همگانی" value="0">نمایش همگانی</option>#}
-{#                <option label="1401" value="14010101">1401</option>#}
-{#                <option label="1402" value="14020101">1402</option>#}
-{#                <option label="1403" value="14030101">1403</option>#}
-{##}
-{#              </select>#}
-{#            </div>#}
-            {#            <div class="col-md-3">#}
-            {#              <label class="form-label" for="select2Success">اپراتور</label>#}
-            {#              <div class="select2-success">#}
-            {#                <select class="select2 form-select" id="select2Success" multiple disabled>#}
-            {#                  <option value="1" selected>ایرانسل</option>#}
-            {#                  <option value="2" selected>همراه اول</option>#}
-            {#                  <option value="3" selected>رایتل</option>#}
-            {#                </select>#}
-            {#              </div>#}
-            {#            </div>#}
-{#            <div class="col-md-3">#}
-{#              <label class="form-label" for="select2Basic">اپراتور:</label>#}
-{#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic"#}
-{#                      name="vpn">#}
-{#                <option label="singapore" value="0">نمایش همگانی</option>#}
-{#                {% for item in vpn %}#}
-{#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
-{#                          {% if selected_vpn == item.id|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>#}
-{#                {% endfor %}#}
-{#              </select>#}
-{##}
-{#            </div>#}
-{#            <div class="col-md-3">#}
-{#              <label class="form-label" for="select2Basic2">استان:</label>#}
-{#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"#}
-{#                      name="country">#}
-{#                <option label="singapore" value="0">نمایش همگانی</option>#}
-{#                {% for item in country %}#}
-{#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
-{#                          {% if selected_country == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
-{#                {% endfor %}#}
-{#              </select>#}
-{#            </div>#}
-{#            <div class="col-md-3">#}
-{#              <label class="form-label" for="select2Basic3">وضعیت:</label>#}
-{##}
-{#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic3"#}
-{#                      name="server_country">#}
-{#                <option label="singapore" value="0">نمایش همگانی</option>#}
-{#                {% for item in country_server %}#}
-{#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
-{#                          {% if selected_country_server == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
-{#                {% endfor %}#}
-{#              </select>#}
-{##}
-{#            </div>#}
-{#            <div class="col-md-1">#}
-{#              <label class="form-label" for="select2Basic3">.</label>#}
-{#              <br>#}
-{#              <button disabled class="btn btn-primary" type="submit" id="applyFilter">اعمال فیلتر</button>#}
-{#            </div>#}
-{#          </form>#}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
+    {#    <div class="col-lg-12  mb-4">#}
+    {#      <div class="card h-100 p-4">#}
+    {#        <div class="row">#}
+    {#          <form class="row g-3" action="{{ vpn.id }}" method="get">#}
+    {#            <div class="col-md-2">#}
+    {#              <label class="form-label" for="select2Basic">سال:</label>#}
+    {#              <select disabled class="select2 form-select form-select" data-allow-clear="true" id="select2Basic"#}
+    {#                      name="selected_date">#}
+    {#                <option label="نمایش همگانی" value="0">نمایش همگانی</option>#}
+    {#                <option label="1401" value="14010101">1401</option>#}
+    {#                <option label="1402" value="14020101">1402</option>#}
+    {#                <option label="1403" value="14030101">1403</option>#}
+    {##}
+    {#              </select>#}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Success">اپراتور</label>#}
+    {#              <div class="select2-success">#}
+    {#                <select class="select2 form-select" id="select2Success" multiple disabled>#}
+    {#                  <option value="1" selected>ایرانسل</option>#}
+    {#                  <option value="2" selected>همراه اول</option>#}
+    {#                  <option value="3" selected>رایتل</option>#}
+    {#                </select>#}
+    {#              </div>#}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Basic">اپراتور:</label>#}
+    {#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic"#}
+    {#                      name="vpn">#}
+    {#                <option label="singapore" value="0">نمایش همگانی</option>#}
+    {#                {% for item in vpn %}#}
+    {#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+    {#                          {% if selected_vpn == item.id|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>#}
+    {#                {% endfor %}#}
+    {#              </select>#}
+    {##}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Basic2">استان:</label>#}
+    {#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"#}
+    {#                      name="country">#}
+    {#                <option label="singapore" value="0">نمایش همگانی</option>#}
+    {#                {% for item in country %}#}
+    {#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+    {#                          {% if selected_country == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
+    {#                {% endfor %}#}
+    {#              </select>#}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Basic3">وضعیت:</label>#}
+    {##}
+    {#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic3"#}
+    {#                      name="server_country">#}
+    {#                <option label="singapore" value="0">نمایش همگانی</option>#}
+    {#                {% for item in country_server %}#}
+    {#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+    {#                          {% if selected_country_server == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
+    {#                {% endfor %}#}
+    {#              </select>#}
+    {##}
+    {#            </div>#}
+    {#            <div class="col-md-1">#}
+    {#              <label class="form-label" for="select2Basic3">.</label>#}
+    {#              <br>#}
+    {#              <button disabled class="btn btn-primary" type="submit" id="applyFilter">اعمال فیلتر</button>#}
+    {#            </div>#}
+    {#          </form>#}
+    {#        </div>#}
+    {#      </div>#}
+    {#    </div>#}
   </div>
   <div class="row">
   <div class="col-lg-12">
@@ -528,119 +479,249 @@
               </div>
 
               <div class="row g-4">
-                <div class="col-xl-6 col-lg-6 col-md-6 ">
-                  <div class="card number_dy" id="cuntry_number">
-                    <div class="card-body text-center">
-                      <div class="dropdown btn-pinned">
-                      </div>
-                      <br>
-                      <br><br>
-                      <div class="mx-auto my-3">
-                        <h1></h1>
-                      </div>
-                      <br>
-                      <br>
-                      <br>
-                      <h5>تعداد تست های انجام شده</h5>
-                      <br>
-                    </div>
+                <div class="col-xl-7 col-lg-12 col-md-12">
+                  <div class="card number_dy h-100 p-3" id="test_number">
+                    <div class="card-body d-flex flex-column h-100 text-center">
+                      <div class="dropdown btn-pinned"></div>
 
+                      <!-- بخش بالا (تعداد تست‌ها) -->
+                      <div class="mx-auto my-3 flex-grow-1">
+                        <h1>{{ test_count }}</h1>
+                        <h5>تعداد تست های انجام شده</h5>
+                      </div>
+
+                      <!-- بخش پایین (نمودار) -->
+                      <div id="chart_test" class="mt-auto">
+                        <div class="row">
+                          <div class="col-4">
+                            <div class="d-flex gap-2 align-items-center mb-2">
+              <span class="badge bg-label-danger p-1 rounded">
+                <i class="ti ti-hand-stop ti-xs"></i>
+              </span>
+                              <p class="mb-0">تست ناموفق</p>
+                            </div>
+                            <h5 class="mb-0 pt-1 text-nowrap">{{ fail_speed_test_percent }} %</h5>
+                            <small class="text-muted">{{ fail_speed_test }}</small>
+                          </div>
+
+                          <div class="col-4">
+                            <div class="divider divider-vertical">
+                              <div class="divider-text">
+                                <span class="badge-divider-bg bg-label-secondary"></span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-4 text-end">
+                            <div class="d-flex gap-2 justify-content-end align-items-center mb-2">
+                              <p class="mb-0">تست موفق</p>
+                              <span class="badge bg-label-success p-1 rounded">
+                <i class="ti ti-check ti-xs"></i>
+              </span>
+                            </div>
+                            <h5 class="mb-0 pt-1 text-nowrap ms-lg-n3 ms-xl-0">{{ success_speed_test_percent }} %</h5>
+                            <small class="text-muted">{{ success_speed_test }}</small>
+                          </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mt-4">
+                          <div class="progress w-100" style="height: 8px">
+                            <div
+                              class="progress-bar bg-gradient-danger"
+                              style="width: {{ fail_speed_test_percent }}%"
+                              role="progressbar"
+                              aria-valuenow="{{ fail_speed_test_percent }}"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                            <div
+                              class="progress-bar bg-gradient-success"
+                              style="width: {{ success_speed_test_percent }}%"
+                              role="progressbar"
+                              aria-valuenow="{{ success_speed_test_percent }}"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                  <div class="card number_dy" id="server_number">
+
+
+                {# Start Desktop Size #}
+                <div class="col-xl-5 col-lg-12 d-none d-xl-flex flex-column">
+                  <div class="flex-fill p-3 ">
+                    <div class="card number_dy" id="ip_number">
+                      <div class="card-body text-center">
+                        <div class="dropdown btn-pinned">
+                          <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
+                                  data-bs-target="#modalCenter2"
+                                  data-bs-toggle="modal" type="button">
+                            <i class="ti ti-dots-vertical text-muted"></i>
+                          </button>
+                          </button>
+                        </div>
+                        <div class="mx-auto my-3">
+                          <h1>{{ ips_count }}</h1>
+                        </div>
+                        <h5>آیپی های شناسایی شده</h5>
+                      </div>
+                      <div aria-hidden="true" class="modal fade" id="modalCenter2" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="modalCenterTitle">آیپی های شناسایی شده</h5>
+                              <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal"
+                                      type="button"></button>
+                            </div>
+                            <div class="modal-body">
+                              {% for item in unique_ips %}
+                                <ul>
+                                  <li>{{ item }}</li>
+                                </ul>
+                              {% endfor %}
+
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button"> بستن
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex-fill p-3 ">
+                    <div class="card number_dy" id="user_number">
+                      <div class="card-body text-center">
+                        <div class="dropdown btn-pinned">
+                          <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
+                                  data-bs-target="#modalCenter1"
+                                  data-bs-toggle="modal" type="button">
+                            <i class="ti ti-dots-vertical text-muted"></i>
+                          </button>
+                          </button>
+                        </div>
+                        <div class="mx-auto my-3">
+                          <h1>{{ users_count }}</h1>
+                        </div>
+                        <h5>کاربران استفاده کننده</h5>
+                      </div>
+                      <div aria-hidden="true" class="modal fade" id="modalCenter1" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="modalCenterTitle">کاربران شناسایی شده</h5>
+                              <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal"
+                                      type="button"></button>
+                            </div>
+                            <div class="modal-body">
+                              {% for item in unique_users %}
+                                <ul>
+                                  <a href="/setup/user/detail/{{ item.id }}/">
+                                    <li>{{ item.name }} | {{ item.username }} </li>
+                                  </a>
+
+                                </ul>
+                              {% endfor %}
+
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button"> بستن
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {# End Desktop Size #}
+
+                {# Start mobile Size #}
+                <div class="col-6 d-xl-none">
+                  <div class="card number_dy" id="ip_number">
                     <div class="card-body text-center">
                       <div class="dropdown btn-pinned">
                         <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
-                                data-bs-target="#modalCenter2"
+                                data-bs-target="#modalIps"
                                 data-bs-toggle="modal" type="button">
                           <i class="ti ti-dots-vertical text-muted"></i>
                         </button>
-                        </button>
                       </div>
-                      <br>
-                      <br><br>
                       <div class="mx-auto my-3">
-                        <h1></h1>
+                        <h1>{{ ips_count }}</h1>
                       </div>
-                      <br>
-                      <br>
-                      <br>
-                      <h5>آیپی های شناسایی شده</h5>
-                      <br>
+                      <h5>آیپی های استفاده شده</h5>
                     </div>
-                    <div aria-hidden="true" class="modal fade" id="modalCenter2" tabindex="-1">
+                    <!-- Modal for IPs -->
+                    <div aria-hidden="true" class="modal fade" id="modalIps" tabindex="-1">
                       <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="modalCenterTitle">آیپی های شناسایی شده</h5>
+                            <h5 class="modal-title">آیپی های شناسایی شده</h5>
                             <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                           </div>
                           <div class="modal-body">
-                            {% for item in unique_ips %}
-                              <ul>
+                            <ul>
+                              {% for item in unique_ips %}
                                 <li>{{ item }}</li>
-                              </ul>
-                            {% endfor %}
-
+                              {% endfor %}
+                            </ul>
                           </div>
                           <div class="modal-footer">
-                            <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button"> بستن</button>
+                            <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button">بستن</button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-6 col-lg-12 col-md-12">
-                  <div class="card number_dy" id="isp_number">
+
+                <div class="col-6 d-xl-none">
+                  <div class="card number_dy" id="user_number">
                     <div class="card-body text-center">
                       <div class="dropdown btn-pinned">
                         <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
-                                data-bs-target="#modalCenter3"
+                                data-bs-target="#modalUsers"
                                 data-bs-toggle="modal" type="button">
                           <i class="ti ti-dots-vertical text-muted"></i>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                          <li>
-                            <a class="dropdown-item" href="javascript:void(0);">اطلاعات بیشتر</a>
-                          </li>
-                        </ul>
                       </div>
-                      <br>
-                      <br><br>
                       <div class="mx-auto my-3">
-                        <h1></h1>
+                        <h1>{{ users_count }}</h1>
                       </div>
-                      <br>
-                      <br>
-                      <br>
-                      <h5>تعداد ابزار گریز های جمایت شده</h5>
-                      <br>
+                      <h5>کاربران استفاده کننده</h5>
                     </div>
-                    <div aria-hidden="true" class="modal fade" id="modalCenter3" tabindex="-1">
+                    <!-- Modal for Users -->
+                    <div aria-hidden="true" class="modal fade" id="modalUsers" tabindex="-1">
                       <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="modalCenterTitle">ابزار های گریز حمایت شده </h5>
+                            <h5 class="modal-title">کاربران استفاده کننده</h5>
                             <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                           </div>
                           <div class="modal-body">
-                            {% for item in isp_vpn %}
-                              <ul>
-                                <li>{{ item.vpn__name }}</li>
-                              </ul>
-                            {% endfor %}
-
+                            <ul>
+                              {% for item in unique_users %}
+                                <li>
+                                  <a href="/setup/user/detail/{{ item.id }}/">
+                                    {{ item.name }} | {{ item.username }}
+                                  </a>
+                                </li>
+                              {% endfor %}
+                            </ul>
                           </div>
                           <div class="modal-footer">
-                            <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button"> بستن</button>
+                            <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button">بستن</button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                {# End mobile Size #}
+
               </div>
             </div>
           </div>

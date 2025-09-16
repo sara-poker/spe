@@ -1,5 +1,6 @@
 from django.views.generic import (TemplateView)
 from django.db.models import Exists, OuterRef
+from django.contrib.auth import get_user_model
 
 from web_project import TemplateLayout
 
@@ -112,16 +113,34 @@ class TestDetailView(TemplateView):
 class IspView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+
         isp = Isp.objects.filter(pk=self.kwargs['pk']).first()
         speed_test = SpeedTest.objects.filter(network_info__isp_id=self.kwargs['pk'])
+        success_speed_test = speed_test.filter(test_state=True).count()
+        fail_speed_test = speed_test.count() - success_speed_test
+
+        success_speed_test_percent = round((success_speed_test * 100) / speed_test.count(), 2)
+        fail_speed_test_percent = 100 - success_speed_test_percent
 
         unique_ips = speed_test.values_list('network_info__ip', flat=True).distinct()
 
+        unique_users_ids = speed_test.values_list('user', flat=True).distinct()
+        User = get_user_model()
+        unique_users = User.objects.filter(id__in=unique_users_ids)
+
         context['isp'] = isp
+
         context['test_count'] = speed_test.count()
+        context['success_speed_test'] = success_speed_test
+        context['fail_speed_test'] = fail_speed_test
+        context['success_speed_test_percent'] = success_speed_test_percent
+        context['fail_speed_test_percent'] = fail_speed_test_percent
 
         context['ips_count'] = unique_ips.count()
         context['unique_ips'] = list(unique_ips)
+
+        context['users_count'] = unique_users.count()
+        context['unique_users'] = list(unique_users)
 
         return context
 

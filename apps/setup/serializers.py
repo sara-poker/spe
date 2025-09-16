@@ -9,7 +9,7 @@ class ServerTestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServerTest
-        fields = ['name', 'country', 'isp', 'url', 'ip']
+        fields = ['id','name', 'country', 'isp', 'url', 'ip']
 
 
 

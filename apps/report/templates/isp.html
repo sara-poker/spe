@@ -227,9 +227,20 @@
 
       // DataTable with buttons
       if (dt_basic_table.length) {
+        console.log('>>hello');
+        var reportType = '{{ report_type }}';
+        var url1 = '/api/get_all_isp/';
+        var url2 = '/report/isp/';
+        console.log('>>>', reportType);
+
+        if (reportType === 'server_test') {
+          url1 = '/api/get_all_isp_server_test/';
+          url2 = '/report/isp_server_test/';
+        }
+
         var dt_basic = dt_basic_table.DataTable({
           ajax: {
-            url: window.location.origin + '/api/get_all_isp/',
+            url: window.location.origin + url1,
             dataSrc: ''
           },
           language: {
@@ -248,7 +259,7 @@
                 var asnumber = full['as_number'];
                 if (id) {
                   return (
-                    '<a href="/report/isp/' + id + '/">' +
+                    '<a href="'+ url2 + id + '/">' +
                     '<img src="' + assetsPath + 'img/ispLogo/RGB/' + asnumber + '.png' + '" ' +
                     'alt="Avatar" width="60" class="rounded-circle" ' +
                     'loading="lazy" onerror="this.onerror=null; this.src=\'' + assetsPath + 'img/MyFile/logo.jpg\';">' +
@@ -262,7 +273,7 @@
             {
               data: 'name',
               render: function(data, type, full, meta) {
-                return '<a href="/report/isp/' + full['id'] + '/">' + data + '</a>';
+                return '<a href="' + url2 + full['id'] + '/">' + data + '</a>';
               }
             }
           ],
@@ -966,7 +977,8 @@
                                         <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
                                       </div>
                                       <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
-                                      <h6 id="ping" class="text-success display-6" dir="ltr" style="font-size: 30px;">{{ max_jitter_speed }}</h6>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_jitter_speed }}</h6>
                                     </div>
                                   </div>
                                 </div>
@@ -978,7 +990,8 @@
                                         <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
                                       </div>
                                       <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
-                                      <h6 id="ping" class="text-danger display-6" dir="ltr" style="font-size: 30px;">{{ min_jitter_speed }}</h6>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_jitter_speed }}</h6>
                                     </div>
                                   </div>
                                 </div>
@@ -990,7 +1003,8 @@
                                         <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
                                       </div>
                                       <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
-                                      <h6 id="ping" class="text-warning display-6" dir="ltr" style="font-size: 30px;">{{ avg_jitter_speed }}</h6>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_jitter_speed }}</h6>
                                     </div>
                                   </div>
                                 </div>

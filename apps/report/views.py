@@ -111,11 +111,21 @@ class TestDetailView(TemplateView):
 
 
 class IspView(TemplateView):
+    template_name = "isp.html"
+    report_type = None
+
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
+        report_type = self.report_type
+        print("report>>", report_type)
+
         isp = Isp.objects.filter(pk=self.kwargs['pk']).first()
-        speed_test = SpeedTest.objects.filter(network_info__isp_id=self.kwargs['pk'])
+
+        if report_type == 'standard':
+            speed_test = SpeedTest.objects.filter(network_info__isp_id=self.kwargs['pk'])
+        else:
+            speed_test = SpeedTest.objects.filter(server_test__isp_id=self.kwargs['pk'])
 
         success_speed_test_list = speed_test.filter(test_state=True)
         success_speed_test = success_speed_test_list.count()
@@ -141,6 +151,8 @@ class IspView(TemplateView):
 
         context['isp'] = isp
 
+        context['report_type'] = report_type
+
         context['test_count'] = speed_test.count()
         context['success_speed_test'] = success_speed_test
         context['fail_speed_test'] = fail_speed_test
@@ -156,7 +168,6 @@ class IspView(TemplateView):
             context['min_download_speed'] = 0
             context['avg_download_speed'] = 0
 
-
         if upload_speed_test:
             context['max_upload_speed'] = max(upload_speed_test)
             context['min_upload_speed'] = min(upload_speed_test)
@@ -165,7 +176,6 @@ class IspView(TemplateView):
             context['max_upload_speed'] = 0
             context['min_upload_speed'] = 0
             context['avg_upload_speed'] = 0
-
 
         if ping_speed_test:
             context['max_ping_speed'] = max(ping_speed_test)
@@ -176,7 +186,6 @@ class IspView(TemplateView):
             context['min_ping_speed'] = 0
             context['avg_ping_speed'] = 0
 
-
         if jitter_speed_test:
             context['max_jitter_speed'] = max(jitter_speed_test)
             context['min_jitter_speed'] = min(jitter_speed_test)
@@ -185,8 +194,6 @@ class IspView(TemplateView):
             context['max_jitter_speed'] = 0
             context['min_jitter_speed'] = 0
             context['avg_jitter_speed'] = 0
-
-
 
         context['ips_count'] = unique_ips.count()
         context['unique_ips'] = list(unique_ips)

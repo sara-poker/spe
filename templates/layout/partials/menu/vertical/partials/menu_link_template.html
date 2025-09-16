@@ -6,7 +6,7 @@
     <li
       class="menu-item {% if item.url == request.resolver_match.url_name or item.url == request.path %}active{% endif %}">
       <a href="
-        {% if item.external == True %}{{ item.url }}{% elif item.pk %}{% url item.url pk=1 %}{% else %}{% url item.url %}{% endif %}"
+        {% if item.external == True %}{{ item.url }}{% elif item.pk %}{% url item.url pk=item.pk %}{% else %}{% url item.url %}{% endif %}"
          class="menu-link"
          {% if item.target == "_blank" %}target="_blank" {% endif %}>
         <i class="{{ item.icon }}"></i>

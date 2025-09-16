@@ -1,7 +1,42 @@
 from django.conf import settings
+from django.core.cache import cache
+
 import json
+import requests
+
 
 from web_project.template_helpers.theme import TemplateHelper
+
+API_BASE = settings.BASE_URL
+
+def get_isp_pk():
+    pk = cache.get("isp_pk")
+    if pk is not None:
+        return pk
+
+    resp = requests.get(f"{API_BASE}/api/get_all_isp/")
+    resp.raise_for_status()
+    data = resp.json()
+
+    # 🔍 اینجا می‌تونی هر منطق انتخاب آیتم رو اعمال کنی
+    pk = data[0]["id"] if data else None
+
+    cache.set("isp_pk", pk, 60 * 60 * 2)   # کش ۲ ساعته
+    return pk
+
+def get_isp_server_test_pk():
+    pk = cache.get("isp_server_pk")
+    if pk is not None:
+        return pk
+
+    resp = requests.get(f"{API_BASE}/api/get_all_isp_server_test/")
+    resp.raise_for_status()
+    data = resp.json()
+
+    pk = data[0]["id"] if data else None
+    cache.set("isp_server_pk", pk, 60 * 60 * 2)
+    return pk
+
 
 menu_file = {
     "menu": [
@@ -43,13 +78,13 @@ menu_file = {
                     "url": "isp",
                     "name": "اپراتور ها",
                     "slug": "isp",
-                    "pk": True
+                    "pk": get_isp_pk()
                 },
                 {
                     "url": "isp_server_test",
                     "name": "اپراتور سرور های تست",
                     "slug": "isp_server_test",
-                    "pk": True
+                    "pk": get_isp_server_test_pk()
                 }
             ]
         },

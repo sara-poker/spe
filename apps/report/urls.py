@@ -25,13 +25,15 @@ urlpatterns = [
     ),
     path(
         "report/isp/<int:pk>/",
-        login_required(IspView.as_view(template_name="isp.html")),
+        login_required(IspView.as_view(template_name="isp.html", report_type='standard')),
         name="isp",
+
     ),
     path(
         "report/isp_server_test/<int:pk>/",
-        login_required(IspView.as_view(template_name="isp.html")),
+        login_required(IspView.as_view(template_name="isp.html", report_type='server_test')),
         name="isp_server_test",
+
     ),
     path(
         "api/get_all_isp/",

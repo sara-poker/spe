@@ -207,7 +207,23 @@ class GetAllIspAPIView(APIView):
 
         isp = Isp.objects.annotate(
             has_test=Exists(isp_with_test)
-        ).filter(has_test=True)
+        ).filter(has_test=True).order_by('id')
+
+        serializer = GetAllIspAPISerializer(isp, many=True)
+        return Response(serializer.data)
+
+
+class GetAllIspServerTestAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        isp_with_test = SpeedTest.objects.filter(
+            server_test__isp=OuterRef('pk')
+        )
+
+        isp = Isp.objects.annotate(
+            has_test=Exists(isp_with_test)
+        ).filter(has_test=True).order_by('id')
 
         serializer = GetAllIspAPISerializer(isp, many=True)
         return Response(serializer.data)

@@ -29,9 +29,19 @@ urlpatterns = [
         name="isp",
     ),
     path(
+        "report/isp_server_test/<int:pk>/",
+        login_required(IspView.as_view(template_name="isp.html")),
+        name="isp_server_test",
+    ),
+    path(
         "api/get_all_isp/",
         GetAllIspAPIView.as_view(),
         name="get_all_isp",
+    ),
+    path(
+        "api/get_all_isp_server_test/",
+        GetAllIspServerTestAPIView.as_view(),
+        name="get_all_isp_server_test",
     )
 
 ]

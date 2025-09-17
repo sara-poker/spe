@@ -24,6 +24,12 @@ urlpatterns = [
         name="test_detail",
     ),
     path(
+        "report/province/<str:name>/",
+        login_required(ProvinceView.as_view(template_name="province.html")),
+        name="province",
+
+    ),
+    path(
         "report/isp/<int:pk>/",
         login_required(IspView.as_view(template_name="isp.html", report_type='standard')),
         name="isp",

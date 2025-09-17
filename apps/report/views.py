@@ -109,6 +109,17 @@ class TestDetailView(TemplateView):
         context["upload_speed_MBps"] = test.upload_speed_mbps / 8
         return context
 
+class ProvinceView(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+
+        province = self.kwargs['name']
+        if province == 'Tehran':
+            name = "تهران"
+
+        context['province'] = name
+        return context
+
 
 class IspView(TemplateView):
     template_name = "isp.html"
@@ -132,7 +143,7 @@ class IspView(TemplateView):
         fail_speed_test = speed_test.count() - success_speed_test
 
         success_speed_test_percent = round((success_speed_test * 100) / speed_test.count(), 2)
-        fail_speed_test_percent = round((100 - success_speed_test_percent),2)
+        fail_speed_test_percent = round((100 - success_speed_test_percent), 2)
 
         unique_ips = speed_test.values_list('network_info__ip', flat=True).distinct()
 

@@ -109,6 +109,7 @@ class TestDetailView(TemplateView):
         context["upload_speed_MBps"] = test.upload_speed_mbps / 8
         return context
 
+
 class ProvinceView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))

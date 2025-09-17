@@ -97,7 +97,7 @@ class ReportDashboardsView(TemplateView):
                 return 'fast'
             if v >= 20:
                 return 'middle'
-            if v >= 1:
+            if v > 0:
                 return 'slow'
             return 'no-data'
 

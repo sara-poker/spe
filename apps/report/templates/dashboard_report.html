@@ -591,6 +591,17 @@
 
             {{ province_data|json_script:"province-data" }}
 
+
+            <script>
+              document.addEventListener('DOMContentLoaded', () => {
+                // گرفتن دیتا
+                const provinceDataEl = document.getElementById('province-data');
+                console.log('raw JSON text:', provinceDataEl.textContent); // لاگ خام
+                const provinceData = JSON.parse(provinceDataEl.textContent);
+                console.log('parsed provinceData:', provinceData);         // لاگ آبجکت پارس شده
+              });
+            </script>
+
             <script>
               document.addEventListener('DOMContentLoaded', function() {
                 const provinceData = JSON.parse(document.getElementById('province-data').textContent || '{}');
@@ -609,7 +620,7 @@
                     path.style.cursor = 'pointer';
                     path.addEventListener('click', function() {
 
-                      const url = `/report/province/${provinceName}`
+                      const url = `/report/province/${provinceName}`;
                       window.location.href = url;
                     });
 

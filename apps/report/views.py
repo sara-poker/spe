@@ -116,6 +116,8 @@ class ProvinceView(TemplateView):
         province = self.kwargs['name']
         if province == 'Tehran':
             name = "تهران"
+        else:
+            name = province
 
         context['province'] = name
         return context

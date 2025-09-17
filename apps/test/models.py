@@ -61,6 +61,7 @@ class NetworkInfo(models.Model):
 
     ip = models.GenericIPAddressField(verbose_name='IP', blank=True, null=True)
     city = models.CharField(max_length=100, verbose_name='شهر', blank=True, null=True)
+    province = models.CharField(max_length=100, verbose_name='استان', blank=True, null=True)
     country = models.ForeignKey(Country, on_delete=models.PROTECT, verbose_name='کشور', blank=True, null=True)
     isp = models.ForeignKey(Isp, on_delete=models.PROTECT, verbose_name='اپراتور', blank=True, null=True)
 

@@ -1,11 +1,13 @@
 from django.views.generic import (TemplateView)
-from django.db.models import Exists, OuterRef
 from django.contrib.auth import get_user_model
+from django.db.models import Exists, OuterRef, Avg
+from django.db.models.functions import Round
 
 from web_project import TemplateLayout
 
 from apps.test.models import SpeedTest, Isp
 from apps.report.serializers import GetAllIspAPISerializer
+from collections import defaultdict
 
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
@@ -81,9 +83,34 @@ class ReportDashboardsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
-        context.update({
-            "msg": "سلام"
-        })
+        qs = (
+            SpeedTest.objects
+            .filter(network_info__province__isnull=False, speed_mbps__isnull=False)
+            .values('network_info__province')
+            .annotate(avg_speed=Avg('speed_mbps'))
+        )
+
+        def categorize(v):
+            if v > 100:
+                return 'very_fast'
+            if v >= 50:
+                return 'fast'
+            if v >= 20:
+                return 'middle'
+            if v >= 1:
+                return 'slow'
+            return 'no-data'
+
+        province_data = {}
+        for row in qs:
+            prov = row['network_info__province']
+            avg = row['avg_speed']
+            if avg is None:
+                continue
+            avg = round(avg, 2)
+            province_data[prov] = {'avg': avg, 'category': categorize(avg)}
+
+        context['province_data'] = province_data
 
         return context
 

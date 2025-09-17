@@ -57,10 +57,11 @@
               <li class="chat-contact-list-item">
                 <a class="d-flex align-items-center" href="/ticket/{{ user.id }}">
                   <div class="flex-shrink-0 avatar avatar-online">
-                    <img alt="آواتار" class="rounded-circle" src="{% static 'img/avatars/2.png' %}" />
+                    <img alt="آواتار" class="rounded-circle"
+     src="{% static 'img/avatars/' %}{{ user.username }}.png" />
                   </div>
                   <div class="chat-contact-info flex-grow-1 ms-2">
-                    <h6 class="chat-contact-name text-truncate m-0">{{ user.first_name }} {{ user.last_name }}</h6>
+                    <h6 class="chat-contact-name text-truncate m-0">{{ user.name }}</h6>
                     <p class="chat-contact-status text-muted text-truncate mb-0">{{ user.username }}</p>
                   </div>
                   <small class="text-muted mb-auto">اخیرا</small>

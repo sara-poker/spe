@@ -133,7 +133,8 @@ menu_file = {
                     "slug": "notification"
                 }
             ]
-        }]
+        }
+    ]
 }
 
 """

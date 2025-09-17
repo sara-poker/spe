@@ -132,7 +132,7 @@ class IspView(TemplateView):
         fail_speed_test = speed_test.count() - success_speed_test
 
         success_speed_test_percent = round((success_speed_test * 100) / speed_test.count(), 2)
-        fail_speed_test_percent = 100 - success_speed_test_percent
+        fail_speed_test_percent = round((100 - success_speed_test_percent),2)
 
         unique_ips = speed_test.values_list('network_info__ip', flat=True).distinct()
 

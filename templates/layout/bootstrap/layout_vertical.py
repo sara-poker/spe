@@ -82,6 +82,12 @@ menu_file = {
             "slug": "setting",
             "submenu": [
                 {
+                    "url": "province",
+                    "name": "استان ها",
+                    "slug": "province",
+                    "pk": "Tehran"
+                },
+                {
                     "url": "isp",
                     "name": "اپراتور ها",
                     "slug": "isp",
@@ -93,6 +99,7 @@ menu_file = {
                     "slug": "isp_server_test",
                     "pk": get_isp_server_test_pk()
                 }
+
             ]
         },
         {

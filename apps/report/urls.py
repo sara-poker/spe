@@ -24,7 +24,7 @@ urlpatterns = [
         name="test_detail",
     ),
     path(
-        "report/province/<str:name>/",
+        "report/province/<str:pk>/",
         login_required(ProvinceView.as_view(template_name="province.html")),
         name="province",
 

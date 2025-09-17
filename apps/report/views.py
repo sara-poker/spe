@@ -113,7 +113,7 @@ class ProvinceView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
-        province = self.kwargs['name']
+        province = self.kwargs['pk']
         if province == 'Tehran':
             name = "تهران"
         else:

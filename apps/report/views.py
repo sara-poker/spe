@@ -6,7 +6,7 @@ from django.db.models.functions import Round
 from web_project import TemplateLayout
 
 from apps.test.models import SpeedTest, Isp
-from apps.report.serializers import GetAllIspAPISerializer
+from apps.report.serializers import GetAllIspAPISerializer , PROVINCES_FA
 from collections import defaultdict
 
 from rest_framework.views import APIView
@@ -282,3 +282,4 @@ class GetAllIspServerTestAPIView(APIView):
 
         serializer = GetAllIspAPISerializer(isp, many=True)
         return Response(serializer.data)
+

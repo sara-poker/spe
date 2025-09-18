@@ -3,6 +3,7 @@ from django.core.cache import cache
 from django.db.models import Exists, OuterRef
 
 from apps.test.models import SpeedTest, Isp
+from apps.report.serializers import PROVINCES_FA
 
 import json
 import requests
@@ -32,6 +33,10 @@ def get_isp_pk():
 
 
 def get_isp_server_test_pk():
+    pk = cache.get("isp_server_pk")
+    if pk is not None:
+        return pk
+
     resp = SpeedTest.objects.filter(server_test__isp=OuterRef('pk'))
 
     isp_qs = Isp.objects.annotate(
@@ -43,6 +48,35 @@ def get_isp_server_test_pk():
 
     cache.set("isp_server_pk", pk, 60 * 60 * 24)
     return pk
+
+
+def build_province():
+    cache_key = "province_submenu"
+    submenu = cache.get(cache_key)
+    if submenu is not None:
+        return submenu
+
+    qs = (
+        SpeedTest.objects
+        .filter(network_info__province__isnull=False, speed_mbps__isnull=False)
+        .values('network_info__province')
+        .distinct()
+    )
+
+    submenu = []
+    for row in qs:
+        province_en = row["network_info__province"]
+        province_fa = PROVINCES_FA.get(province_en, province_en)
+
+        submenu.append({
+            "url": f"/report/province/{province_en}/",
+            "external": True,
+            "name": province_fa,
+            "slug": "provinces"
+        })
+
+    cache.set(cache_key, submenu, 60 * 60 * 24)  # کش برای ۲۴ ساعت
+    return submenu
 
 
 menu_file = {
@@ -77,16 +111,16 @@ menu_file = {
             ]
         },
         {
+            "name": "استان ها",
+            "icon": "menu-icon tf-icons ti ti-map",
+            "slug": "province",
+            "submenu": build_province()
+        },
+        {
             "name": "گزارشات",
             "icon": "menu-icon tf-icons ti ti-report-analytics",
             "slug": "setting",
             "submenu": [
-                {
-                    "url": "province",
-                    "name": "استان ها",
-                    "slug": "province",
-                    "pk": "Tehran"
-                },
                 {
                     "url": "isp",
                     "name": "اپراتور ها",

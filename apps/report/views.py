@@ -1,13 +1,12 @@
 from django.views.generic import (TemplateView)
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef, Avg
-from django.db.models.functions import Round
+from django.shortcuts import redirect
 
 from web_project import TemplateLayout
 
 from apps.test.models import SpeedTest, Isp
-from apps.report.serializers import GetAllIspAPISerializer , PROVINCES_FA
-from collections import defaultdict
+from apps.report.serializers import GetAllIspAPISerializer, PROVINCES_FA
 
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
@@ -138,23 +137,33 @@ class TestDetailView(TemplateView):
 
 
 class ProvinceView(TemplateView):
+    template_name = "province.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        province = kwargs.get("pk")
+
+        if province not in PROVINCES_FA:
+            return redirect("/")
+
+        speed_test = SpeedTest.objects.filter(network_info__province=province)
+        if speed_test.count() == 0:
+            return redirect("/")
+
+        request._speed_test = speed_test
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
+        province = self.kwargs["pk"]
+        speed_test = getattr(self.request, "_speed_test", {})
 
-        province = self.kwargs['pk']
-        if province == 'Tehran':
-            name = "تهران"
-        else:
-            name = province
+        speed_test_success = speed_test.filter(test_state=True).count()
+        speed_test_fail = speed_test.count() - speed_test_success
 
-        '''
-        در این بخش باید بتوانیم چند کار را انجام بدهیم
-        1) اسم استانی که در این بخش میاید، انگلیسی هست
-        2) در این بخش باید با استفاده از اسم انگلیسی استان، بتوانیم اطلاعات مربوط به شهر ها و شهرستان های آن استان دسترسی پیدا کنیم
-        3) در این بخش، ما فرض کرده ایم که توانستیم نام های شهرستان ها را به دست بیاوریم، پس کوئری خودمان را میزنیم
-        '''
+        name = PROVINCES_FA.get(province, province)
 
-        context['province'] = name
+        context["province"] = name
         return context
 
 
@@ -282,4 +291,3 @@ class GetAllIspServerTestAPIView(APIView):
 
         serializer = GetAllIspAPISerializer(isp, many=True)
         return Response(serializer.data)
-

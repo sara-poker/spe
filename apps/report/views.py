@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef, Avg
 from django.shortcuts import redirect
 
+from persiantools.jdatetime import JalaliDate
+
 from web_project import TemplateLayout
 
 from apps.test.models import SpeedTest, Isp
@@ -167,9 +169,12 @@ class ProvinceView(TemplateView):
         # دسته بندی اول: ISP
         data = []
         # چون فقط یک فیلد لازم داریم از flat=True استفاده می‌کنیم
-        for isp in speed_test_success.values_list('network_info__isp', flat=True).distinct():
-            # فیلتر داده‌ها برای هر ISP
-            qs = speed_test_success.filter(network_info__isp=isp)
+        for isp_id, isp_name in (
+            speed_test_success
+                .values_list('network_info__isp', 'network_info__isp__name')
+                .distinct()
+        ):
+            qs = speed_test_success.filter(network_info__isp=isp_id)
             total = qs.count()
 
             def speed_range(min_, max_):
@@ -183,13 +188,30 @@ class ProvinceView(TemplateView):
             ]
 
             data.append({
-                "category": isp or "نامشخص",
+                "category": isp_name or "نامشخص",  # اینجا نام واقعی ISP قرار می‌گیرد
                 "value": total,
                 "subData": subdata
             })
 
+        speed_test_success = speed_test_success.order_by('date')
+
+        if speed_test_success.count() > 20:
+            speed_test_success = speed_test_success.reverse()[:20]
+            speed_test_success = reversed(speed_test_success)
+
+        chart_data2 = []
+        i = 1
+        for test in speed_test_success:
+            chart_data2.append({
+                "date": JalaliDate(test.date).strftime("%Y/%m/%d") + f"({str(i)})",  # تاریخ شمسی
+                "download": test.speed_mbps * -1,
+                "upload": test.upload_speed_mbps
+            })
+            i += 1
+
         context["province"] = name
         context["chart_data"] = data
+        context["chart_data2"] = chart_data2
         return context
 
 

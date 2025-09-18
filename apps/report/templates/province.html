@@ -413,18 +413,16 @@
   </script>
 
   <script>
+    // دیتای شما که از بک‌اند می‌آید
     const chartData2 = {{ chart_data2|safe }};
-    console.log(">>>",chartData2);
+    console.log('chartData2>>', chartData2);
 
     am5.ready(function() {
-
       var root = am5.Root.new('chartdiv2');
-
 
       root.setThemes([
         am5themes_Animated.new(root)
       ]);
-
 
       var chart = root.container.children.push(
         am5xy.XYChart.new(root, {
@@ -439,9 +437,7 @@
         })
       );
 
-
       chart.getNumberFormatter().set('numberFormat', '#.#s');
-
 
       var legend = chart.children.push(
         am5.Legend.new(root, {
@@ -450,103 +446,12 @@
         })
       );
 
-
-      var data = [
-        {
-          age: '85+',
-          male: -0.1,
-          female: 0.3
-        },
-        {
-          age: '80-54',
-          male: -0.2,
-          female: 0.3
-        },
-        {
-          age: '75-79',
-          male: -0.3,
-          female: 0.6
-        },
-        {
-          age: '70-74',
-          male: -0.5,
-          female: 0.8
-        },
-        {
-          age: '65-69',
-          male: -0.8,
-          female: 1.0
-        },
-        {
-          age: '60-64',
-          male: -1.1,
-          female: 1.3
-        },
-        {
-          age: '55-59',
-          male: -1.7,
-          female: 1.9
-        },
-        {
-          age: '50-54',
-          male: -2.2,
-          female: 2.5
-        },
-        {
-          age: '45-49',
-          male: -2.8,
-          female: 3.0
-        },
-        {
-          age: '40-44',
-          male: -3.4,
-          female: 3.6
-        },
-        {
-          age: '35-39',
-          male: -4.2,
-          female: 4.1
-        },
-        {
-          age: '30-34',
-          male: -5.2,
-          female: 4.8
-        },
-        {
-          age: '25-29',
-          male: -5.6,
-          female: 5.1
-        },
-        {
-          age: '20-24',
-          male: -5.1,
-          female: 5.1
-        },
-        {
-          age: '15-19',
-          male: -3.8,
-          female: 3.8
-        },
-        {
-          age: '10-14',
-          male: -3.2,
-          female: 3.4
-        },
-        {
-          age: '5-9',
-          male: -4.4,
-          female: 4.1
-        },
-        {
-          age: '0-4',
-          male: -5.0,
-          female: 4.8
-        }
-      ];
+      // متغیر تستی data دیگر نیاز نیست
 
       var yAxis = chart.yAxes.push(
         am5xy.CategoryAxis.new(root, {
-          categoryField: 'age',
+          // تغییر از 'age' به 'date'
+          categoryField: 'date',
           renderer: am5xy.AxisRendererY.new(root, {
             inversed: true,
             cellStartLocation: 0.1,
@@ -557,7 +462,9 @@
         })
       );
 
-      yAxis.data.setAll(data);
+      // دیتا را به محور می‌دهیم. چارت از روی دیتای سری‌ها هم می‌تواند دسته‌بندی را تشخیص دهد
+      // اما بودن این خط مشکلی ایجاد نمی‌کند
+      yAxis.data.setAll(chartData2);
 
       var xAxis = chart.xAxes.push(
         am5xy.ValueAxis.new(root, {
@@ -568,19 +475,20 @@
         })
       );
 
-
-      function createSeries(field, labelCenterX, pointerOrientation, rangeValue) {
+      function createSeries(field, name, labelCenterX, pointerOrientation, rangeValue) {
         var series = chart.series.push(
           am5xy.ColumnSeries.new(root, {
+            name: name, // برای نمایش در Legend
             xAxis: xAxis,
             yAxis: yAxis,
             valueXField: field,
-            categoryYField: 'age',
+            // تغییر از 'age' به 'date'
+            categoryYField: 'date',
             sequencedInterpolation: true,
             clustered: false,
             tooltip: am5.Tooltip.new(root, {
               pointerOrientation: pointerOrientation,
-              labelText: '{categoryY}: {valueX}'
+              labelText: '{name} در {categoryY}: {valueX}' // متن راهنما بهتر شد
             })
           })
         );
@@ -604,12 +512,12 @@
           });
         });
 
-        series.data.setAll(data);
+        // مهم: دیتا را از chartData2 بخوانید
+        series.data.setAll(chartData2);
         series.appear();
 
-        var rangeDataItem = xAxis.makeDataItem({
-          value: rangeValue
-        });
+        // بقیه کد برای لیبل بالای چارت که می‌توانید بر اساس نیازتان تنظیم کنید
+        var rangeDataItem = xAxis.makeDataItem({ value: rangeValue });
         xAxis.createAxisRange(rangeDataItem);
         rangeDataItem.get('grid').setAll({
           strokeOpacity: 1,
@@ -618,7 +526,7 @@
 
         var label = rangeDataItem.get('label');
         label.setAll({
-          text: field.toUpperCase(),
+          text: name.toUpperCase(), // از نام فارسی استفاده می‌کنیم
           fontSize: '1.1em',
           fill: series.get('stroke'),
           paddingTop: 10,
@@ -632,8 +540,12 @@
         return series;
       }
 
-      createSeries('male', am5.p100, 'right', -3);
-      createSeries('female', 0, 'left', 4);
+      // تغییر فراخوانی‌ها
+      createSeries('download', 'دانلود', am5.p100, 'right', -0.5);
+      createSeries('upload', 'آپلود', 0, 'left', 0.8);
+
+      // افزودن دیتا به legend
+      legend.data.setAll(chart.series.values);
 
       var cursor = chart.set('cursor', am5xy.XYCursor.new(root, {
         behavior: 'zoomY'
@@ -641,9 +553,7 @@
       cursor.lineY.set('forceHidden', true);
       cursor.lineX.set('forceHidden', true);
 
-
       chart.appear(1000, 100);
-
     });
   </script>
 

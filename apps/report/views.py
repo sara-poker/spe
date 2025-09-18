@@ -164,26 +164,22 @@ class ProvinceView(TemplateView):
 
         # دسته بندی اول: ISP
         data = []
-        for isp_id, isp_name in (
-            speed_test_success
-                .values_list('network_info__isp', 'network_info__isp__name')
-                .distinct()
-        ):
-            qs = speed_test_success.filter(network_info__isp=isp_id)
+        for isp, group in speed_test_success.values_list('network_info__isp', flat=True).distinct():
+            qs = speed_test_success.filter(network_info__isp=isp)
             total = qs.count()
 
-            def speed_range(min_, max_):
+            def speed_range(label, min_, max_):
                 return qs.filter(speed_mbps__gte=min_, speed_mbps__lt=max_).count()
 
             subdata = [
-                {"category": "خیلی سریع", "value": speed_range(75, 101)},
-                {"category": "سریع", "value": speed_range(50, 75)},
-                {"category": "متوسط", "value": speed_range(25, 50)},
-                {"category": "کم سرعت", "value": speed_range(0, 25)},
+                {"category": "خیلی سریع", "value": speed_range("خیلی سریع", 75, 101)},
+                {"category": "سریع", "value": speed_range("سریع", 50, 75)},
+                {"category": "متوسط", "value": speed_range("متوسط", 25, 50)},
+                {"category": "کم سرعت", "value": speed_range("کم سرعت", 0, 25)},
             ]
 
             data.append({
-                "category": isp_name or "نامشخص",  # اینجا نام واقعی ISP قرار می‌گیرد
+                "category": isp or "نامشخص",
                 "value": total,
                 "subData": subdata
             })

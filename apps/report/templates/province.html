@@ -189,12 +189,13 @@
 
   </style>
   <style>
-    #chartdiv {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-      width: 100%;
-      height: 400px;
-      direction: rtl!important;
+    #chartdiv,
+    #chartdiv2 {
       margin: 0 auto;
+      width: 98%;
+      height: 500px;
+      direction: ltr;
+      font-family: IRANSans !important;
     }
   </style>
 {% endblock page_css %}
@@ -208,7 +209,6 @@
 
   <script>
     const chartData = {{ chart_data|safe }};
-    console.log('>>>', chartData);
 
     am5.ready(function() {
 
@@ -351,17 +351,17 @@
 
       var colorSet = am5.ColorSet.new(root, {
         colors: [
-            am5.color(0xffa500), // نارنجی
-            am5.color(0xff8c00), // نارنجی تیره
-            am5.color(0xff7f50), // نارنجی مایل
-            am5.color(0xff6347), // گوجه‌ای
-            am5.color(0xffd700)  // طلایی روشن
+          am5.color(0xffa500), // نارنجی
+          am5.color(0xff8c00), // نارنجی تیره
+          am5.color(0xff7f50), // نارنجی مایل
+          am5.color(0xff6347), // گوجه‌ای
+          am5.color(0xffd700)  // طلایی روشن
         ],
         step: 1
-    });
+      });
 
-    series.set("colors", colorSet);
-    subSeries.set("colors", colorSet)
+      series.set('colors', colorSet);
+      subSeries.set('colors', colorSet);
 
 
       function selectSlice(slice) {
@@ -412,6 +412,241 @@
     }); // end am5.ready()
   </script>
 
+  <script>
+    const chartData2 = {{ chart_data2|safe }};
+    console.log(">>>",chartData2);
+
+    am5.ready(function() {
+
+      var root = am5.Root.new('chartdiv2');
+
+
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
+
+
+      var chart = root.container.children.push(
+        am5xy.XYChart.new(root, {
+          panX: false,
+          panY: false,
+          wheelX: 'panX',
+          wheelY: 'zoomX',
+          layout: root.verticalLayout,
+          arrangeTooltips: false,
+          paddingLeft: 0,
+          paddingRight: 10
+        })
+      );
+
+
+      chart.getNumberFormatter().set('numberFormat', '#.#s');
+
+
+      var legend = chart.children.push(
+        am5.Legend.new(root, {
+          centerX: am5.p50,
+          x: am5.p50
+        })
+      );
+
+
+      var data = [
+        {
+          age: '85+',
+          male: -0.1,
+          female: 0.3
+        },
+        {
+          age: '80-54',
+          male: -0.2,
+          female: 0.3
+        },
+        {
+          age: '75-79',
+          male: -0.3,
+          female: 0.6
+        },
+        {
+          age: '70-74',
+          male: -0.5,
+          female: 0.8
+        },
+        {
+          age: '65-69',
+          male: -0.8,
+          female: 1.0
+        },
+        {
+          age: '60-64',
+          male: -1.1,
+          female: 1.3
+        },
+        {
+          age: '55-59',
+          male: -1.7,
+          female: 1.9
+        },
+        {
+          age: '50-54',
+          male: -2.2,
+          female: 2.5
+        },
+        {
+          age: '45-49',
+          male: -2.8,
+          female: 3.0
+        },
+        {
+          age: '40-44',
+          male: -3.4,
+          female: 3.6
+        },
+        {
+          age: '35-39',
+          male: -4.2,
+          female: 4.1
+        },
+        {
+          age: '30-34',
+          male: -5.2,
+          female: 4.8
+        },
+        {
+          age: '25-29',
+          male: -5.6,
+          female: 5.1
+        },
+        {
+          age: '20-24',
+          male: -5.1,
+          female: 5.1
+        },
+        {
+          age: '15-19',
+          male: -3.8,
+          female: 3.8
+        },
+        {
+          age: '10-14',
+          male: -3.2,
+          female: 3.4
+        },
+        {
+          age: '5-9',
+          male: -4.4,
+          female: 4.1
+        },
+        {
+          age: '0-4',
+          male: -5.0,
+          female: 4.8
+        }
+      ];
+
+      var yAxis = chart.yAxes.push(
+        am5xy.CategoryAxis.new(root, {
+          categoryField: 'age',
+          renderer: am5xy.AxisRendererY.new(root, {
+            inversed: true,
+            cellStartLocation: 0.1,
+            cellEndLocation: 0.9,
+            minorGridEnabled: true,
+            minGridDistance: 20
+          })
+        })
+      );
+
+      yAxis.data.setAll(data);
+
+      var xAxis = chart.xAxes.push(
+        am5xy.ValueAxis.new(root, {
+          renderer: am5xy.AxisRendererX.new(root, {
+            minGridDistance: 60,
+            strokeOpacity: 0.1
+          })
+        })
+      );
+
+
+      function createSeries(field, labelCenterX, pointerOrientation, rangeValue) {
+        var series = chart.series.push(
+          am5xy.ColumnSeries.new(root, {
+            xAxis: xAxis,
+            yAxis: yAxis,
+            valueXField: field,
+            categoryYField: 'age',
+            sequencedInterpolation: true,
+            clustered: false,
+            tooltip: am5.Tooltip.new(root, {
+              pointerOrientation: pointerOrientation,
+              labelText: '{categoryY}: {valueX}'
+            })
+          })
+        );
+
+        series.columns.template.setAll({
+          height: am5.p100,
+          strokeOpacity: 0,
+          fillOpacity: 0.8
+        });
+
+        series.bullets.push(function() {
+          return am5.Bullet.new(root, {
+            locationX: 1,
+            locationY: 0.5,
+            sprite: am5.Label.new(root, {
+              centerY: am5.p50,
+              text: '{valueX}',
+              populateText: true,
+              centerX: labelCenterX
+            })
+          });
+        });
+
+        series.data.setAll(data);
+        series.appear();
+
+        var rangeDataItem = xAxis.makeDataItem({
+          value: rangeValue
+        });
+        xAxis.createAxisRange(rangeDataItem);
+        rangeDataItem.get('grid').setAll({
+          strokeOpacity: 1,
+          stroke: series.get('stroke')
+        });
+
+        var label = rangeDataItem.get('label');
+        label.setAll({
+          text: field.toUpperCase(),
+          fontSize: '1.1em',
+          fill: series.get('stroke'),
+          paddingTop: 10,
+          isMeasured: false,
+          centerX: labelCenterX
+        });
+        label.adapters.add('dy', function() {
+          return -chart.plotContainer.height();
+        });
+
+        return series;
+      }
+
+      createSeries('male', am5.p100, 'right', -3);
+      createSeries('female', 0, 'left', 4);
+
+      var cursor = chart.set('cursor', am5xy.XYCursor.new(root, {
+        behavior: 'zoomY'
+      }));
+      cursor.lineY.set('forceHidden', true);
+      cursor.lineX.set('forceHidden', true);
+
+
+      chart.appear(1000, 100);
+
+    });
+  </script>
+
 {% endblock page_js %}
 
 {% block content %}
@@ -422,12 +657,22 @@
   </div>
 
   <div class="row">
-    <div class="col-xl-7 col-lg-12 col-md-12 mb-4">
+    <div class="col-xl-6 col-lg-12 col-md-12 mb-4">
       <div class="card h-100">
 
         <h5 class="card-header">وضعیت اتصال به تفکیک اپراتور</h5>
         <div class="card-datatable table-responsive pt-0 w-100">
           <div id="chartdiv"></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-12 col-md-12 mb-4">
+      <div class="card h-100">
+
+        <h5 class="card-header">سرعت دانلود و آپلود در 20 تست اخیر</h5>
+        <div class="card-datatable table-responsive pt-0 w-100">
+          <div id="chartdiv2"></div>
         </div>
 
       </div>

@@ -158,24 +158,28 @@ class ProvinceView(TemplateView):
         province = self.kwargs["pk"]
         speed_test = getattr(self.request, "_speed_test", {})
 
+        # فقط رکوردهای موفق
         speed_test_success = speed_test.filter(test_state=True)
 
+        # نام استان به فارسی یا خود کلید
         name = PROVINCES_FA.get(province, province)
 
         # دسته بندی اول: ISP
         data = []
-        for isp, group in speed_test_success.values_list('network_info__isp', flat=True).distinct():
+        # چون فقط یک فیلد لازم داریم از flat=True استفاده می‌کنیم
+        for isp in speed_test_success.values_list('network_info__isp', flat=True).distinct():
+            # فیلتر داده‌ها برای هر ISP
             qs = speed_test_success.filter(network_info__isp=isp)
             total = qs.count()
 
-            def speed_range(label, min_, max_):
+            def speed_range(min_, max_):
                 return qs.filter(speed_mbps__gte=min_, speed_mbps__lt=max_).count()
 
             subdata = [
-                {"category": "خیلی سریع", "value": speed_range("خیلی سریع", 75, 101)},
-                {"category": "سریع", "value": speed_range("سریع", 50, 75)},
-                {"category": "متوسط", "value": speed_range("متوسط", 25, 50)},
-                {"category": "کم سرعت", "value": speed_range("کم سرعت", 0, 25)},
+                {"category": "خیلی سریع", "value": speed_range(75, 101)},
+                {"category": "سریع", "value": speed_range(50, 75)},
+                {"category": "متوسط", "value": speed_range(25, 50)},
+                {"category": "کم سرعت", "value": speed_range(0, 25)},
             ]
 
             data.append({

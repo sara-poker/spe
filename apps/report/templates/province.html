@@ -211,13 +211,8 @@
     const chartData = {{ chart_data|safe }};
 
     am5.ready(function() {
-
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
       var root = am5.Root.new('chartdiv');
 
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
       root.setThemes([am5themes_Animated.new(root)]);
 
       var container = root.container.children.push(
@@ -228,16 +223,12 @@
         })
       );
 
-// Create main chart
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
       var chart = container.children.push(
         am5percent.PieChart.new(root, {
           tooltip: am5.Tooltip.new(root, {})
         })
       );
 
-// Create series
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
       var series = chart.series.push(
         am5percent.PieSeries.new(root, {
           valueField: 'value',
@@ -253,13 +244,10 @@
       series.ticks.template.set('visible', false);
       series.slices.template.set('toggleKey', 'none');
 
-// add events
       series.slices.template.events.on('click', function(e) {
         selectSlice(e.target);
       });
 
-// Create sub chart
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
       var subChart = container.children.push(
         am5percent.PieChart.new(root, {
           radius: am5.percent(50),
@@ -267,8 +255,6 @@
         })
       );
 
-// Create sub series
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
       var subSeries = subChart.series.push(
         am5percent.PieSeries.new(root, {
           valueField: 'value',
@@ -286,6 +272,37 @@
         { category: 'G', value: 0 }
       ]);
       subSeries.slices.template.set('toggleKey', 'none');
+
+
+      var colorSet = am5.ColorSet.new(root, {
+        colors: [
+          am5.color('#f68250'), // نارنجی
+          am5.color('#ffcc00'), // زرد
+          am5.color('#e53935'), // قرمز
+          am5.color('#ff8c00'), // نارنجی پررنگ
+          am5.color('#ff7f50')  // کرم/صورتی متمایل به نارنجی
+        ],
+        step: 1
+      });
+
+      series.set('colors', colorSet);
+      subSeries.set('colors', colorSet);
+
+      root.container.set('rtl', true);
+
+      series.labels.template.setAll({
+        textType: 'circular',
+        radius: 4,
+        direction: 'rtl',
+        textAlign: 'right',
+        fontFamily: 'Tahoma'
+      });
+
+      subSeries.labels.template.setAll({
+        direction: 'rtl',
+        textAlign: 'right',
+        fontFamily: 'Tahoma'
+      });
 
       var selectedSlice;
 
@@ -329,7 +346,6 @@
         }
       }
 
-// lines
       var line0 = container.children.push(
         am5.Line.new(root, {
           position: 'absolute',
@@ -345,23 +361,7 @@
         })
       );
 
-// Set data
-
       series.data.setAll(chartData);
-
-      var colorSet = am5.ColorSet.new(root, {
-        colors: [
-          am5.color(0xffa500), // نارنجی
-          am5.color(0xff8c00), // نارنجی تیره
-          am5.color(0xff7f50), // نارنجی مایل
-          am5.color(0xff6347), // گوجه‌ای
-          am5.color(0xffd700)  // طلایی روشن
-        ],
-        step: 1
-      });
-
-      series.set('colors', colorSet);
-      subSeries.set('colors', colorSet);
 
 
       function selectSlice(slice) {
@@ -381,7 +381,6 @@
             } else {
               subSeries.dataItems[i].hide();
             }
-
             i++;
           });
         }
@@ -408,12 +407,11 @@
       series.events.on('datavalidated', function() {
         selectSlice(series.slices.getIndex(0));
       });
-
-    }); // end am5.ready()
+    });
   </script>
 
+
   <script>
-    // دیتای شما که از بک‌اند می‌آید
     const chartData2 = {{ chart_data2|safe }};
     console.log('chartData2>>', chartData2);
 
@@ -439,6 +437,16 @@
 
       chart.getNumberFormatter().set('numberFormat', '#.#s');
 
+      // 🎨 پالت رنگ نارنجی – زرد – قرمز
+      chart.set('colors', am5.ColorSet.new(root, {
+        colors: [
+          am5.color('#f68250'), // نارنجی
+          am5.color('#ffcc00'), // زرد
+          am5.color('#e53935')  // قرمز
+        ],
+        step: 1
+      }));
+
       var legend = chart.children.push(
         am5.Legend.new(root, {
           centerX: am5.p50,
@@ -446,11 +454,8 @@
         })
       );
 
-      // متغیر تستی data دیگر نیاز نیست
-
       var yAxis = chart.yAxes.push(
         am5xy.CategoryAxis.new(root, {
-          // تغییر از 'age' به 'date'
           categoryField: 'date',
           renderer: am5xy.AxisRendererY.new(root, {
             inversed: true,
@@ -461,9 +466,6 @@
           })
         })
       );
-
-      // دیتا را به محور می‌دهیم. چارت از روی دیتای سری‌ها هم می‌تواند دسته‌بندی را تشخیص دهد
-      // اما بودن این خط مشکلی ایجاد نمی‌کند
       yAxis.data.setAll(chartData2);
 
       var xAxis = chart.xAxes.push(
@@ -478,17 +480,16 @@
       function createSeries(field, name, labelCenterX, pointerOrientation, rangeValue) {
         var series = chart.series.push(
           am5xy.ColumnSeries.new(root, {
-            name: name, // برای نمایش در Legend
+            name: name,
             xAxis: xAxis,
             yAxis: yAxis,
             valueXField: field,
-            // تغییر از 'age' به 'date'
             categoryYField: 'date',
             sequencedInterpolation: true,
             clustered: false,
             tooltip: am5.Tooltip.new(root, {
               pointerOrientation: pointerOrientation,
-              labelText: '{name} در {categoryY}: {valueX}' // متن راهنما بهتر شد
+              labelText: '{name} در {categoryY}: {valueX}'
             })
           })
         );
@@ -496,7 +497,7 @@
         series.columns.template.setAll({
           height: am5.p100,
           strokeOpacity: 0,
-          fillOpacity: 0.8
+          fillOpacity: 0.9
         });
 
         series.bullets.push(function() {
@@ -512,11 +513,9 @@
           });
         });
 
-        // مهم: دیتا را از chartData2 بخوانید
         series.data.setAll(chartData2);
         series.appear();
 
-        // بقیه کد برای لیبل بالای چارت که می‌توانید بر اساس نیازتان تنظیم کنید
         var rangeDataItem = xAxis.makeDataItem({ value: rangeValue });
         xAxis.createAxisRange(rangeDataItem);
         rangeDataItem.get('grid').setAll({
@@ -526,7 +525,7 @@
 
         var label = rangeDataItem.get('label');
         label.setAll({
-          text: name.toUpperCase(), // از نام فارسی استفاده می‌کنیم
+          text: name.toUpperCase(),
           fontSize: '1.1em',
           fill: series.get('stroke'),
           paddingTop: 10,
@@ -540,11 +539,11 @@
         return series;
       }
 
-      // تغییر فراخوانی‌ها
+      // 📊 سری‌ها
       createSeries('download', 'دانلود', am5.p100, 'right', -0.5);
       createSeries('upload', 'آپلود', 0, 'left', 0.8);
 
-      // افزودن دیتا به legend
+      // legend
       legend.data.setAll(chart.series.values);
 
       var cursor = chart.set('cursor', am5xy.XYCursor.new(root, {
@@ -556,6 +555,7 @@
       chart.appear(1000, 100);
     });
   </script>
+
 
 {% endblock page_js %}
 

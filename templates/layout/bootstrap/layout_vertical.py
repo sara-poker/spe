@@ -117,13 +117,13 @@ menu_file = {
             "submenu": build_province()
         },
         {
-            "name": "گزارشات",
-            "icon": "menu-icon tf-icons ti ti-report-analytics",
+            "name": "اپراتور ها",
+            "icon": "menu-icon tf-icons ti ti-building-broadcast-tower",
             "slug": "setting",
             "submenu": [
                 {
                     "url": "isp",
-                    "name": "اپراتور ها",
+                    "name": "اپراتور های تست",
                     "slug": "isp",
                     "pk": get_isp_pk()
                 },

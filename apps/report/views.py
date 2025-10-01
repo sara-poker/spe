@@ -160,15 +160,11 @@ class ProvinceView(TemplateView):
         province = self.kwargs["pk"]
         speed_test = getattr(self.request, "_speed_test", {})
 
-        # فقط رکوردهای موفق
         speed_test_success = speed_test.filter(test_state=True)
 
-        # نام استان به فارسی یا خود کلید
         name = PROVINCES_FA.get(province, province)
 
-        # دسته بندی اول: ISP
         data = []
-        # چون فقط یک فیلد لازم داریم از flat=True استفاده می‌کنیم
         for isp_id, isp_name in (
             speed_test_success
                 .values_list('network_info__isp', 'network_info__isp__name')

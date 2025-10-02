@@ -273,7 +273,6 @@
       ]);
       subSeries.slices.template.set('toggleKey', 'none');
 
-
       var colorSet = am5.ColorSet.new(root, {
         colors: [
           am5.color('#f68250'),
@@ -363,7 +362,6 @@
 
       series.data.setAll(chartData);
 
-
       function selectSlice(slice) {
         selectedSlice = slice;
         var dataItem = slice.dataItem;
@@ -410,10 +408,8 @@
     });
   </script>
 
-
   <script>
     const chartData2 = {{ chart_data2|safe }};
-    console.log('chartData2>>', chartData2);
 
     am5.ready(function() {
       var root = am5.Root.new('chartdiv2');
@@ -437,12 +433,11 @@
 
       chart.getNumberFormatter().set('numberFormat', '#.#s');
 
-      // 🎨 پالت رنگ نارنجی – زرد – قرمز
       chart.set('colors', am5.ColorSet.new(root, {
         colors: [
-          am5.color('#f68250'), // نارنجی
-          am5.color('#ffcc00'), // زرد
-          am5.color('#e53935')  // قرمز
+          am5.color('#f68250'),
+          am5.color('#ffcc00'),
+          am5.color('#e53935')
         ],
         step: 1
       }));
@@ -539,11 +534,9 @@
         return series;
       }
 
-      // 📊 سری‌ها
       createSeries('download', 'دانلود', am5.p100, 'right', -0.5);
       createSeries('upload', 'آپلود', 0, 'left', 0.8);
 
-      // legend
       legend.data.setAll(chart.series.values);
 
       var cursor = chart.set('cursor', am5xy.XYCursor.new(root, {

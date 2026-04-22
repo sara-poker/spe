@@ -12,27 +12,17 @@ $(async function() {
     document.getElementById('device').innerText = `${result.device.type || 'Desktop'} | ${result.device.vendor || 'Unknown'} | ${result.device.model || 'Unknown'}`;
     document.getElementById('cpu').innerText = result.cpu.architecture || 'Unknown';
 
-    const ipInfoRes = await fetch('http://ip-api.com/json');
+    const ipInfoRes = await fetch('https://ipapi.co/json');
     const ipInfo = await ipInfoRes.json();
-    const userIp = ipInfo.query;
+    const countrySlug = ipInfo.country_name.toLowerCase().replace(/\s+/g, '');
 
-    const apiUrl = `http://ip-api.ir/info/${userIp}/status,country,city,isp,query`;
-    const detailsRes = await fetch(apiUrl);
-    const details = await detailsRes.json();
+    document.getElementById('ip').innerText = ipInfo.ip;
+    document.getElementById('country').innerText = ipInfo.country_name;
+    document.getElementById('city').innerText = ipInfo.city;
+    document.getElementById('isp').innerText = ipInfo.org;
+    document.getElementById('flag').src = `/static/img/flag/${countrySlug}.png`;
 
-    document.getElementById('ip').innerText = userIp;
-    document.getElementById('country').innerText = details.country;
-    document.getElementById('city').innerText = details.city;
-    document.getElementById('isp').innerText = details.isp;
-    document.getElementById('flag').src = `/static/img/flag/${details.country}.png`;
-
-    const ispLogoMap = {
-      'Irancell': 'irancell.png',
-      'MCI': 'mci.png',
-      'Rightel': 'rightel.png',
-      'OVH SAS': 'OVH.png'
-    };
-    const logoFile = ispLogoMap[details.isp] || '.png';
+    const logoFile = `${ipInfo.asn}.png`;
     document.getElementById('isp-logo').src = `/static/img/ispLogo/RGB/${logoFile}`;
   } catch (error) {
     console.error('⚠️ خطا در دریافت اطلاعات کاربر:', error);
@@ -61,11 +51,12 @@ $(async function() {
           data: 'country',
           title: 'کشور',
           render: function(data) {
-            return `<img alt="${data}" src="/static/img/flag/${data}.png" width="32" class="me-1" style="vertical-align: middle;">`;
+            const countrySlug = data.toLowerCase().replace(/\s+/g, '');
+            return `<img alt="${data}" src="/static/img/flag/${countrySlug}.png" width="32" class="me-1" style="vertical-align: middle;">`;
           }
         },
         { data: 'name', title: 'نام سرور' },
-        { data: 'url', title: 'IP' },
+        { data: 'ip', title: 'IP' },
         { data: 'isp', title: 'ISP' }
       ],
       language: {
@@ -142,7 +133,8 @@ $(async function() {
   }
 
   function createAccordionItem({ country, ip, downloadMbps, downloadMBps, uploadMbps, uploadMBps, name, isFirst }) {
-    const flagUrl = `/static/img/flag/${country}.png`;
+    const countrySlug = country.toLowerCase().replace(/\s+/g, '');
+    const flagUrl = `/static/img/flag/${countrySlug}.png`;
     const accordionId = `accordion-${ip.replace(/\./g, '-')}`;
 
     return `
@@ -217,7 +209,7 @@ $(async function() {
       try {
         const fileSizeInBits = 20971520 * 8;
         const startTime = performance.now();
-        const response = await fetch(`http://${baseUrl}/files/testfile.bin`, { cache: 'no-store' });
+        const response = await fetch(`https://${baseUrl}/files/testfile.bin`, { cache: 'no-store' });
         await response.blob();
         const endTime = performance.now();
         const duration = (endTime - startTime) / 1000;
@@ -230,7 +222,7 @@ $(async function() {
       }
 
       try {
-        const uploadUrl = `http://${baseUrl}/files/upload.php`;
+        const uploadUrl = `https://${baseUrl}/files/upload.php`;
         const fileSizeBytes = 5 * 1024 * 1024;
         const fileSizeBits = fileSizeBytes * 8;
         const fileData = new Blob([new Uint8Array(fileSizeBytes)]);

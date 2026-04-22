@@ -1,0 +1,61 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}404{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/swiper/swiper.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/spinkit/spinkit.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+  <script src="{% static 'vendor/libs/swiper/swiper.js' %}"></script>
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+
+  <script src="{% static 'amcharts5/index.js' %}"></script>
+  <script src="{% static 'amcharts5/xy.js' %}"></script>
+  <script src="{% static 'amcharts5/radar.js' %}"></script>
+  <script src="{% static 'amcharts5/plugins/exporting.js' %}"></script>
+  <script src="{% static 'amcharts5/themes/Animated.js' %}"></script>
+  <script src="{% static 'amcharts5/wc.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="{% static 'js/report-dashboard.js' %}"></script>
+{% endblock page_js %}
+
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-8 text-center">
+    <div class="card shadow-lg p-4 border-0">
+      <div class="card-body">
+        <h1 class="display-1 text-danger fw-bold">404</h1>
+        <h3 class="mb-3">صفحه مورد نظر پیدا نشد</h3>
+        <p class="text-muted">
+          ممکنه آدرس اشتباه باشه یا این صفحه حذف شده باشه.
+        </p>
+        <a href="/" class="btn btn-primary mt-3">
+          بازگشت به صفحه اصلی
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+

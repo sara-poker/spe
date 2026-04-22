@@ -2,18 +2,21 @@ from django.views.generic import (TemplateView)
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.db.models import ProtectedError
+from django.db.models import Case, When, Value, IntegerField
 
 from web_project import TemplateLayout
 
-from apps.setup.models import Country , CustomUser
+from apps.setup.models import Country, CustomUser
 from apps.test.models import Isp, ServerTest, SpeedTest, DeviceInfo, NetworkInfo
-from apps.setup.serializers import ServerTestSerializer
+from apps.setup.serializers import ServerTestSerializer, AddRecordSerializer
 
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 import re
+
 
 class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
@@ -34,7 +37,7 @@ class ProfileView(TemplateView):
         network_info_list = NetworkInfo.objects.filter(id__in=unique_networks)
 
         avg = SpeedTest.get_average_speed(user=self.request.user)
-        print("AVG>>",avg)
+        print("AVG>>", avg)
 
         # اضافه به context
         context['success_count'] = success_count
@@ -44,7 +47,8 @@ class ProfileView(TemplateView):
 
         return context
 
-class UserDetail(TemplateView):
+
+class UserDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
@@ -74,7 +78,8 @@ class UserDetail(TemplateView):
 
         return context
 
-class UsersTable(TemplateView):
+
+class UsersTableView(TemplateView):
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
@@ -84,12 +89,20 @@ class UsersTable(TemplateView):
         context['users'] = users
         return context
 
+
 class ServerTestView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = TemplateLayout.init(self, super().get_context_data(**kwargs))
 
-        servers = ServerTest.objects.all().order_by('-is_active','name')
+        servers = ServerTest.objects.annotate(
+            custom_order=Case(
+                When(is_active__isnull=True, then=Value(0)),
+                When(is_active=True, then=Value(1)),
+                When(is_active=False, then=Value(2)),  # آخر False ها
+                output_field=IntegerField(),
+            )
+        ).order_by('custom_order', 'name')
         country = Country.objects.all().order_by('persian_name')
         isp = Isp.objects.all().order_by('name')
 
@@ -114,33 +127,34 @@ class ServerTestView(TemplateView):
 
         # اضافه کردن سرور جدید
         name = request.POST.get('server_name', '').strip()
-        url = request.POST.get('ip', '').strip()
+        ip = request.POST.get('ip', '').strip()
         country_id = request.POST.get('country_server')
         isp_id = request.POST.get('isp_server')
 
-        if not name or not url or country_id == "0" or isp_id == "0":
+        if not name or not ip or country_id == "0" or isp_id == "0":
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=لطفاً همه فیلدها را پر کنید")
 
         if ServerTest.objects.filter(name=name).exists():
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=نام سرور تکراری است")
 
-        if ServerTest.objects.filter(url=url).exists():
+        if ServerTest.objects.filter(ip=ip).exists():
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=آدرس IP تکراری است")
 
         ip_regex = r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$'
-        if not re.fullmatch(ip_regex, url):
+        if not re.fullmatch(ip_regex, ip):
             return redirect(f"{request.path}?alert_class=err_alert_mo&message=آی‌پی وارد شده معتبر نیست")
 
         ServerTest.objects.create(
             name=name,
-            url=url,
+            ip=ip,
             country_id=country_id,
             isp_id=isp_id
         )
 
         return redirect(f"{request.path}?alert_class=success_alert_mo&message=سرور با موفقیت ثبت شد")
 
-class GetAllServerTest(APIView):
+
+class GetAllServerTestView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
@@ -148,3 +162,9 @@ class GetAllServerTest(APIView):
 
         serializer = ServerTestSerializer(server_test, many=True)
         return Response(serializer.data)
+
+
+class AddRecordView(generics.CreateAPIView):
+    queryset = SpeedTest.objects.all()
+    serializer_class = AddRecordSerializer
+    permission_classes = [AllowAny]

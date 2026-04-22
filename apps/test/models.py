@@ -3,6 +3,7 @@ from django.db.models import Avg
 
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.utils import timezone
 
 from apps.setup.models import *
 
@@ -13,41 +14,47 @@ class Isp(models.Model):
     class Meta:
         verbose_name = 'اپراتور'
         verbose_name_plural = 'اپراتورها'
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['country']),
+        ]
 
-    CLOUD_CHOICE = (
-        (True, 'True'),
-        (False, 'False')
-    )
-
-    name = models.CharField(max_length=80, verbose_name='اسم')
-    url = models.URLField(max_length=200, verbose_name='آدرس وب‌سایت', blank=True, null=True)
-    isp = models.CharField(max_length=200, verbose_name='ارائه دهنده خدمات', blank=True, null=True)
-    org = models.CharField(max_length=100, verbose_name='سازمان', blank=True, null=True)
-    country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
-    as_number = models.CharField(max_length=50, verbose_name='AS')
-    asname = models.CharField(max_length=100, verbose_name='AS Name')
-    cloud = models.BooleanField(max_length=18, verbose_name='وضعیت ابری بودن', choices=CLOUD_CHOICE, default=True)
+    name = models.CharField(max_length=80)
+    url = models.CharField(max_length=200, blank=True, null=True)
+    org = models.CharField(max_length=100, blank=True, null=True)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, blank=True, null=True)
+    as_number = models.CharField(max_length=50)
+    asname = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
 
 
 class ServerTest(models.Model):
     class Meta:
         verbose_name = 'سرور تست'
         verbose_name_plural = 'سرور های تست'
+        indexes = [
+            models.Index(fields=['isp']),
+            models.Index(fields=['country']),
+        ]
 
-    ACTIVE_CHOICE = (
-        (True, 'فعال'),
-        (False, 'غیر فعال')
+    class ServerStatus(models.IntegerChoices):
+        INACTIVE = 0, 'غیرفعال'
+        ACTIVE = 1, 'فعال'
+
+    name = models.CharField(max_length=80, unique=True)
+    url = models.CharField(max_length=200, blank=True, null=True, unique=True)
+    ip = models.GenericIPAddressField(unique=True)
+
+    isp = models.ForeignKey(Isp, on_delete=models.PROTECT, blank=True, null=True)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, blank=True, null=True)
+
+    is_active = models.PositiveSmallIntegerField(
+        choices=ServerStatus.choices,
+        default=ServerStatus.ACTIVE
     )
-
-
-    name = models.CharField(max_length=80, verbose_name='اسم', unique=True)
-    url = models.URLField(max_length=200, verbose_name='آدرس وب‌سایت', blank=True, null=True, unique=True)
-    isp = models.ForeignKey(Isp, verbose_name='ارائه دهنده خدمات', on_delete=models.PROTECT, blank=True, null=True)
-    country = models.ForeignKey(Country, verbose_name='کشور', on_delete=models.PROTECT, blank=True, null=True)
-    is_active = models.BooleanField(max_length=18, verbose_name='وضعیت سرور', choices=ACTIVE_CHOICE, default=True)
 
     def __str__(self):
         return self.name
@@ -57,34 +64,65 @@ class NetworkInfo(models.Model):
     class Meta:
         verbose_name = 'اطلاعات شبکه'
         verbose_name_plural = 'اطلاعات شبکه ها'
+        indexes = [
+            models.Index(fields=['province']),
+            models.Index(fields=['city']),
+            models.Index(fields=['isp']),
+            models.Index(fields=['country']),
+            models.Index(fields=['province', 'isp']),
+        ]
 
-    ip = models.GenericIPAddressField(verbose_name='IP', blank=True, null=True)
-    city = models.CharField(max_length=100, verbose_name='شهر', blank=True, null=True)
-    country = models.ForeignKey(Country, on_delete=models.PROTECT, verbose_name='کشور', blank=True, null=True)
-    isp = models.ForeignKey(Isp, on_delete=models.PROTECT, verbose_name='اپراتور', blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    province = models.CharField(max_length=100, blank=True, null=True)
+
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, blank=True, null=True)
+    isp = models.ForeignKey(Isp, on_delete=models.PROTECT, blank=True, null=True)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.ip} - {self.city}"
+        return f"{self.isp} - {self.city}"
 
 
 class DeviceInfo(models.Model):
     class Meta:
         verbose_name = 'اطلاعات سیستم'
         verbose_name_plural = 'اطلاعات سیستم ها'
+        indexes = [
+            models.Index(fields=['user']),
+        ]
 
-    device = models.CharField(max_length=100, verbose_name='دستگاه', blank=True, null=True)
-    os = models.CharField(max_length=100, verbose_name='سیستم‌عامل', blank=True, null=True)
-    os_version = models.CharField(max_length=50, verbose_name='نسخه سیستم‌عامل', blank=True, null=True)
-    cpu = models.CharField(max_length=100, verbose_name='پردازنده', blank=True, null=True)
-    browser = models.CharField(max_length=100, verbose_name='مرورگر', blank=True, null=True)
-    network_kind = models.CharField(
-        max_length=50,
-        verbose_name='نوع اتصال',
-        blank=True, null=True
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    device = models.CharField(max_length=100, blank=True, null=True)
+    os = models.CharField(max_length=100, blank=True, null=True)
+    os_version = models.CharField(max_length=50, blank=True, null=True)
+    cpu = models.CharField(max_length=100, blank=True, null=True)
+    browser = models.CharField(max_length=100, blank=True, null=True)
+
+    network_kind = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.os} - {self.browser} - {self.network_kind}"
+        return f"{self.os} - {self.browser}"
+
+
+class Protocol(models.Model):
+    class Meta:
+        verbose_name = 'پروتکل'
+        verbose_name_plural = 'پروتکل ها'
+        indexes = [
+            models.Index(fields=['protocol']),
+            models.Index(fields=['version']),
+        ]
+
+    transport = models.CharField(max_length=100, blank=True, null=True)
+    protocol = models.CharField(max_length=100, blank=True, null=True)
+    version = models.CharField(max_length=10, blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.protocol} {self.version}"
+
 
 
 class SpeedTest(models.Model):
@@ -92,35 +130,71 @@ class SpeedTest(models.Model):
         verbose_name = 'تست سرعت'
         verbose_name_plural = 'تست های سرعت'
 
-    STATE_CHOICE = (
-        (True, 'موفق'),
-        (False, 'ناموفق')
+        indexes = [
+            # ----------- پایه -----------
+            models.Index(fields=['date']),
+            models.Index(fields=['test_state']),
+            models.Index(fields=['protocol']),
+
+            # ----------- کوئری‌های پرتکرار -----------
+            models.Index(fields=['server_test', '-date']),
+            models.Index(fields=['protocol', '-date']),
+            models.Index(fields=['test_state', '-date']),
+
+            models.Index(fields=['speed_mbps', '-date']),
+
+            # ----------- فیلترهای ترکیبی سنگین -----------
+            models.Index(fields=['network_info', '-date']),
+            models.Index(fields=['device_info', '-date']),
+
+            # ----------- برای join + filter -----------
+            models.Index(fields=['network_info', 'test_state']),
+            models.Index(fields=['server_test', 'test_state']),
+            models.Index(fields=['protocol', 'test_state']),
+
+            # ----------- range queries (speed/ping) -----------
+            models.Index(fields=['speed_mbps']),
+            models.Index(fields=['ping_avg']),
+            models.Index(fields=['jitter']),
+        ]
+
+    class TestState(models.IntegerChoices):
+        FAIL = 0, 'ناموفق'
+        SUCCESS = 1, 'موفق'
+
+    ip = models.GenericIPAddressField(blank=True, null=True)
+    protocol = models.ForeignKey(Protocol, on_delete=models.PROTECT)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    network_info = models.ForeignKey(NetworkInfo, on_delete=models.PROTECT)
+    device_info = models.ForeignKey(DeviceInfo, on_delete=models.PROTECT)
+    server_test = models.ForeignKey(ServerTest, on_delete=models.PROTECT, null=True, blank=True)
+
+    # metrics
+    ping_avg = models.FloatField(blank=True, null=True)
+    jitter = models.FloatField(blank=True, null=True)
+    packet_loss = models.FloatField(blank=True, null=True)
+
+    speed_mbps = models.FloatField(blank=True, null=True)
+    load_time = models.FloatField(blank=True, null=True)
+
+    upload_speed_mbps = models.FloatField(blank=True, null=True)
+    upload_time = models.FloatField(blank=True, null=True)
+
+    latency = models.FloatField(blank=True, null=True)
+
+    test_state = models.PositiveSmallIntegerField(
+        choices=TestState.choices,
+        default=TestState.FAIL
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='کاربر')
-    network_info = models.ForeignKey(NetworkInfo, on_delete=models.PROTECT, verbose_name='اطلاعات شبکه')
-    device_info = models.ForeignKey(DeviceInfo, on_delete=models.PROTECT, verbose_name='اطلاعات دستگاه')
-    server_test = models.ForeignKey(ServerTest, on_delete=models.PROTECT, verbose_name='سرور تست', null=True,
-                                    blank=True)
-
-    ping_avg = models.FloatField(verbose_name='پینگ (ms)', blank=True, null=True)
-    jitter = models.FloatField(verbose_name='جیتر (ms)', blank=True, null=True)
-    packet_loss = models.FloatField(verbose_name='درصد از دست رفتن پکت', blank=True, null=True)
-
-    speed_mbps = models.FloatField(verbose_name='سرعت دانلود (Mbps)', blank=True, null=True)
-    loaded_size = models.FloatField(verbose_name='اندازه فایل دانلود شده (MB)', blank=True, null=True)
-    load_time = models.FloatField(verbose_name='زمان دانلود (ثانیه)', blank=True, null=True)
-
-    upload_speed_mbps = models.FloatField(verbose_name='سرعت آپلود (Mbps)', blank=True, null=True)
-    upload_time = models.FloatField(verbose_name='زمان آپلود (ثانیه)', blank=True, null=True)
-    upload_file_size = models.FloatField(verbose_name='حجم فایل آپلودی (MB)', blank=True, null=True)
-
-    latency = models.FloatField(verbose_name='لَتِنسی', blank=True, null=True)
-    test_state = models.BooleanField(max_length=20, choices=STATE_CHOICE, verbose_name='وضعیت تست', default=False)
-    date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ تست', blank=True, null=True)
+    date = models.DateTimeField(
+        default=timezone.now,
+        db_index=True
+    )
 
     def __str__(self):
-        return f"تست توسط {self.user.name} در {self.date}"
+        return f"{self.user_id} - {self.date}"
 
     @classmethod
     def get_average_speed(cls, **filters):

@@ -1,0 +1,138 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% load jformat %}
+
+{% block title %}لیست تست ها{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/umd/styles/index.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/spinkit/spinkit.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+  <script src="{% static 'vendor/libs/moment/moment.js' %}"></script>
+  <script src="{% static 'libs/jdate/jdate.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/flatpickr/flatpickr.js' %}"></script>
+  <script src="{% static 'libs/flatpickr/flatpickr-jdate.js' %}"></script>
+  <script src="{% static 'libs/flatpickr-jalali/dist/l10n/fa.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/bundle/popular.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js' %}"></script>
+
+  <script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+
+
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
+  <style>
+    .clickable-row {
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .clickable-row:hover {
+      background-color: #f6efeb;
+    }
+  </style>
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="{% static 'js/tables-datatables-basic.js' %}"></script>
+  <script src="{% static 'js/form-layouts.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const rows = document.querySelectorAll('.clickable-row');
+      rows.forEach(row => {
+        row.addEventListener('click', () => {
+          window.location.href = row.dataset.href;
+        });
+      });
+    });
+  </script>
+{% endblock page_js %}
+
+{% block content %}
+  <h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">  تست سرعت /</span> جدول تست ها
+  </h4>
+  <div class="card">
+    <h5 class="card-header">لیست تست ها</h5>
+    <div class="card-datatable table-responsive pt-0">
+      <table class="datatables-direct-basic table">
+        <thead>
+        <tr>
+          <th>تاریخ</th>
+          <th>سرور تست</th>
+          <th>شهر</th>
+          <th>اپراتور</th>
+          <th>نتیجه</th>
+          <th>سرعت دانلود (مگابیت)</th>
+          <th>سرعت آپلود (مگابیت)</th>
+          <th>کاربر</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for test in tests %}
+          <tr class="clickable-row" data-href="{% url 'test_detail' test.id %}">
+          <td>
+{#            {{ test.date }}#}
+            {{ test.date|jformat:"%H:%M | %Y/%m/%d" }}
+          </td>
+          <td>
+            <img class="" alt="{{ test.server_test.country.name }}"
+                 src="{% static 'img/flag/' %}{{ test.server_test.country.name|lower|cut:' ' }}.png"
+                 width="22"> |
+            {{ test.server_test.name }}
+          </td>
+          <td>
+            {{ test.network_info.city }}
+          </td>
+          <td>
+            {{ test.network_info.isp.name }}
+          </td>
+          <td>
+            {% if test.test_state %}
+              <span class="badge bg-label-success">موفق</span>
+            {% else %}
+              <span class="badge bg-label-danger">ناموفق</span>
+            {% endif %}
+          </td>
+          <td>
+            {{ test.speed_mbps }}
+          </td>
+          <td>
+            {{ test.upload_speed_mbps }}
+          </td>
+          <td>
+            <img class="rounded-circle" alt="{{ test.user.name }}"
+                 src="{% static 'img/avatars/' %}{{ test.user.username }}.png"
+                 width="32"> |
+            {{ test.user.name }}
+          </td>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+{% endblock %}

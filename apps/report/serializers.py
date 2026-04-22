@@ -1,23 +1,44 @@
 from rest_framework.serializers import BaseSerializer
+from rest_framework import serializers
+
+from apps.test.models import Isp
+
+PROVINCES_FA = {
+    "Alborz": "البرز",
+    "Ardabil": "اردبیل",
+    "Aazerbaijan-East": "آذربایجان شرقی",
+    "Bushehr": "بوشهر",
+    "Chahaar-Mahaal-Bakhtiaari": "چهارمحال و بختیاری",
+    "Fars": "فارس",
+    "Gilaan": "گیلان",
+    "Golestaan": "گلستان",
+    "Hamadaan": "همدان",
+    "Hormozgaan": "هرمزگان",
+    "Ilaam": "ایلام",
+    "Isfahaan": "اصفهان",
+    "Kermaan": "کرمان",
+    "Kermanshaah": "کرمانشاه",
+    "Khoraasaan-North": "خراسان شمالی",
+    "Khoraasaan-Razavi": "خراسان رضوی",
+    "Khoraasaan-South": "خراسان جنوبی",
+    "Khuzestaan": "خوزستان",
+    "Kohgiluyeh-Boyer-Ahmad": "کهگیلوی و بویراحمد",
+    "Kurdistaan": "کردستان",
+    "Lorestaan": "لرستان",
+    "Markazi": "مرکزی",
+    "Maazandaraan": "مازندران",
+    "Qazvin": "قزوین",
+    "Qom": "قم",
+    "Semnaan": "سمنان",
+    "Sistaan-Baluchestaan": "سیستان و بلوچستان",
+    "Tehran": "تهران",
+    "Yazd": "یزد",
+    "Zanjaan": "زنجان",
+
+}
 
 
-class ContractReportSerializer(BaseSerializer):
-
-    def to_representation(self, instance):
-        request = self.context['request']
-        params = request.query_params.get('report_type')
-        if params == 'total_price':
-            return {
-                'province': str(instance.province.english_title),
-                'data': instance.cost
-            }
-        elif params == 'deposit_amount':
-            return {
-                'province': str(instance.province.english_title),
-                'data': instance.total_settlements
-            }
-        elif params == 'percent_of_total':
-            return {
-                'province': str(instance.province.english_title),
-                'data': round((instance.total_settlements / instance.cost) * 100, 2)
-            }
+class GetAllIspAPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Isp
+        fields = ['id', 'name', 'url', 'isp', 'org', 'as_number', 'asname']

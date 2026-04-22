@@ -280,7 +280,7 @@
                 <tr>
                   <td>
                     <img alt="{{ item.country.name }}"
-                         src="{% static 'img/flag/' %}{{ item.country.name }}.png"
+                         src="{% static 'img/flag/' %}{{ item.country.name|lower|cut:' ' }}.png"
                          width="32"> {{ item.country.persian_name }}</td>
                   <td>
                     {{ item.city }}

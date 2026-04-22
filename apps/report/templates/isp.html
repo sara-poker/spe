@@ -1,0 +1,1034 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}اپراتور ها{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/swiper/swiper.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+
+  <link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/tagify/tagify.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/bootstrap-select/bootstrap-select.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/typeahead-js/typeahead.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+
+  <link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/tagify/tagify.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/bootstrap-select/bootstrap-select.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/typeahead-js/typeahead.css' %}" />
+
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+  <script src="{% static 'vendor/libs/swiper/swiper.js' %}"></script>
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+  <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+
+  <script src="{% static 'amcharts5/index.js' %} "></script>
+  <script src="{% static 'amcharts5/hierarchy.js' %}  "></script>
+  <script src="{% static 'amcharts5/themes/Animated.js' %}  "></script>
+  <script src="{% static 'amcharts5/plugins/exporting.js' %} "></script>
+
+  <script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+  <script src="{% static 'libs/select2/i18n/fa.js' %}"></script>
+  <script src="{% static 'vendor/libs/tagify/tagify.js' %}"></script>
+  <script src="{% static 'vendor/libs/bootstrap-select/bootstrap-select.js' %}"></script>
+  <script src="{% static 'libs/bootstrap-select/i18n/defaults-fa_IR.js' %}"></script>
+  <script src="{% static 'vendor/libs/typeahead-js/typeahead.js' %}"></script>
+  <script src="{% static 'vendor/libs/bloodhound/bloodhound.js' %}"></script>
+
+  <script src="{% static 'js/forms-selects.js' %}"></script>
+  <script src="{% static 'js/forms-tagify.js' %}"></script>
+  <script src="{% static 'js/forms-typeahead.js' %}"></script>
+  <script src="{% static 'js/loading.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/swiper/swiper.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/ui-carousel.css' %}" />
+
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/jquery-timepicker/jquery-timepicker.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/pickr/pickr-themes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/spinkit/spinkit.css' %}" />
+
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/flatpickr/flatpickr.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/umd/styles/index.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/page-profile.css' %}" />
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    #chartdiv {
+      direction: ltr;
+      width: 100%;
+      height: 500px;
+    }
+
+    .mzloading {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 5500;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 75%;
+    }
+  </style>
+  <style>
+
+    .modal-body a {
+      color: #555;
+      text-decoration: underline;
+      transition: .2s;
+    }
+
+    .modal-body a:hover {
+      text-decoration: none;
+    }
+
+    .dt-buttons {
+      display: none;
+    }
+
+    th {
+      text-align: center !important;
+    }
+
+    td {
+      text-align: center;
+    }
+
+    tr {
+      transition: all .2s;
+    }
+
+    tr:hover {
+      background: #eee !important;
+    }
+
+    td a {
+      color: #666 !important;
+    }
+
+    .number_dy {
+      transition: all .3s;
+    }
+
+    .number_dy:hover {
+      background: #eee;
+    }
+
+    .number_dy h1 {
+      font-size: 50px;
+    }
+
+    h5 {
+      font-size: 15px !important;
+    }
+
+    #user_number {
+      border-right: 4px solid #df552b;
+      border-left: 4px solid #df552b;
+    }
+
+    #user_number h1 {
+      color: #df552b;
+    }
+
+
+    #ip_number {
+      border-right: 4px solid #ecb11b;
+      border-left: 4px solid #ecb11b;
+    }
+
+    #ip_number h1 {
+      color: #ecb11b;
+    }
+
+    #test_number {
+      border-right: 4px solid #ec6b1b;
+      border-left: 4px solid #ec6b1b;
+    }
+
+    #test_number h1 {
+      color: #ec6b1b;
+    }
+
+    tbody .control {
+      font-size: 0px;
+    }
+
+    .card {
+    }
+  </style>
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="{% static 'focus/index.min.js' %}"></script>
+  <script src="{% static 'js/report-dashboard.js' %}"></script>
+  <script src="{% static 'js/forms-selects.js' %}"></script>
+  <script src="{% static 'js/forms-tagify.js' %}"></script>
+  <script src="{% static 'js/forms-typeahead.js' %}"></script>
+  <script src="{% static 'vendor/libs/swiper/swiper.js' %}"></script>
+  <script src="{% static 'js/ui-carousel.js' %}"></script>
+  <script src="{% static 'js/donut-chart.js' %}"></script>
+
+  <script src="{% static 'vendor/libs/moment/moment.js' %}"></script>
+  <script src="{% static 'libs/jdate/jdate.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/flatpickr/flatpickr.js' %}"></script>
+  <script src="{% static 'libs/flatpickr/flatpickr-jdate.js' %}"></script>
+  <script src="{% static 'libs/flatpickr-jalali/dist/l10n/fa.js' %}"></script>
+  <script src="{% static 'vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js' %}"></script>
+  <script src="{% static 'vendor/libs/jquery-timepicker/jquery-timepicker.js' %}"></script>
+  <script src="{% static 'vendor/libs/pickr/pickr.js' %}"></script>
+
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+  <script src="{% static 'vendor/libs/moment/moment.js' %}"></script>
+  <script src="{% static 'libs/jdate/jdate.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/flatpickr/flatpickr.js' %}"></script>
+  <script src="{% static 'libs/flatpickr/flatpickr-jdate.js' %}"></script>
+  <script src="{% static 'libs/flatpickr-jalali/dist/l10n/fa.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/bundle/popular.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js' %}"></script>
+  <script src="{% static 'vendor/libs/@form-validation/umd/plugin-auto-t' %}"></script>
+
+
+
+  <script src="{% static 'js/forms-pickers-jalali.js' %}"></script>
+
+  <script>
+    $(function() {
+      var dt_basic_table = $('.datatables-basic');
+
+      // DataTable with buttons
+      if (dt_basic_table.length) {
+        console.log('>>hello');
+        var reportType = '{{ report_type }}';
+        var url1 = '/api/get_all_isp/';
+        var url2 = '/report/isp/';
+        console.log('>>>', reportType);
+
+        if (reportType === 'server_test') {
+          url1 = '/api/get_all_isp_server_test/';
+          url2 = '/report/isp_server_test/';
+        }
+
+        var dt_basic = dt_basic_table.DataTable({
+          ajax: {
+            url: window.location.origin + url1,
+            dataSrc: ''
+          },
+          language: {
+            url: assetsPath + 'json/i18n/datatables-bs5/fa.json'
+          },
+          columns: [
+            { data: '' },
+            {
+              targets: 0,
+              orderable: false,
+              searchable: false,
+              responsivePriority: 1,
+              render: function(data, type, full, meta) {
+                var id = full['id'];
+                var name = full['name'];
+                var asnumber = full['as_number'];
+                if (id) {
+                  return (
+                    '<a href="'+ url2 + id + '/">' +
+                    '<img src="' + assetsPath + 'img/ispLogo/RGB/' + asnumber + '.png' + '" ' +
+                    'alt="Avatar" width="60" class="rounded-circle" ' +
+                    'loading="lazy" onerror="this.onerror=null; this.src=\'' + assetsPath + 'img/MyFile/logo.jpg\';">' +
+                    '</a>'
+                  );
+                } else {
+                  return '';
+                }
+              }
+            },
+            {
+              data: 'name',
+              render: function(data, type, full, meta) {
+                return '<a href="' + url2 + full['id'] + '/">' + data + '</a>';
+              }
+            }
+          ],
+          columnDefs: [
+            {
+              className: 'control',
+              orderable: false,
+              searchable: false,
+              responsivePriority: 2,
+              targets: 0,
+              render: function(data, type, full, meta) {
+                return '';
+              }
+            }
+          ],
+          order: [[1, 'asc']],
+          dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+          displayLength: 7,
+          lengthMenu: [7, 10, 25, 50, 75, 100],
+          responsive: {
+            details: {
+              display: $.fn.dataTable.Responsive.display.modal({
+                header: function(row) {
+                  var data = row.data();
+                  return 'جزئیات ' + data['name'];
+                }
+              }),
+              type: 'column',
+              renderer: function(api, rowIdx, columns) {
+                var data = $.map(columns, function(col, i) {
+                  return col.title !== ''
+                    ? '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                    '<td>' + col.title + ':</td><td>' + col.data + '</td>' +
+                    '</tr>'
+                    : '';
+                }).join('');
+                return data ? $('<table class="table"/><tbody />').append(data) : false;
+              }
+            }
+          }
+        });
+
+        // این کد برای لود کردن تصاویر جدید هنگام تغییر صفحه است
+        dt_basic.on('draw', function() {
+          var pageInfo = dt_basic.page.info();
+          var page = pageInfo.page;
+
+          // می‌توانید با استفاده از page، تصاویر صفحه فعلی را لود کنید.
+          // در اینجا فقط از ویژگی lazy loading استفاده کردیم تا تصاویر به صورت پویا لود شوند
+        });
+
+        $('div.head-label').html('<h5 class="card-title mb-0">جدول داده با کلید</h5>');
+      }
+    });
+  </script>
+
+{% endblock page_js %}
+
+{% block content %}
+  <div class="container-fluid h-100 mzloading">
+    <div class="sk-chase sk-primary">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    {#    <h4 class="py-3 mb-4">#}
+    {#      <span class="text-muted fw-light">  گزارشات /</span> اپراتور ها#}
+    {#    </h4>#}
+    {#    <div class="col-lg-12  mb-4">#}
+    {#      <div class="card h-100 p-4">#}
+    {#        <div class="row">#}
+    {#          <form class="row g-3" action="{{ vpn.id }}" method="get">#}
+    {#            <div class="col-md-2">#}
+    {#              <label class="form-label" for="select2Basic">سال:</label>#}
+    {#              <select disabled class="select2 form-select form-select" data-allow-clear="true" id="select2Basic"#}
+    {#                      name="selected_date">#}
+    {#                <option label="نمایش همگانی" value="0">نمایش همگانی</option>#}
+    {#                <option label="1401" value="14010101">1401</option>#}
+    {#                <option label="1402" value="14020101">1402</option>#}
+    {#                <option label="1403" value="14030101">1403</option>#}
+    {##}
+    {#              </select>#}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Success">اپراتور</label>#}
+    {#              <div class="select2-success">#}
+    {#                <select class="select2 form-select" id="select2Success" multiple disabled>#}
+    {#                  <option value="1" selected>ایرانسل</option>#}
+    {#                  <option value="2" selected>همراه اول</option>#}
+    {#                  <option value="3" selected>رایتل</option>#}
+    {#                </select>#}
+    {#              </div>#}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Basic">اپراتور:</label>#}
+    {#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic"#}
+    {#                      name="vpn">#}
+    {#                <option label="singapore" value="0">نمایش همگانی</option>#}
+    {#                {% for item in vpn %}#}
+    {#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+    {#                          {% if selected_vpn == item.id|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>#}
+    {#                {% endfor %}#}
+    {#              </select>#}
+    {##}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Basic2">استان:</label>#}
+    {#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic2"#}
+    {#                      name="country">#}
+    {#                <option label="singapore" value="0">نمایش همگانی</option>#}
+    {#                {% for item in country %}#}
+    {#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+    {#                          {% if selected_country == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
+    {#                {% endfor %}#}
+    {#              </select>#}
+    {#            </div>#}
+    {#            <div class="col-md-3">#}
+    {#              <label class="form-label" for="select2Basic3">وضعیت:</label>#}
+    {##}
+    {#              <select disabled class="select2 form-select form-select-lg" data-allow-clear="true" id="select2Basic3"#}
+    {#                      name="server_country">#}
+    {#                <option label="singapore" value="0">نمایش همگانی</option>#}
+    {#                {% for item in country_server %}#}
+    {#                  <option label="{{ item.name }}" value="{{ item.id }}"#}
+    {#                          {% if selected_country_server == item.id|stringformat:"s" %}selected{% endif %}>{{ item.persian_name }}</option>#}
+    {#                {% endfor %}#}
+    {#              </select>#}
+    {##}
+    {#            </div>#}
+    {#            <div class="col-md-1">#}
+    {#              <label class="form-label" for="select2Basic3">.</label>#}
+    {#              <br>#}
+    {#              <button disabled class="btn btn-primary" type="submit" id="applyFilter">اعمال فیلتر</button>#}
+    {#            </div>#}
+    {#          </form>#}
+    {#        </div>#}
+    {#      </div>#}
+    {#    </div>#}
+  </div>
+  <div class="row">
+  <div class="col-lg-12">
+    <div class="nav-align-top mb-4">
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="navs-pills-justified-profile" role="tabpanel">
+          <div class="row">
+            <div class="col-lg-4 col-md-12">
+              <!-- DataTable with Buttons -->
+              <div class="card">
+                <div class="card-datatable table-responsive pt-0">
+                  <table class="datatables-basic table">
+                    <thead>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th>نام ارائه دهنده خدمات اینترنتی</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--/ DataTable with Buttons -->
+            </div>
+            <div class="col-lg-8 col-md-12">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card mb-4">
+                    <div class="user-profile-header-banner">
+                      <img width="100%" src="{% static 'img/pages/profile-banner4.png' %}" alt="Banner image"
+                           class="rounded-top">
+                    </div>
+                    <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                      <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                        <img src="{% static 'img/ispLogo/RGB/' %}{{ isp.as_number }}.png"
+                             alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
+                             onerror="this.onerror=null; this.src='{% static 'img/MyFile/logo.jpg' %}';"
+                        >
+                      </div>
+                      <div class="flex-grow-1 mt-3 mt-sm-5">
+                        <div
+                          class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                          <div class="user-profile-info">
+                            <h4>{{ isp.name }}</h4>
+                            <ul
+                              class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                              <li class="list-inline-item d-flex gap-1">
+
+                                {% if isp.url %}
+                                  <i class='ti ti-unlink'></i> <a href="https://{{ isp.url }}/">{{ isp.url }}</a>
+                                {% else %}
+                                  <i class='ti ti-unlink'></i> دامنه نامشخص
+                                {% endif %}
+                              </li>
+                              <li class="list-inline-item d-flex gap-1">
+                                {% if isp.country != None %}
+
+                                  <i class='ti ti-map-pin'></i>
+
+                                  {{ isp.country.persian_name }} |
+                                  <img alt="{{ test.network_info.country.name }}"
+                                       src="
+                                         {% static 'img/flag/' %}{{ isp.country.name|lower|cut:' ' }}.png"
+                                       height="15">
+
+                                {% else %}
+                                  <i class='ti ti-map-pin'></i>کشور نامشخص
+                                {% endif %}
+                              </li>
+
+                              <li class="list-inline-item d-flex gap-1">
+                                <i class='ti ti-server'></i>{{ isp.as_number }}
+                              </li>
+
+                              <li class="list-inline-item d-flex gap-1">
+                                <i class='ti ti-network'></i>{{ isp.asname }}
+                              </li>
+                            </ul>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-12">
+                <div class="nav-align-top mb-4">
+                  <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
+                    <li class="nav-item">
+                      <button class="nav-link active"
+                              data-bs-toggle="tab"
+                              data-bs-target="#home"
+                              type="button" role="tab"
+                              aria-controls="home"
+                              aria-selected="true">
+                        <i class="tf-icons ti ti-info-circle ti-xs me-1"></i>
+                        اطلاعات اپراتور
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link"
+                              data-bs-toggle="tab"
+                              data-bs-target="#profile"
+                              type="button" role="tab"
+                              aria-controls="profile"
+                              aria-selected="false">
+                        <i class="tf-icons ti ti-wifi ti-xs me-1"></i>
+                        آمار سرعت اپراتور
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel">
+                      <div class="row g-4">
+                        <div class="col-xl-7 col-lg-12 col-md-12">
+                          <div class="card number_dy h-100 p-3" id="test_number">
+                            <div class="card-body d-flex flex-column h-100 text-center">
+                              <div class="dropdown btn-pinned"></div>
+
+                              <!-- بخش بالا (تعداد تست‌ها) -->
+                              <div class="mx-auto my-3 flex-grow-1">
+                                <h1>{{ test_count }}</h1>
+                                <h5>تعداد تست های انجام شده</h5>
+                              </div>
+
+                              <!-- بخش پایین (نمودار) -->
+                              <div id="chart_test" class="mt-auto">
+                                <div class="row">
+                                  <div class="col-4">
+                                    <div class="d-flex gap-2 align-items-center mb-2">
+              <span class="badge bg-label-danger p-1 rounded">
+                <i class="ti ti-hand-stop ti-xs"></i>
+              </span>
+                                      <p class="mb-0">تست ناموفق</p>
+                                    </div>
+                                    <h5 class="mb-0 pt-1 text-nowrap">{{ fail_speed_test_percent }} %</h5>
+                                    <small class="text-muted">{{ fail_speed_test }}</small>
+                                  </div>
+
+                                  <div class="col-4">
+                                    <div class="divider divider-vertical">
+                                      <div class="divider-text">
+                                        <span class="badge-divider-bg bg-label-secondary"></span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-4 text-end">
+                                    <div class="d-flex gap-2 justify-content-end align-items-center mb-2">
+                                      <p class="mb-0">تست موفق</p>
+                                      <span class="badge bg-label-success p-1 rounded">
+                <i class="ti ti-check ti-xs"></i>
+              </span>
+                                    </div>
+                                    <h5 class="mb-0 pt-1 text-nowrap ms-lg-n3 ms-xl-0">{{ success_speed_test_percent }}
+                                      %</h5>
+                                    <small class="text-muted">{{ success_speed_test }}</small>
+                                  </div>
+                                </div>
+
+                                <div class="d-flex align-items-center mt-4">
+                                  <div class="progress w-100" style="height: 8px">
+                                    <div
+                                      class="progress-bar bg-gradient-danger"
+                                      style="width: {{ fail_speed_test_percent }}%"
+                                      role="progressbar"
+                                      aria-valuenow="{{ fail_speed_test_percent }}"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"></div>
+                                    <div
+                                      class="progress-bar bg-gradient-success"
+                                      style="width: {{ success_speed_test_percent }}%"
+                                      role="progressbar"
+                                      aria-valuenow="{{ success_speed_test_percent }}"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        {# Start Desktop Size #}
+                        <div class="col-xl-5 col-lg-12 d-none d-xl-flex flex-column">
+                          <div class="flex-fill p-3 ">
+                            <div class="card number_dy" id="ip_number">
+                              <div class="card-body text-center">
+                                <div class="dropdown btn-pinned">
+                                  <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
+                                          data-bs-target="#modalCenter2"
+                                          data-bs-toggle="modal" type="button">
+                                    <i class="ti ti-dots-vertical text-muted"></i>
+                                  </button>
+                                  </button>
+                                </div>
+                                <div class="mx-auto my-3">
+                                  <h1>{{ ips_count }}</h1>
+                                </div>
+                                <h5>آیپی های شناسایی شده</h5>
+                              </div>
+                              <div aria-hidden="true" class="modal fade" id="modalCenter2" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="modalCenterTitle">آیپی های شناسایی شده</h5>
+                                      <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal"
+                                              type="button"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      {% for item in unique_ips %}
+                                        <ul>
+                                          <li>{{ item }}</li>
+                                        </ul>
+                                      {% endfor %}
+
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button">
+                                        بستن
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flex-fill p-3 ">
+                            <div class="card number_dy" id="user_number">
+                              <div class="card-body text-center">
+                                <div class="dropdown btn-pinned">
+                                  <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
+                                          data-bs-target="#modalCenter1"
+                                          data-bs-toggle="modal" type="button">
+                                    <i class="ti ti-dots-vertical text-muted"></i>
+                                  </button>
+                                  </button>
+                                </div>
+                                <div class="mx-auto my-3">
+                                  <h1>{{ users_count }}</h1>
+                                </div>
+                                <h5>کاربران استفاده کننده</h5>
+                              </div>
+                              <div aria-hidden="true" class="modal fade" id="modalCenter1" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="modalCenterTitle">کاربران شناسایی شده</h5>
+                                      <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal"
+                                              type="button"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      {% for item in unique_users %}
+                                        <ul>
+                                          <a href="/setup/user/detail/{{ item.id }}/">
+                                            <li>{{ item.name }} | {{ item.username }} </li>
+                                          </a>
+
+                                        </ul>
+                                      {% endfor %}
+
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button">
+                                        بستن
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {# End Desktop Size #}
+
+                        {# Start mobile Size #}
+                        <div class="col-6 d-xl-none">
+                          <div class="card number_dy" id="ip_number">
+                            <div class="card-body text-center">
+                              <div class="dropdown btn-pinned">
+                                <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
+                                        data-bs-target="#modalIps"
+                                        data-bs-toggle="modal" type="button">
+                                  <i class="ti ti-dots-vertical text-muted"></i>
+                                </button>
+                              </div>
+                              <div class="mx-auto my-3">
+                                <h1>{{ ips_count }}</h1>
+                              </div>
+                              <h5>آیپی های استفاده شده</h5>
+                            </div>
+                            <!-- Modal for IPs -->
+                            <div aria-hidden="true" class="modal fade" id="modalIps" tabindex="-1">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">آیپی های شناسایی شده</h5>
+                                    <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal"
+                                            type="button"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <ul>
+                                      {% for item in unique_ips %}
+                                        <li>{{ item }}</li>
+                                      {% endfor %}
+                                    </ul>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button">بستن
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-6 d-xl-none">
+                          <div class="card number_dy" id="user_number">
+                            <div class="card-body text-center">
+                              <div class="dropdown btn-pinned">
+                                <button aria-expanded="false" class="btn dropdown-toggle hide-arrow p-0"
+                                        data-bs-target="#modalUsers"
+                                        data-bs-toggle="modal" type="button">
+                                  <i class="ti ti-dots-vertical text-muted"></i>
+                                </button>
+                              </div>
+                              <div class="mx-auto my-3">
+                                <h1>{{ users_count }}</h1>
+                              </div>
+                              <h5>کاربران استفاده کننده</h5>
+                            </div>
+                            <!-- Modal for Users -->
+                            <div aria-hidden="true" class="modal fade" id="modalUsers" tabindex="-1">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">کاربران استفاده کننده</h5>
+                                    <button aria-label="بستن" class="btn-close" data-bs-dismiss="modal"
+                                            type="button"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <ul>
+                                      {% for item in unique_users %}
+                                        <li>
+                                          <a href="/setup/user/detail/{{ item.id }}/">
+                                            {{ item.name }} | {{ item.username }}
+                                          </a>
+                                        </li>
+                                      {% endfor %}
+                                    </ul>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-label-secondary" data-bs-dismiss="modal" type="button">بستن
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {# End mobile Size #}
+
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel">
+                      <div class="accordion mt-3" id="accordionExample">
+                        <div class="card accordion-item active">
+                          <h2 class="accordion-header" id="headingOne">
+                            <button aria-controls="accordionOne" aria-expanded="true" class="accordion-button"
+                                    data-bs-target="#accordionOne" data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-download ti-xs me-2"></i>
+                              دانلود | Download
+                            </button>
+                          </h2>
+                          <div class="accordion-collapse collapse show" data-bs-parent="#accordionExample"
+                               id="accordionOne">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_download_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_download_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_download_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card accordion-item">
+                          <h2 class="accordion-header" id="headingTwo">
+                            <button aria-controls="accordionTwo" aria-expanded="false"
+                                    class="accordion-button collapsed" data-bs-target="#accordionTwo"
+                                    data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-upload ti-xs me-2"></i>
+                              آپلود | Upload
+                            </button>
+                          </h2>
+                          <div aria-labelledby="headingTwo" class="accordion-collapse collapse"
+                               data-bs-parent="#accordionExample" id="accordionTwo">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_upload_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_upload_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_upload_speed }} Mb/s</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card accordion-item">
+                          <h2 class="accordion-header" id="headingThree">
+                            <button aria-controls="accordionThree" aria-expanded="false"
+                                    class="accordion-button collapsed" data-bs-target="#accordionThree"
+                                    data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-plug ti-xs me-2"></i>
+                              پینگ | Ping
+                            </button>
+                          </h2>
+                          <div aria-labelledby="headingThree" class="accordion-collapse collapse"
+                               data-bs-parent="#accordionExample" id="accordionThree">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_ping_speed }} ms</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_ping_speed }} ms</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_ping_speed }} ms</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card accordion-item">
+                          <h2 class="accordion-header" id="headingfoure">
+                            <button aria-controls="accordionThree" aria-expanded="false"
+                                    class="accordion-button collapsed" data-bs-target="#accordionfoure"
+                                    data-bs-toggle="collapse" type="button">
+                              <i class="ti ti-arrows-shuffle-2 ti-xs me-2"></i>
+                              جیتر | Jitter
+                            </button>
+                          </h2>
+                          <div aria-labelledby="headingThree" class="accordion-collapse collapse"
+                               data-bs-parent="#accordionExample" id="accordionfoure">
+                            <div class="accordion-body">
+                              <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-up text-success" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">بیشترین | Maximum</h5>
+                                      <h6 id="ping" class="text-success display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ max_jitter_speed }}</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-arrow-down text-danger" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">کمترین | Minimum</h5>
+                                      <h6 id="ping" class="text-danger display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ min_jitter_speed }}</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                  <div class="card text-center shadow-sm border-0 rounded-3 p-3">
+                                    <div class="card-body">
+                                      <div class="mb-2">
+                                        <i class="ti ti-chart-bar text-warning" style="font-size: 25px;"></i>
+                                      </div>
+                                      <h5 class="card-title mb-1 fw-bold">میانگین | Average</h5>
+                                      <h6 id="ping" class="text-warning display-6" dir="ltr"
+                                          style="font-size: 30px;">{{ avg_jitter_speed }}</h6>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock content %}
+

@@ -231,7 +231,7 @@
               </tr>
               </thead>
               <tbody>
-              {% for item in device_avg_qs %}
+              {% for item in device_info_list %}
                 <tr>
                   {#                  <td>#}
                   {#                    <img alt="{{ server.country.name }}" src="{% static 'img/flag/' %}{{ server.country.name }}.png"#}
@@ -279,9 +279,9 @@
               {% for item in network_info_list %}
                 <tr>
                   <td>
-                      <img alt="{{ item.country.name }}"
-                                                           src="{% static 'img/flag/' %}{{ item.country.name }}.png"
-                                                           width="32"> {{ item.country.persian_name }}</td>
+                    <img alt="{{ item.country.name }}"
+                         src="{% static 'img/flag/' %}{{ item.country.name|lower|cut:' ' }}.png"
+                         width="32"> {{ item.country.persian_name }}</td>
                   <td>
                     {{ item.city }}
                   </td>

@@ -1,0 +1,587 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}استان {{ province }}{% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/swiper/swiper.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/spinkit/spinkit.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+  <script src="{% static 'vendor/libs/swiper/swiper.js' %}"></script>
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+
+  <script src="{% static 'amcharts5/index.js' %}"></script>
+  <script src="{% static 'amcharts5/xy.js' %}"></script>
+  <script src="{% static 'amcharts5/radar.js' %}"></script>
+  <script src="{% static 'amcharts5/plugins/exporting.js' %}"></script>
+  <script src="{% static 'amcharts5/themes/Animated.js' %}"></script>
+  <script src="{% static 'amcharts5/wc.js' %}"></script>
+  <script src="{% static 'amcharts5/percent.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
+  <style>
+    #template-customizer {
+      display: none !important;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+      perspective: 1000px;
+    }
+
+    h5 {
+      color: #555 !important;
+    }
+
+    td a {
+      color: #666 !important;
+      transition: all .3s;
+    }
+
+    td a:hover {
+      color: #000 !important;
+      font-weight: bold !important;
+    }
+
+
+    .card-header-mz {
+      padding: 15px 15px 0;
+    }
+
+    .card-header-mz h5 {
+      margin: 0;
+    }
+
+    .carousel-control-prev-icon {
+      background: #555 url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.25 4.5L6.75 9L11.25 13.5' stroke='%23fff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M11.25 4.5L6.75 9L11.25 13.5' stroke='white' stroke-opacity='0.2' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A") center center no-repeat !important;
+    }
+
+    .carousel-control-next-icon {
+      background: #555 url("data:image/svg+xml,%3Csvg width='19' height='18' viewBox='0 0 19 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.25 4.5L11.75 9L7.25 13.5' stroke='%23fff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M7.25 4.5L11.75 9L7.25 13.5' stroke='white' stroke-opacity='0.2' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center center no-repeat !important;
+    }
+
+    .item-image-icon {
+      border-radius: 30px;
+    }
+
+    #alert_mo {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      border: 1.5px solid #1ab8cc;
+      z-index: 5000;
+    }
+
+    .button-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .test-button {
+      width: 100%;
+      height: 100%;
+      background-color: #e0e0e0; /* نقره‌ای روشن */
+      border: none;
+      border-radius: 50%; /* کاملاً دایره‌ای */
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2),
+      0 4px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      outline: none;
+      transform-style: preserve-3d;
+    }
+
+    .button-text {
+      color: #333;
+      font-size: 1.5em;
+      font-weight: bold;
+      z-index: 2;
+      transition: color 0.2s ease-out;
+    }
+
+    .button-lines {
+      position: absolute;
+      width: 80%; /* اندازه SVG دایره داخلی نسبت به دکمه */
+      height: 80%;
+      top: 10%;
+      left: 10%;
+      z-index: 1;
+    }
+
+    .button-lines .inner-circle {
+      stroke: #aaa; /* رنگ پیش‌فرض دایره داخلی (طوسی روشن) */
+      transition: stroke 0.2s ease-out;
+    }
+
+    /* حالت فعال (Active State) برای چرخش و ظاهر فشرده */
+    .test-button.active {
+      transform: translateY(4px) scale(0.98);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2),
+      0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-button.active .button-text {
+      color: #ef6808;
+    }
+
+    .test-button.active .button-lines .inner-circle {
+      stroke: #ef6808;
+    }
+
+    /* دایره چرخشی خارجی */
+    .rotating-circle {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+      pointer-events: none;
+    }
+
+    /* نمایش و چرخش دایره فقط وقتی دکمه active است */
+    .test-button.active + .rotating-circle {
+      opacity: 1;
+      animation: rotateCircle 1.5s linear infinite;
+    }
+
+    .card-mz {
+      padding: 20px 0px 30px;
+    }
+
+    @keyframes rotateCircle {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+  </style>
+  <style>
+    #chartdiv,
+    #chartdiv2 {
+      margin: 0 auto;
+      width: 98%;
+      height: 500px;
+      direction: ltr;
+      font-family: IRANSans !important;
+    }
+  </style>
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.35/dist/ua-parser.min.js"></script>
+  <script src="{% static 'js/report-dashboard.js' %}"></script>
+
+
+
+
+  <script>
+    const chartData = {{ chart_data|safe }};
+
+    am5.ready(function() {
+      var root = am5.Root.new('chartdiv');
+
+      root.setThemes([am5themes_Animated.new(root)]);
+
+      var container = root.container.children.push(
+        am5.Container.new(root, {
+          width: am5.p100,
+          height: am5.p100,
+          layout: root.horizontalLayout
+        })
+      );
+
+      var chart = container.children.push(
+        am5percent.PieChart.new(root, {
+          tooltip: am5.Tooltip.new(root, {})
+        })
+      );
+
+      var series = chart.series.push(
+        am5percent.PieSeries.new(root, {
+          valueField: 'value',
+          categoryField: 'category',
+          alignLabels: false
+        })
+      );
+
+      series.labels.template.setAll({
+        textType: 'circular',
+        radius: 4
+      });
+      series.ticks.template.set('visible', false);
+      series.slices.template.set('toggleKey', 'none');
+
+      series.slices.template.events.on('click', function(e) {
+        selectSlice(e.target);
+      });
+
+      var subChart = container.children.push(
+        am5percent.PieChart.new(root, {
+          radius: am5.percent(50),
+          tooltip: am5.Tooltip.new(root, {})
+        })
+      );
+
+      var subSeries = subChart.series.push(
+        am5percent.PieSeries.new(root, {
+          valueField: 'value',
+          categoryField: 'category'
+        })
+      );
+
+      subSeries.data.setAll([
+        { category: 'A', value: 0 },
+        { category: 'B', value: 0 },
+        { category: 'C', value: 0 },
+        { category: 'D', value: 0 },
+        { category: 'E', value: 0 },
+        { category: 'F', value: 0 },
+        { category: 'G', value: 0 }
+      ]);
+      subSeries.slices.template.set('toggleKey', 'none');
+
+      var colorSet = am5.ColorSet.new(root, {
+        colors: [
+          am5.color('#f68250'),
+          am5.color('#ffcc00'),
+          am5.color('#e53935'),
+          am5.color('#ff8c00'),
+          am5.color('#ff7f50')
+        ],
+        step: 1
+      });
+
+      series.set('colors', colorSet);
+      subSeries.set('colors', colorSet);
+
+      root.container.set('rtl', true);
+
+      series.labels.template.setAll({
+        textType: 'circular',
+        radius: 4,
+        direction: 'rtl',
+        textAlign: 'right',
+        fontFamily: 'Tahoma'
+      });
+
+      subSeries.labels.template.setAll({
+        direction: 'rtl',
+        textAlign: 'right',
+        fontFamily: 'Tahoma'
+      });
+
+      var selectedSlice;
+
+      series.on('startAngle', function() {
+        updateLines();
+      });
+
+      container.events.on('boundschanged', function() {
+        root.events.once('frameended', function() {
+          updateLines();
+        });
+      });
+
+      function updateLines() {
+        if (selectedSlice) {
+          var startAngle = selectedSlice.get('startAngle');
+          var arc = selectedSlice.get('arc');
+          var radius = selectedSlice.get('radius');
+
+          var x00 = radius * am5.math.cos(startAngle);
+          var y00 = radius * am5.math.sin(startAngle);
+
+          var x10 = radius * am5.math.cos(startAngle + arc);
+          var y10 = radius * am5.math.sin(startAngle + arc);
+
+          var subRadius = subSeries.slices.getIndex(0).get('radius');
+          var x01 = 0;
+          var y01 = -subRadius;
+
+          var x11 = 0;
+          var y11 = subRadius;
+
+          var point00 = series.toGlobal({ x: x00, y: y00 });
+          var point10 = series.toGlobal({ x: x10, y: y10 });
+
+          var point01 = subSeries.toGlobal({ x: x01, y: y01 });
+          var point11 = subSeries.toGlobal({ x: x11, y: y11 });
+
+          line0.set('points', [point00, point01]);
+          line1.set('points', [point10, point11]);
+        }
+      }
+
+      var line0 = container.children.push(
+        am5.Line.new(root, {
+          position: 'absolute',
+          stroke: root.interfaceColors.get('text'),
+          strokeDasharray: [2, 2]
+        })
+      );
+      var line1 = container.children.push(
+        am5.Line.new(root, {
+          position: 'absolute',
+          stroke: root.interfaceColors.get('text'),
+          strokeDasharray: [2, 2]
+        })
+      );
+
+      series.data.setAll(chartData);
+
+      function selectSlice(slice) {
+        selectedSlice = slice;
+        var dataItem = slice.dataItem;
+        var dataContext = dataItem.dataContext;
+
+        if (dataContext) {
+          var i = 0;
+          subSeries.data.each(function(dataObject) {
+            var dataObj = dataContext.subData[i];
+            if (dataObj) {
+              if (!subSeries.dataItems[i].get('visible')) {
+                subSeries.dataItems[i].show();
+              }
+              subSeries.data.setIndex(i, dataObj);
+            } else {
+              subSeries.dataItems[i].hide();
+            }
+            i++;
+          });
+        }
+
+        var middleAngle = slice.get('startAngle') + slice.get('arc') / 2;
+        var firstAngle = series.dataItems[0].get('slice').get('startAngle');
+
+        series.animate({
+          key: 'startAngle',
+          to: firstAngle - middleAngle,
+          duration: 1000,
+          easing: am5.ease.out(am5.ease.cubic)
+        });
+        series.animate({
+          key: 'endAngle',
+          to: firstAngle - middleAngle + 360,
+          duration: 1000,
+          easing: am5.ease.out(am5.ease.cubic)
+        });
+      }
+
+      container.appear(1000, 10);
+
+      series.events.on('datavalidated', function() {
+        selectSlice(series.slices.getIndex(0));
+      });
+    });
+  </script>
+
+  <script>
+    const chartData2 = {{ chart_data2|safe }};
+
+    am5.ready(function() {
+      var root = am5.Root.new('chartdiv2');
+
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
+
+      var chart = root.container.children.push(
+        am5xy.XYChart.new(root, {
+          panX: false,
+          panY: false,
+          wheelX: 'panX',
+          wheelY: 'zoomX',
+          layout: root.verticalLayout,
+          arrangeTooltips: false,
+          paddingLeft: 0,
+          paddingRight: 10
+        })
+      );
+
+      chart.getNumberFormatter().set('numberFormat', '#.#s');
+
+      chart.set('colors', am5.ColorSet.new(root, {
+        colors: [
+          am5.color('#f68250'),
+          am5.color('#ffcc00'),
+          am5.color('#e53935')
+        ],
+        step: 1
+      }));
+
+      var legend = chart.children.push(
+        am5.Legend.new(root, {
+          centerX: am5.p50,
+          x: am5.p50
+        })
+      );
+
+      var yAxis = chart.yAxes.push(
+        am5xy.CategoryAxis.new(root, {
+          categoryField: 'date',
+          renderer: am5xy.AxisRendererY.new(root, {
+            inversed: true,
+            cellStartLocation: 0.1,
+            cellEndLocation: 0.9,
+            minorGridEnabled: true,
+            minGridDistance: 20
+          })
+        })
+      );
+      yAxis.data.setAll(chartData2);
+
+      var xAxis = chart.xAxes.push(
+        am5xy.ValueAxis.new(root, {
+          renderer: am5xy.AxisRendererX.new(root, {
+            minGridDistance: 60,
+            strokeOpacity: 0.1
+          })
+        })
+      );
+
+      function createSeries(field, name, labelCenterX, pointerOrientation, rangeValue) {
+        var series = chart.series.push(
+          am5xy.ColumnSeries.new(root, {
+            name: name,
+            xAxis: xAxis,
+            yAxis: yAxis,
+            valueXField: field,
+            categoryYField: 'date',
+            sequencedInterpolation: true,
+            clustered: false,
+            tooltip: am5.Tooltip.new(root, {
+              pointerOrientation: pointerOrientation,
+              labelText: '{name} در {categoryY}: {valueX}'
+            })
+          })
+        );
+
+        series.columns.template.setAll({
+          height: am5.p100,
+          strokeOpacity: 0,
+          fillOpacity: 0.9
+        });
+
+        series.bullets.push(function() {
+          return am5.Bullet.new(root, {
+            locationX: 1,
+            locationY: 0.5,
+            sprite: am5.Label.new(root, {
+              centerY: am5.p50,
+              text: '{valueX}',
+              populateText: true,
+              centerX: labelCenterX
+            })
+          });
+        });
+
+        series.data.setAll(chartData2);
+        series.appear();
+
+        var rangeDataItem = xAxis.makeDataItem({ value: rangeValue });
+        xAxis.createAxisRange(rangeDataItem);
+        rangeDataItem.get('grid').setAll({
+          strokeOpacity: 1,
+          stroke: series.get('stroke')
+        });
+
+        var label = rangeDataItem.get('label');
+        label.setAll({
+          text: name.toUpperCase(),
+          fontSize: '1.1em',
+          fill: series.get('stroke'),
+          paddingTop: 10,
+          isMeasured: false,
+          centerX: labelCenterX
+        });
+        label.adapters.add('dy', function() {
+          return -chart.plotContainer.height();
+        });
+
+        return series;
+      }
+
+      createSeries('download', 'دانلود', am5.p100, 'right', -0.5);
+      createSeries('upload', 'آپلود', 0, 'left', 0.8);
+
+      legend.data.setAll(chart.series.values);
+
+      var cursor = chart.set('cursor', am5xy.XYCursor.new(root, {
+        behavior: 'zoomY'
+      }));
+      cursor.lineY.set('forceHidden', true);
+      cursor.lineX.set('forceHidden', true);
+
+      chart.appear(1000, 100);
+    });
+  </script>
+
+
+{% endblock page_js %}
+
+{% block content %}
+  <div class="row">
+    <h4 class="py-3">
+      <span class="text-muted fw-light">  اطلاعات استان /</span> {{ province }}
+    </h4>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-12 col-md-12 mb-4">
+      <div class="card h-100">
+
+        <h5 class="card-header">وضعیت اتصال به تفکیک اپراتور</h5>
+        <div class="card-datatable table-responsive pt-0 w-100">
+          <div id="chartdiv"></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-12 col-md-12 mb-4">
+      <div class="card h-100">
+
+        <h5 class="card-header">سرعت دانلود و آپلود در 20 تست اخیر</h5>
+        <div class="card-datatable table-responsive pt-0 w-100">
+          <div id="chartdiv2"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+

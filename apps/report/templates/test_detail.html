@@ -1,0 +1,333 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% load jformat %}
+
+{% block title %}{{ test.user.name }} | {{ test.server_test.name }} {% endblock %}
+
+{% block vendor_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/swiper/swiper.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css' %}" />
+  <link rel="stylesheet" href="{% static 'vendor/libs/spinkit/spinkit.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+  {{ block.super }}
+  <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
+  <script src="{% static 'vendor/libs/swiper/swiper.js' %}"></script>
+  <script src="{% static 'vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+
+  <script src="{% static 'amcharts5/index.js' %}"></script>
+  <script src="{% static 'amcharts5/xy.js' %}"></script>
+  <script src="{% static 'amcharts5/radar.js' %}"></script>
+  <script src="{% static 'amcharts5/plugins/exporting.js' %}"></script>
+  <script src="{% static 'amcharts5/themes/Animated.js' %}"></script>
+  <script src="{% static 'amcharts5/wc.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'vendor/css/pages/cards-advance.css' %}" />
+  <style>
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+      perspective: 1000px;
+    }
+
+    h5 {
+      color: #555 !important;
+    }
+
+    td a {
+      color: #666 !important;
+      transition: all .3s;
+    }
+
+    td a:hover {
+      color: #000 !important;
+      font-weight: bold !important;
+    }
+
+
+    .card-header-mz h5 {
+      margin: 0;
+    }
+
+
+    .button-lines .inner-circle {
+      stroke: #aaa; /* رنگ پیش‌فرض دایره داخلی (طوسی روشن) */
+      transition: stroke 0.2s ease-out;
+    }
+
+
+    .test-button.active .button-text {
+      color: #ef6808;
+    }
+
+    .test-button.active .button-lines .inner-circle {
+      stroke: #ef6808;
+    }
+
+    /* دایره چرخشی خارجی */
+    /* نمایش و چرخش دایره فقط وقتی دکمه active است */
+    .test-button.active + .rotating-circle {
+      opacity: 1;
+      animation: rotateCircle 1.5s linear infinite;
+    }
+
+
+    @keyframes rotateCircle {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+  </style>
+{% endblock page_css %}
+
+{% block page_js %}
+  {{ block.super }}
+  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.35/dist/ua-parser.min.js"></script>
+  <script src="{% static 'js/report-dashboard.js' %}"></script>
+  <script src="{% static 'js/table-mz.js' %}"></script>
+
+
+
+
+{% endblock page_js %}
+
+{% block content %}
+  <h4 class="py-3">
+    <span class="text-muted fw-light">  تست سرعت /</span>نتیجه تست {{ test.date|jformat:" %Y/%m/%d" }}
+  </h4>
+  <a href="{% url 'tests_table' %}" class="btn btn-primary d-grid w-100 waves-effect waves-light mt-4">
+    نمایش جدول تست ها
+  </a>
+  <div class="row">
+
+    <div class="row d-flex">
+      <div class="col-xl-8 col-lg-12 d-flex">
+        <div class=" col-12 h-100  mb-3" id="test_result">
+          <div class="col-md">
+            <div class="card mt-4 mb-4 shadow rounded">
+              <div class="card-body">
+                <div class="row">
+                  <!-- بخش چپ -->
+                  <div class="col-md-6 mb-3">
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">آی‌پی:</h5>
+                      <h6 class="mb-0" id="ip">{{ test.network_info.ip }}</h6>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">کشور:</h5>
+                      <h6 class="mb-0 me-2" id="country">{{ test.network_info.country.name }}</h6>
+                      <img alt="{{ test.network_info.country.name }}"
+                           src="{% static 'img/flag/' %}{{ test.network_info.country.name|lower|cut:' ' }}.png"
+                           width="32">
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">شهر:</h5>
+                      <h6 class="mb-0" id="city">{{ test.network_info.city }}</h6>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">اپراتور:</h5>
+                      <h6 class="mb-0 me-2" id="isp">{{ test.network_info.isp.name }}</h6>
+                      <img class="" alt="{{ test.network_info.isp.name }}"
+                           src="{% static 'img/ispLogo/RGB/' %}{{ test.network_info.isp.as_number }}.png"
+                           height="42">
+                    </div>
+
+                  </div>
+
+                  <!-- بخش راست -->
+                  <div class="col-md-6 mb-3">
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">دستگاه:</h5>
+                      <h6 class="mb-0" id="device">{{ test.device_info.device }}</h6>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">سیستم عامل:</h5>
+                      <h6 class="mb-0" id="os">{{ test.device_info.os }}</h6>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">پردازنده:</h5>
+                      <h6 class="mb-0" id="cpu">{{ test.device_info.cpu }}</h6>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                      <h5 class="mb-0 me-2">مرورگر:</h5>
+                      <h6 class="mb-0" id="browser">{{ test.device_info.browser }}</h6>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col-md-4 mb-3">
+                    <div class="d-flex flex-column align-items-center border p-2 rounded">
+                      <h5 class="mb-1">پینگ:</h5>
+                      <h6 id="ping">{{ test.ping_avg }}</h6>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                    <div class="d-flex flex-column align-items-center border p-2 rounded">
+                      <h5 class="mb-1">جیتر:</h5>
+                      <h6 id="jitter">{{ test.jitter }}</h6>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                    <div class="d-flex flex-column align-items-center border p-2 rounded">
+                      <h5 class="mb-1">درصد از دست رفتن بسته:</h5>
+                      <h6 id="packet">{{ test.packet_loss }}</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md">
+            <small class="text-light fw-medium">سرعت تست</small>
+            <div class="accordion mt-3 accordion-without-arrow" id="accordionIcon">
+              <div id="" class="accordion-collapse collapse}"
+                   data-bs-parent="#accordionIcon">
+                <div class="accordion-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="p-3 rounded shadow-sm border">
+                        <h5 class="fw-bold mb-3 text-primary">⬇️ دانلود</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                          <span class="text-muted">سرعت دانلود (Mbps):</span>
+                          <span class="fw-semibold">{{ test.speed_mbps }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <span class="text-muted">سرعت دانلود (MBps):</span>
+                          <span class="fw-semibold">{{ speed_MBps }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="p-3 rounded shadow-sm border">
+                        <h5 class="fw-bold mb-3 text-success">⬆️ آپلود</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                          <span class="text-muted">سرعت آپلود (Mbps):</span>
+                          <span class="fw-semibold">{{ test.upload_speed_mbps }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <span class="text-muted">سرعت آپلود (MBps):</span>
+                          <span class="fw-semibold">{{ upload_speed_MBps }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-12 d-flex">
+        <div class=" col-12 h-100  mb-3">
+          <div class="col-md">
+            <div class="card mt-4 mb-4 shadow rounded">
+              <div class="card-body">
+                <div class="user-avatar-section">
+                  <div class=" d-flex align-items-center flex-column">
+                    <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                         src="{% static 'img/avatars/' %}{{ test.user.username }}.png"
+                         height="100" width="100" alt="User avatar" />
+                    <div class="user-info text-center">
+                      <h4 class="mb-2">{{ test.user.name }}</h4>
+                      {% if test.user.role == "manager" %}
+                        <span class="badge bg-label-secondary mt-1">مدیر کل</span>
+                      {% elif test.user.role == "admin" %}
+                        <span class="badge bg-label-secondary mt-1">ادمین</span>
+                      {% elif test.user.role == "user" %}
+                        <span class="badge bg-label-secondary mt-1">کاربر عادی</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-4 mb-4 shadow rounded">
+              <div class="card-body">
+                <h4>اطلاعات سرور تست</h4>
+                <div class="col-md-6 mb-3">
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">نام سرور:</h5>
+                    <h6 class="mb-0" id="ip">{{ test.server_test.name }}</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">کشور:</h5>
+                    <h6 class="mb-0 me-2" id="country">{{ test.server_test.country.name }}</h6>
+                    <img alt="{{ test.network_info.country.name }}"
+                         src="{% static 'img/flag/' %}{{ test.network_info.country.name|lower|cut:' ' }}.png"
+                         height="22">
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">آی‌پی:</h5>
+                    <h6 class="mb-0" id="ip">{{ test.server_test.ip }}</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">آدرس:</h5>
+                    <h6 class="mb-0" id="city">{{ test.server_test.url }}</h6>
+                  </div>
+
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">اپراتور:</h5>
+                    <h6 class="mb-0 me-2" id="isp">{{ test.server_test.isp.name }}</h6>
+                  </div>
+
+                  <div class="d-flex align-items-center mb-3">
+                    <h5 class="mb-0 me-2">وضعیت فعالیت:</h5>
+                    {% if test.server_test.is_active %}
+                      <span class="badge  bg-label-success">فعال</span>
+                    {% elif test.server_test.is_active == False %}
+                      <span class="badge  bg-label-danger">غیرفعال</span>
+                    {% else %}
+                      <span class="badge  bg-label-warning">درحال فعالسازی</span>
+                    {% endif %}
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+{% endblock content %}
+

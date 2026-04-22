@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = 'Import speed test data from JSON file into the database'
 
     def handle(self, *args, **options):
-        file_path = BASE_DIR / 'test_speedTest.json'
+        file_path = BASE_DIR / 'test_speedtest.json'
 
         if not os.path.exists(file_path):
             self.stderr.write(self.style.ERROR(f"File '{file_path}' not found."))

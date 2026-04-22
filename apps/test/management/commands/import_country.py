@@ -16,7 +16,7 @@ class Command(BaseCommand):
             data = json.load(file)
 
         for country_data in data:
-            country, created = Country.objects.get_or_create(
+            country, created = Country.objects.update_or_create(
                 name=country_data['name'],
                 defaults={
                     'country_id': country_data['country_id'],
